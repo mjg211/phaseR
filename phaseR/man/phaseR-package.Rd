@@ -1,0 +1,37 @@
+\name{phaseR-package}
+\alias{phaseR-package}
+\alias{phaseR}
+\docType{package}
+\title{Phase Plane Analysis of One and Two Dimensional Autonomous ODE Systems}
+\description{phaseR is an R package for the qualitative analysis of one and two dimensional autonomous ODE systems, using phase plane methods. Programs are available to identify and classify equilibrium points, plot the direction field, and plot trajectories for multiple initial conditions. In the one dimensional case, a program is also available to plot the phase portrait. Whilst in the two dimensional case, additionally programs are available to plot nullclines and stable/unstable manifolds of saddle points. Many example systems are provided for the user.}
+\details{
+\tabular{ll}{
+Package: \tab phaseR\cr
+Type: \tab Package\cr
+Version: \tab 2.0\cr
+Date: \tab 2017-21-04\cr
+License: \tab GPL-3\cr
+}
+The package contains nine main functions for performing phase plane analysis:
+\itemize{
+  \item \code{\link{drawManifolds}}: Draws the stable and unstable manifolds of a saddle point in a two dimensional autonomous ODE system.
+  \item \code{\link{findEquilibrium}}: Identifies a nearby equilibrium point of an autonomous ODE system based on a specified starting point.
+  \item \code{\link{flowField}}: Plots the flow or velocity field of a one or two dimensional autonomous ODE system.
+  \item \code{\link{nullclines}}: Plots the nullclines of a two dimensional autonomous ODE system.
+  \item \code{\link{numericalSolution}}: Numerically solves a two dimensional autonomous ODE system in order to plot the two dependent variables against the independent variable.
+  \item \code{\link{phasePlaneAnalyser}}: Provides a simple means of performing a phase plane analysis by typing only numbers in to the command line.
+  \item \code{\link{phasePortrait}}: Plots the phase portrait of a one dimensional autonomous ODE system, for use in classifying equilibria.
+  \item \code{\link{stability}}: Performs stability, or perturbation, analysis in order to classify equilibria.
+  \item \code{\link{trajectory}}: Numerically solves a one or two dimensional ODE system to plot trajectories in the phase plane.
+}
+
+In addition, the package contains over 25 derivative functions for example systems. Links to these can be found in the packages index.
+
+An accompanying guide with further information, examples, and exercises, can be found in the doc directory of the packages installation.
+
+This package makes use of the ode function in the package \code{\link[deSolve:deSolve-package]{deSolve}}.
+}
+\author{Michael J. Grayling
+
+Maintainer: Michael J. Grayling <mjg211@cam.ac.uk>
+}
