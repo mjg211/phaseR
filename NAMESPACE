@@ -1,0 +1,2 @@
+exportPattern("competition", "drawManifolds", "example1", "example2", "example3", "example4", "example5", "example6", "example7", "example8", "example9", "example10", "example11", "example12", "example13", "example14", "example15", "exponential", "findEquilibrium", "flowField", "lindemannMechanism", "logistic", "lotkaVolterra", "monomolecular", "morrisLecar", "nullclines", "numericalSolution", "phasePlaneAnalyser", "phasePortrait", "simplePendulum", "SIR", "stability", "toggle", "trajectory", "vanDerPol", "vonBertalanffy")
+importFrom(deSolve, ode)
