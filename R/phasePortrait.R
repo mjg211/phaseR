@@ -1,7 +1,7 @@
 phasePortrait <- function(deriv, ylim, ystep = 0.01, parameters = NULL,
                           points = 10, frac = 0.75, arrow.head = 0.075,
                           col = "black", xlab = "y", ylab = "f(y)",
-                          add.grid = TRUE, ...){
+                          add.grid = TRUE, state.names = c("y"), ...){
     if ((!is.vector(ylim)) | (length(ylim) != 2)){
         stop("ylim is not a vector of length 2 as required")
     }
@@ -24,7 +24,7 @@ phasePortrait <- function(deriv, ylim, ystep = 0.01, parameters = NULL,
     y       <- seq(from = ylim[1], to = ylim[2], by = ystep)
     dy      <- numeric(length(y))
     for (i in 1:length(y)){
-      dy[i] <- deriv(t = 0, y = y[i], parameters = parameters)[[1]]
+      dy[i] <- deriv(0, setNames(y[i], state.names[1]), parameters)[[1]]
     }
     plot(y, dy, col = col, type = "l", xlab = xlab, ylab = ylab, ...)
     if (add.grid == TRUE){
@@ -34,8 +34,8 @@ phasePortrait <- function(deriv, ylim, ystep = 0.01, parameters = NULL,
     dy.arrows <- numeric(points)
     y.shift   <- 0.5*frac*(y.arrows[2] - y.arrows[1])
     for (i in 1:points){
-      dy.arrows[i] <- deriv(t = 0, y = y.arrows[i],
-                            parameters = parameters)[[1]]
+      dy.arrows[i] <- deriv(0, setNames(y.arrows[i], state.names[1]),
+                            parameters)[[1]]
     }
     pos <- which(dy.arrows > 0)
     arrows(y.arrows[pos] - y.shift, numeric(length(y.arrows[pos])), 

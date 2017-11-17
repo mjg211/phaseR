@@ -1,7 +1,7 @@
 numericalSolution <- function(deriv, y0 = NULL, tlim, tstep = 0.01,
                               parameters = NULL, type = "one",
                               col = c("red", "blue"), add.grid = TRUE, 
-                              add.legend = TRUE, ...){
+                              add.legend = TRUE, state.names = c("x", "y"), ...){
   if (any(tlim < 0)){
     stop("tlim contains negative values")
   }
@@ -54,8 +54,8 @@ numericalSolution <- function(deriv, y0 = NULL, tlim, tstep = 0.01,
     stop(paste("add.legend must either be set to TRUE or FALSE"))
   }
   t                <- seq(from = tlim[1], to = tlim[2], by = tstep)
-  phase.trajectory <- ode(times = t, y = y0, func = deriv, 
-                          parms = parameters, method = "ode45")
+  phase.trajectory <- ode(times = t, y = setNames(y0, state.names), 
+                          func = deriv, parms = parameters, method = "ode45")
   x                <- phase.trajectory[, 2]
   y                <- phase.trajectory[, 3]
   if (type == "one"){

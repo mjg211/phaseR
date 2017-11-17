@@ -16,3 +16,4 @@ Description: phaseR is an R package for the qualitative analysis
    nullclines and stable/unstable manifolds of saddle points. Many 
    example systems are provided for the user.
 License: GPL-3
+Suggests: testthat
