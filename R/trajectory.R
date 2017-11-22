@@ -71,10 +71,10 @@ trajectory <- function(deriv, y0 = NULL, n = NULL, tlim, tstep = 0.01,
   }
   if (nrow(y0) > length(col)){
     col <- rep(col, nrow(y0))
-    print("Note: col has been reset as required")
+    message("Note: col has been reset as required")
   } else if (nrow(y0) < length(col)) {
     col <- col[1:nrow(y0)]
-    print("Note: col has been reset as required")
+    message("Note: col has been reset as required")
   }
   t <- seq(from = tlim[1], to = tlim[2], by = tstep)
   x <- matrix(0, nrow = length(t), ncol = nrow(y0))
