@@ -12,7 +12,7 @@ stability <- function(deriv, ystar = NULL, parameters = NULL,
   if (!(system %in% c("one.dim", "two.dim"))){
     stop("system must either be set to \"one.dim\" or \"two.dim\"")
   }
-  if ((!is.vector(ystar)) & (!is.matrix(y0))){
+  if ((!is.vector(ystar)) & (!is.matrix(ystar))){
     stop("ystar is not a vector or matrix as required")
   }
   if (is.vector(ystar)){
