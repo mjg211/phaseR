@@ -1,3 +1,58 @@
+#' Phase Plane Analysis
+#' 
+#' Allows the user to perform a basic phase plane analysis and produce a simple
+#' plot without the need to use the other functions directly. Specifically, a
+#' list is provided and the user inputs a value to the console to decide what
+#' is added to the plot.
+#' 
+#' The user designates the derivative file and other arguments as per the
+#' above. Then the following 10 options are available for execution:
+#' 
+#' 1.  Flow field: Plots the flow field of the system. See
+#' \code{\link{flowField}}. 2.  Nullclines: Plots the nullclines of the system.
+#' See \code{\link{nullclines}}. 3.  Find fixed point (click on plot): Searches
+#' for an equilibrium point of the system, taking the starting point of the
+#' search as where the user clicks on the plot. See
+#' \code{\link{findEquilibrium}}. 4.  Start Forward trajectory (click on plot):
+#' Plots a trajectory, i.e. a solution, forward in time with the starting point
+#' taken as where the user clicks on the plot. See \code{\link{trajectory}}. 5.
+#' Start Backward trajectory (click on plot): Plots a trajectory, i.e. a
+#' solution, backward in time with the starting point taken as where the user
+#' clicks on the plot. See \code{\link{trajectory}}. 6.  Extend Current
+#' trajectory (a trajectory must already be plotted): Extends already plotted
+#' trajectories on further in time. See \code{\link{trajectory}}. 7.  Local S/U
+#' manifolds of a saddle (two dimensional systems only) (click on plot): Plots
+#' the stable and unstable manifolds of a saddle point. The user clicks on the
+#' plot and an equilibrium point is identified (see 3 above), if this point is
+#' a saddle then the manifolds are plotted. See \code{\link{drawManifolds}}. 8.
+#' Grid of trajectories: Plots a set of trajectories, with the starting points
+#' defined on an equally spaced grid over the designated plotting range for the
+#' dependent variable(s). See \code{\link{trajectory}}. 9.  Exit: Exits the
+#' current call to phasePlaneAnalyser(). 10. Save plot as PDF: Saves the
+#' produced plot as "phasePlaneAnalysis.pdf" in the current working directory.
+#' 
+#' @param deriv A function computing the derivative at a point for the ODE
+#' system to be analysed. Discussion of the required structure of these
+#' functions can be found in the package guide.
+#' @param xlim In the case of a two dimensional system, this sets the limits of
+#' the first dependent variable in any subsequent plot. In the case of a one
+#' dimensional system, this sets the limits of the independent variable. Should
+#' be a vector of length two.
+#' @param ylim In the case of a two dimensional system this sets the limits of
+#' the second dependent variable in any subsequent plot. In the case of a
+#' dimensional system, this sets the limits of the dependent variable. Should
+#' be a vector of length two.
+#' @param tend The value of the independent variable to end any subsequent
+#' numerical integrations at.
+#' @param parameters Parameters of the ODE system, to be passed to deriv.
+#' Supplied as a vector; the order of the parameters can be found from the
+#' deriv file. Defaults to NULL.
+#' @param system Set to either "one.dim" or "two.dim" to indicate the type of
+#' system being analysed. Defaults to "two.dim".
+#' @param add Logical. If TRUE, the nullclines are added to an existing plot.
+#' If FALSE, a new plot is created. Defaults to TRUE.
+#' @author Michael J. Grayling, Stephen P. Ellner, John M. Guckenheimer
+#' @export
 phasePlaneAnalyser <- function(deriv, xlim, ylim, tend = 100,
                                parameters = NULL, system = "two.dim",  
                                add = FALSE){
@@ -25,7 +80,7 @@ phasePlaneAnalyser <- function(deriv, xlim, ylim, tend = 100,
   menu.go <- 1
   all.j   <- NULL
   while (menu.go > 0){
-    jl <- select.list(c("Flow field", 
+    jl <- utils::select.list(c("Flow field", 
                         "Nullclines",
                         "Find fixed point (click on plot)",
                         "Start Forward trajectory (click on plot)",
@@ -119,7 +174,7 @@ phasePlaneAnalyser <- function(deriv, xlim, ylim, tend = 100,
     } else if (j == "9:"){
       menu.go <- 0
     } else if (j == "10"){
-      dev.copy2pdf(file = "phasePlaneAnalysis.pdf")
+      grDevices::dev.copy2pdf(file = "phasePlaneAnalysis.pdf")
     }
   }
 }

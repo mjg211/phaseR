@@ -6,7 +6,7 @@ Authors@R: c(
     person(c("Michael", "J."), "Grayling", email = "mjg211@cam.ac.uk", 
     role = c("aut", "cre")),
     person("Gerhard", "Burger", email = "burger.ga@gmail.com", role = "ctb"))
-Depends: deSolve
+Imports: grDevices, utils, graphics, deSolve
 Description: phaseR is an R package for the qualitative analysis
    of one and two dimensional autonomous ODE systems, using phase
    plane methods. Programs are available to identify and classify
@@ -21,3 +21,4 @@ LazyData: TRUE
 Suggests: testthat
 URL: https://github.com/mjg211/phaseR
 BugReports: https://github.com/mjg211/phaseR/issues
+RoxygenNote: 6.0.1

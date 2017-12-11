@@ -1,3 +1,54 @@
+#' Numerical Solution and Plotting
+#' 
+#' Numerically solves a two dimensional autonomous ODE system for a given
+#' initial condition, using ode from the package deSolve. It then plots the
+#' dependent variables against the independent variable.
+#' 
+#' 
+#' @param deriv A function computing the derivative at a point for the ODE
+#' system to be analysed. Discussion of the required structure of these
+#' functions can be found in the package guide.
+#' @param y0 The initial condition. Should be a vector of length two reflecting
+#' the location of the two dependent variables initially.
+#' @param tlim Sets the limits of the independent variable for which the
+#' solution should be plotted. Should be a vector of length two. If tlim[2] >
+#' tlim[1], then tstep should be negative to indicate a backwards trajectory.
+#' @param tstep The step length of the independent variable, used in numerical
+#' integration. Decreasing the absolute magnitude of tstep theoretically makes
+#' the numerical integration more accurate, but increases computation time.
+#' Defaults to 0.01.
+#' @param parameters Parameters of the ODE system, to be passed to deriv.
+#' Supplied as a vector; the order of the parameters can be found from the
+#' deriv file. Defaults to NULL.
+#' @param type If set to "one" the trajectories are plotted on the same graph.
+#' If set to "two" they are plotted on separate graphs. Defaults to "one".
+#' @param col Sets the colours of the trajectories of the two dependent
+#' variables. Will be reset accordingly if it is not a vector of length two.
+#' Defaults to c("red", "blue").
+#' @param add.grid Logical. If TRUE, grids are added to the plots. Defaults to
+#' TRUE.
+#' @param add.legend Logical. If TRUE, a legend is added to the plots. Defaults
+#' to TRUE.
+#' @param \dots Additional arguments to be passed to plot.
+#' @inheritParams .paramDummy
+#' @return Returns a list with the following components: \item{add.grid}{As per
+#' input.} \item{add.legend}{As per input.} \item{col}{As per input, but with
+#' possible editing if a colour vector of the wrong length was supplied.}
+#' \item{deriv}{As per input.} \item{parameters}{As per input.} \item{t}{A
+#' vector containing the values of the independent variable at each integration
+#' step.} \item{tlim}{As per input.} \item{tstep}{As per input.} \item{x}{A
+#' vector containing the numerically computed values of the first dependent
+#' variable at each integration step.} \item{y}{A vector containing the
+#' numerically computed values of the second dependent variable at each
+#' integration step.} \item{y0}{As per input.}
+#' @author Michael J. Grayling
+#' @seealso \code{\link{ode}}, \code{\link{plot}}
+#' @export
+#' @examples
+#' # A two dimensional autonomous ODE system, vanDerPol.
+#' vanDerPol.numericalSolution <- numericalSolution(vanDerPol, y0 = c(4, 2), tlim = c(0, 100),
+#'                                                  parameters = 3)
+#' 
 numericalSolution <- function(deriv, y0 = NULL, tlim, tstep = 0.01,
                               parameters = NULL, type = "one",
                               col = c("red", "blue"), add.grid = TRUE, 
