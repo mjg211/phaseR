@@ -1,6 +1,7 @@
 trajectory <- function(deriv, y0 = NULL, n = NULL, tlim, tstep = 0.01, 
                        parameters = NULL, system = "two.dim",
-                       col = "black", add = TRUE, ...){
+                       col = "black", add = TRUE, state.names = c("x", "y"), 
+                       ...){
   if (tstep == 0){
     stop("tstep is equal to 0")
   }
@@ -64,6 +65,7 @@ trajectory <- function(deriv, y0 = NULL, n = NULL, tlim, tstep = 0.01,
     if (ncol(y0) > nrow(y0)){
       y0 <- t(y0)
     }
+    state.names <- state.names[1]
   } else {
     if ((nrow(y0) == 2) & (ncol(y0) != 2)){
       y0 <- t(y0)
@@ -71,10 +73,10 @@ trajectory <- function(deriv, y0 = NULL, n = NULL, tlim, tstep = 0.01,
   }
   if (nrow(y0) > length(col)){
     col <- rep(col, nrow(y0))
-    print("Note: col has been reset as required")
+    message("Note: col has been reset as required")
   } else if (nrow(y0) < length(col)) {
     col <- col[1:nrow(y0)]
-    print("Note: col has been reset as required")
+    message("Note: col has been reset as required")
   }
   t <- seq(from = tlim[1], to = tlim[2], by = tstep)
   x <- matrix(0, nrow = length(t), ncol = nrow(y0))
@@ -83,8 +85,8 @@ trajectory <- function(deriv, y0 = NULL, n = NULL, tlim, tstep = 0.01,
   }
   method <- ifelse(tstep > 0, "ode45", "lsoda")
   for (i in 1:nrow(y0)){
-    phase.trajectory <- ode(times = t, y = as.vector(y0[i, ]), func = deriv,
-                            parms = parameters, method = method)
+    phase.trajectory <- ode(times = t, y = setNames(c(y0[i, ]), state.names), 
+                            func = deriv, parms = parameters, method = method)
     x[, i]   <- phase.trajectory[, 2]
     if (system == "two.dim"){
       y[, i] <- phase.trajectory[, 3]

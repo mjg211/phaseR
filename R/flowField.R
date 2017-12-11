@@ -1,7 +1,7 @@
 flowField <- function(deriv, xlim, ylim, parameters = NULL, system = "two.dim",
                       points = 21, col = "gray", arrow.type = "equal",
                       arrow.head = 0.05, frac = 1, add = TRUE, xlab = "x",
-                      ylab = "y", ...){
+                      ylab = "y", state.names = c("x", "y"), ...){
   if ((!is.vector(xlim)) | (length(xlim) != 2)){
     stop("xlim is not a vector of length 2 as required")
   }
@@ -52,7 +52,7 @@ flowField <- function(deriv, xlim, ylim, parameters = NULL, system = "two.dim",
   }
   if (system == "one.dim"){
     for (i in 1:points){
-      dy[1, i]  <- deriv(t = 0, y = y[i], parameters = parameters)[[1]]
+      dy[1, i] <- deriv(0, setNames(c(y[i]), state.names[1]), parameters)[[1]]
     }
     for (i in 2:points){
       dy[i, ]   <- dy[1, ]
@@ -101,7 +101,7 @@ flowField <- function(deriv, xlim, ylim, parameters = NULL, system = "two.dim",
   } else {
     for (i in 1:length(x)){
       for (j in 1:length(y)){
-        df       <- deriv(t = 0, y = c(x[i], y[j]), parameters = parameters)
+        df       <- deriv(0, setNames(c(x[i], y[j]), state.names), parameters)
         dx[i, j] <- df[[1]][1]
         dy[i, j] <- df[[1]][2]
       }

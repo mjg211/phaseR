@@ -1,0 +1,8 @@
+language: r
+sudo: required
+bioc_required: false
+r_check_args: '--as-cran'
+r_github_packages:
+  - jimhester/covr
+after_success:
+        - Rscript -e 'covr::codecov()'

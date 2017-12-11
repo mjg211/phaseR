@@ -1,5 +1,6 @@
 stability <- function(deriv, ystar = NULL, parameters = NULL,
-                      system = "two.dim", h = 1e-07, summary = TRUE){
+                      system = "two.dim", h = 1e-07, summary = TRUE, 
+                      state.names = c("x", "y")){
   if (is.null(ystar)){
     ystar   <- locator(n = 1)
     if (system == "two.dim"){
@@ -12,7 +13,7 @@ stability <- function(deriv, ystar = NULL, parameters = NULL,
   if (!(system %in% c("one.dim", "two.dim"))){
     stop("system must either be set to \"one.dim\" or \"two.dim\"")
   }
-  if ((!is.vector(ystar)) & (!is.matrix(y0))){
+  if ((!is.vector(ystar)) & (!is.matrix(ystar))){
     stop("ystar is not a vector or matrix as required")
   }
   if (is.vector(ystar)){
@@ -34,9 +35,10 @@ stability <- function(deriv, ystar = NULL, parameters = NULL,
     stop("summary must either be set to TRUE or FALSE")
   }
   if (system == "one.dim"){
-    discriminant     <- (deriv(0, ystar + h, parameters = parameters)[[1]] -
-                           deriv(0, ystar - h, parameters = parameters)[[1]])/
-                          (2*h)
+    discriminant <- as.numeric(
+      (deriv(0, setNames(ystar + h, state.names[1]), parameters = parameters)[[1]] 
+       - deriv(0, setNames(ystar - h, state.names[1]), parameters = parameters)[[1]])
+      / (2*h))
     if (discriminant > 0){
       classification <- "Unstable"
     }
@@ -58,8 +60,8 @@ stability <- function(deriv, ystar = NULL, parameters = NULL,
     for (j in 1:2){
       h.vec         <- numeric(2) 
       h.vec[j]      <- h
-      jacobian[, j] <- (deriv(0, ystar + h.vec, parameters)[[1]] -
-                          deriv(0, ystar - h.vec, parameters)[[1]])/(2*h) 
+      jacobian[, j] <- (deriv(0, setNames(ystar + h.vec, state.names), parameters)[[1]] -
+                          deriv(0, setNames(ystar - h.vec, state.names), parameters)[[1]])/(2*h) 
     }
     A            <- jacobian[1, 1]
     B            <- jacobian[1, 2]

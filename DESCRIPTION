@@ -2,9 +2,10 @@ Package: phaseR
 Type: Package
 Title: Phase Plane Analysis of One and Two Dimensional Autonomous ODE Systems
 Version: 2.0
-Date: 2017-04-21
-Author: Michael J. Grayling
-Maintainer: Michael J. Grayling <mjg211@cam.ac.uk>
+Authors@R: c(
+    person(c("Michael", "J."), "Grayling", email = "mjg211@cam.ac.uk", 
+    role = c("aut", "cre")),
+    person("Gerhard", "Burger", email = "burger.ga@gmail.com", role = "ctb"))
 Depends: deSolve
 Description: phaseR is an R package for the qualitative analysis
    of one and two dimensional autonomous ODE systems, using phase
@@ -16,3 +17,7 @@ Description: phaseR is an R package for the qualitative analysis
    nullclines and stable/unstable manifolds of saddle points. Many 
    example systems are provided for the user.
 License: GPL-3
+LazyData: TRUE
+Suggests: testthat
+URL: https://github.com/mjg211/phaseR
+BugReports: https://github.com/mjg211/phaseR/issues
