@@ -80,7 +80,7 @@ findEquilibrium <- function(deriv, y0 = NULL, parameters = NULL,
     stop("For system = \"two.dim\" y0 should be a matrix where nrow(y0)*ncol(y0) = 2 or a vector of length two")
   }
   if (nrow(y0) < ncol(y0)){
-    y0 <- transpose(y0)
+    y0 <- t(y0)
   }
   if (tol <= 0){
     stop("tol is less than or equal to zero")

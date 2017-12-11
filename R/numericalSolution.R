@@ -82,7 +82,7 @@ numericalSolution <- function(deriv, y0 = NULL, tlim, tstep = 0.01,
     stop("y0 should be a matrix where nrow(y0)*ncol(y0) = 2 or a vector of length two")
   }
   if (nrow(y0) < ncol(y0)){
-    y0 <- transpose(y0)
+    y0 <- t(y0)
   }
   if (!(type %in% c("one", "two"))){
     stop("type must either be set to \"one\" or \"two\"")

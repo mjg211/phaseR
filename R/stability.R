@@ -87,7 +87,7 @@ stability <- function(deriv, ystar = NULL, parameters = NULL,
     stop("For system = \"two.dim\" ystar should be a matrix where nrow(ystar)*ncol(ystar) = 2 or a vector of length two")
   }
   if (nrow(ystar) < ncol(ystar)){
-    ystar <- transpose(ystar)
+    ystar <- t(ystar)
   }
   if (h <= 0){
     stop("h is less than or equal to zero")
