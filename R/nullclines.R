@@ -59,9 +59,9 @@
 #' the derivatives were computed. In the case of a one dimensional system, the
 #' values of the dependent variable at which the derivatives were computed.}
 #' \item{ylim}{As per input.}
-#' @note In order to ensure a nullclines is plotted, set x.lim and y.lim
+#' @note In order to ensure a nullclines is plotted, set xlim and ylim
 #' strictly enclosing its location. For example, to ensure a nullcline is
-#' plotted along x = 0, set y.lim to e.g. begin at -1.
+#' plotted along x = 0, set ylim to e.g. begin at -1.
 #' @author Michael J. Grayling
 #' @seealso \code{\link{contour}}, \code{\link{plot}}
 #' @export

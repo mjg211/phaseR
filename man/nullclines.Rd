@@ -82,9 +82,9 @@ to plot horizontal lines at equilibrium points for one dimensional
 autonomous ODE systems.
 }
 \note{
-In order to ensure a nullclines is plotted, set x.lim and y.lim
+In order to ensure a nullclines is plotted, set xlim and ylim
 strictly enclosing its location. For example, to ensure a nullcline is
-plotted along x = 0, set y.lim to e.g. begin at -1.
+plotted along x = 0, set ylim to e.g. begin at -1.
 }
 \examples{
 # Plot the flow field, nullclines and several trajectories for the one

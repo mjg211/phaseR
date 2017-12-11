@@ -33,7 +33,7 @@ Format is designed to be compatible with ode from the deSolve package.
 example2.flowField  <- flowField(example2, xlim = c(0, 4), ylim = c(-1, 3),
                                  points = 21, system = "one.dim", add = FALSE,
                                  xlab = "t")
-example2.trajectory <- trajectory(example2, y0 = c(-0.5, 0.5, 1.5, 2.5), tend = 4,
+example2.trajectory <- trajectory(example2, y0 = c(-0.5, 0.5, 1.5, 2.5), tlim = c(0, 4),
                                   system = "one.dim")
 
 # Plot the phase portrait.
