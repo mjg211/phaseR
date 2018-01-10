@@ -25,7 +25,7 @@ phasePlaneAnalyser <- function(deriv, xlim, ylim, tend = 100,
   menu.go <- 1
   all.j   <- NULL
   while (menu.go > 0){
-    jl <- select.list(c("1: Flow field", 
+    jl <- utils::select.list(c("1: Flow field", 
                         "2: Nullclines",
                         "3: Find fixed point (click on plot)",
                         "4: Start Forward trajectory (click on plot)",
@@ -119,7 +119,7 @@ phasePlaneAnalyser <- function(deriv, xlim, ylim, tend = 100,
     } else if (j == "9:"){
       menu.go <- 0
     } else if (j == "10"){
-      dev.copy2pdf(file = "phasePlaneAnalysis.pdf")
+      grDevices::dev.copy2pdf(file = "phasePlaneAnalysis.pdf")
     }
   }
 }

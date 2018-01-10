@@ -1,3 +1,87 @@
+#' Phase Plane Trajectory Plotting
+#' 
+#' Performs numerical integration of the chosen ODE system, for a user
+#' specified set of initial conditions. Plots the resulting solution(s) in the
+#' phase plane.
+#' 
+#' 
+#' @param deriv A function computing the derivative at a point for the ODE
+#' system to be analysed. Discussion of the required structure of these
+#' functions can be found in the package guide.
+#' @param y0 The initial condition(s). In the case of a one dimensional system,
+#' this can either be a single number indicating the location of the dependent
+#' variable initially, or a vector indicating multiple initial locations of the
+#' independent variable. In the case of a two dimensional system, this can
+#' either be a vector of length two reflecting the location of the two
+#' dependent variables initially. Or it can be matrix where each row reflects a
+#' different initial condition. Alternatively this can be left blank and the
+#' user can use locator to specify initial condition(s) on a plot. In this
+#' case, for one dimensional systems, all initial conditions are taken at
+#' tlim[1], even if not selected so on the graph. Defaults to NULL.
+#' @param n If y0 is left NULL so initial conditions can be specified using
+#' locator, n sets the number of initial conditions to be chosen. Defaults to
+#' NULL.
+#' @param tlim Sets the limits of the independent variable for which the
+#' solution should be plotted. Should be a vector of length two. If tlim[2] >
+#' tlim[1], then tstep should be negative to indicate a backwards trajectory.
+#' @param tstep The step length of the independent variable, used in numerical
+#' integration. Decreasing the absolute magnitude of tstep theoretically makes
+#' the numerical integration more accurate, but increases computation time.
+#' Defaults to 0.01.
+#' @param parameters Parameters of the ODE system, to be passed to deriv.
+#' Supplied as a vector; the order of the parameters can be found from the
+#' deriv file. Defaults to NULL.
+#' @param system Set to either "one.dim" or "two.dim" to indicate the type of
+#' system being analysed. Defaults to "two.dim".
+#' @param col The colour(s) to plot the trajectories in. Will be reset
+#' accordingly if it is a vector not of the length of the number of initial
+#' conditions. Defaults to "black".
+#' @param add Logical. If TRUE, the trajectories added to an existing plot. If
+#' FALSE, a new plot is created. Defaults to TRUE.
+#' @param \dots Additional arguments to be passed to plot.
+#' @inheritParams .paramDummy
+#' 
+#' @return Returns a list with the following components (the exact make up is
+#' dependent upon the type of system being analysed): \item{add}{As per input.}
+#' \item{col}{As per input, but with possible editing if a colour vector of the
+#' wrong length was supplied.} \item{deriv}{As per input.} \item{n}{As per
+#' input.} \item{parameters}{As per input.} \item{system}{As per input.}
+#' \item{tlim}{As per input.} \item{tstep}{As per input.} \item{t}{A vector
+#' containing the values of the independent variable at each integration step.}
+#' \item{x}{In the two dimensional system casem a matrix whose columns are the
+#' numerically computed values of the first dependent variable for each initial
+#' condition.} \item{y}{In the two dimensional system case, a matrix whose
+#' columns are the numerically computed values of the second dependent variable
+#' for each initial condition. In the one dimensional system case, a matrix
+#' whose columns are the numerically computed values of the dependent variable
+#' for each initial condition.} \item{y0}{As per input, but converted to a
+#' matrix if supplied as a vector initially.}
+#' @author Michael J. Grayling
+#' @seealso \code{\link{ode}}, \code{\link{plot}}
+#' @export
+#' @examples
+#' # Plot the flow field, nullclines and several trajectories for the one
+#' # dimensional autonomous ODE system logistic.
+#' logistic.flowField <- flowField(logistic, xlim = c(0, 5), ylim = c(-1, 3),
+#'                                 parameters = c(1, 2), points = 21, system = "one.dim",
+#' 								add = FALSE)
+#' logistic.nullclines <- nullclines(logistic, xlim = c(0, 5), ylim = c(-1, 3),
+#'                                   parameters = c(1, 2), system = "one.dim")
+#' logistic.trajectory <- trajectory(logistic, y0 = c(-0.5, 0.5, 1.5, 2.5), tlim = c(0,5),
+#'                                   parameters = c(1, 2), system = "one.dim")
+#' 
+#' # Plot the velocity field, nullclines and several trajectories for the two dimensional
+#' # autonomous ODE system simplePendulum.
+#' simplePendulum.flowField  <- flowField(simplePendulum, xlim = c(-7, 7),
+#'                                        ylim = c(-7, 7), parameters = 5, points = 19,
+#' 									   add = FALSE)
+#' y0                        <- matrix(c(0, 1, 0, 4, -6, 1, 5, 0.5, 0, -3), ncol = 2,
+#'                                     nrow = 5, byrow = TRUE)
+#' simplePendulum.nullclines <- nullclines(simplePendulum, xlim = c(-7, 7),
+#'                                         ylim = c(-7, 7), parameters = 5, points = 500)
+#' simplePendulum.trajectory <- trajectory(simplePendulum, y0 = y0, tlim = c(0,10),
+#'                                         parameters = 5)
+#' 
 trajectory <- function(deriv, y0 = NULL, n = NULL, tlim, tstep = 0.01, 
                        parameters = NULL, system = "two.dim",
                        col = "black", add = TRUE, state.names = c("x", "y"), 
