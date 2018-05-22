@@ -3,7 +3,6 @@
 #' Plots the flow or velocity field for a one or two dimensional autonomous ODE
 #' system.
 #' 
-#' 
 #' @param deriv A function computing the derivative at a point for the ODE
 #' system to be analysed. Discussion of the required format of these functions
 #' can be found in the package guide.

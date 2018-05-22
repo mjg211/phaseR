@@ -1,40 +1,55 @@
-#' Example ODE System Number Two
+#' Example ODE System 2
 #' 
-#' The derivative function of an example one dimensional autonomous ODE system.
+#' The derivative function of an example one-dimensional autonomous ODE system.
 #' 
-#' Evaluates the derivative of the following ODE at the point (t, y):
+#' \code{example2} evaluates the derivative of the following ODE at the point
+#' \ifelse{html}{\out{(<i>t</i>, <i>y</i>)}}{\eqn{(t, y)}}:
 #' 
-#' dy/dt = y*(1 - y)*(2 - y).
+#' \ifelse{html}{\out{<center><i>dy</i>/<i>dt</i> = <i>y</i>(1 - <i>y</i>)(2 - 
+#' <i>y</i>).</center>}}{\deqn{dy/dt = y(1 - y)(2 - y).}}
 #' 
-#' Format is designed to be compatible with ode from the deSolve package.
+#' Its format is designed to be compatible with \code{\link[deSolve]{ode}} from the
+#' \code{\link[deSolve]{deSolve}} package.
 #' 
-#' @param t Value of t, the independent variable, to evaluate the derivative
+#' @param t The value of \ifelse{html}{\out{<i>t</i>}}{\eqn{t}}, the independent
+#' variable, to evaluate the derivative
 #' at. Should be a single number.
-#' @param y Value of y, the dependent variable, to evaluate the derivative at.
+#' @param y The value of \ifelse{html}{\out{<i>y</i>}}{\eqn{y}}, the dependent
+#' variable, to evaluate the derivative at.
 #' Should be a single number.
-#' @param parameters Values of the parameters of the system. Not required here.
-#' @return Returns a list dy containing the value of the derivative at (t, y).
+#' @param parameters The values of the parameters of the system. Not required
+#' here.
+#' @return Returns a list \code{dy} containing the value of the derivative at
+#' \ifelse{html}{\out{(<i>t</i>, <i>y</i>)}}{\eqn{(t, y)}}.
 #' @author Michael J. Grayling
-#' @seealso \code{\link{ode}}
-#' @export
+#' @seealso \code{\link[deSolve]{ode}}
 #' @examples
-#' # Plot the flow field and several trajectories.
-#' example2.flowField  <- flowField(example2, xlim = c(0, 4), ylim = c(-1, 3),
-#'                                  points = 21, system = "one.dim", add = FALSE,
-#'                                  xlab = "t")
-#' example2.trajectory <- trajectory(example2, y0 = c(-0.5, 0.5, 1.5, 2.5), tlim = c(0, 4),
-#'                                   system = "one.dim")
-#' 
-#' # Plot the phase portrait.
-#' example2.phasePortrait <- phasePortrait(example2, ylim = c(-0.5, 2.5), points = 10,
+#' # Plot the flow field and several trajectories
+#' example2.flowField     <- flowField(example2,
+#'                                     xlim = c(0, 4),
+#'                                     ylim = c(-1, 3),
+#'                                     system = "one.dim",
+#'                                     add = FALSE,
+#'                                     xlab = "t")
+#' example2.trajectory    <- trajectory(example2,
+#'                                      y0 = c(-0.5, 0.5, 1.5, 2.5),
+#'                                      tlim = c(0, 4),
+#'                                      system = "one.dim")
+#' # Plot the phase portrait
+#' example2.phasePortrait <- phasePortrait(example2,
+#'                                         ylim = c(-0.5, 2.5),
 #'                                         frac = 0.5)
-#' 
-#' # Determine stability of the equilibrium points.
-#' example2.stability.1 <- stability(example2, ystar = 0, system = "one.dim")
-#' example2.stability.2 <- stability(example2, ystar = 1, system = "one.dim")
-#' example2.stability.3 <- stability(example2, ystar = 2, system = "one.dim")
-#' 
-example2 <- function(t, y, parameters){
-  dy <- y*(1 - y)*(2 - y)
-  list(dy)
+#' # Determine the stability of the equilibrium points
+#' example2.stability.1   <- stability(example2,
+#'                                     ystar = 0,
+#'                                     system = "one.dim")
+#' example2.stability.2   <- stability(example2,
+#'                                     ystar = 1,
+#'                                     system = "one.dim")
+#' example2.stability.3   <- stability(example2,
+#'                                     ystar = 2,
+#'                                     system = "one.dim")
+#' @export
+example2 <- function(t, y, parameters) {
+  list(y*(1 - y)*(2 - y))
 }

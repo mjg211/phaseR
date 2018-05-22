@@ -1,23 +1,22 @@
-#' Example ODE System Number One
+#' Example ODE System 1
 #' 
-#' The derivative function of an example one dimensional autonomus ODE system.
+#' The derivative function of an example one-dimensional autonomous ODE system.
 #' 
-#' Evaluates the derivative of the following ODE at the point (t, y):
+#' \code{example1} evaluates the derivative of the following ODE at the point \ifelse{html}{\out{(<i>t</i>, <i>y</i>)}}{\eqn{(t, y)}}:
 #' 
-#' dy/dt = 4 - y^2.
+#' \ifelse{html}{\out{<center><i>dy</i>/<i>dt</i> = 4 - <i>y</i><sup>2</sup>.</center>}}{\deqn{dy/dt = 4 - y^2.}}
 #' 
-#' Format is designed to be compatible with ode from the deSolve package.
+#' Its format is designed to be compatible with \code{\link[deSolve]{ode}} from the \code{\link[deSolve]{deSolve}} package.
 #' 
-#' @param t Value of t, the independent variable, to evaluate the derivative
+#' @param t The value of \ifelse{html}{\out{<i>t</i>}}{\eqn{t}}, the independent variable, to evaluate the derivative
 #' at. Should be a single number.
-#' @param y Value of y, the dependent variable, to evaluate the derivative at.
+#' @param y The value of \ifelse{html}{\out{<i>y</i>}}{\eqn{y}}, the dependent variable, to evaluate the derivative at.
 #' Should be a single number.
-#' @param parameters Values of the parameters of the system. Not required here.
-#' @return Returns a list dy containing the value of the derivative at (t, y).
+#' @param parameters The values of the parameters of the system. Not required here.
+#' @return Returns a list \code{dy} containing the value of the derivative at \ifelse{html}{\out{(<i>t</i>, <i>y</i>)}}{\eqn{(t, y)}}.
 #' @author Michael J. Grayling
-#' @seealso \code{\link{ode}}
+#' @seealso \code{\link[deSolve]{ode}}
 #' @export
-example1 <- function(t, y, parameters){
-  dy <- 4 - y^2
-  list(dy)
+example1 <- function(t, y, parameters) {
+  list(4 - y^2)
 }

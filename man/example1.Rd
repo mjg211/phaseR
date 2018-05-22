@@ -2,34 +2,34 @@
 % Please edit documentation in R/example1.R
 \name{example1}
 \alias{example1}
-\title{Example ODE System Number One}
+\title{Example ODE System 1}
 \usage{
 example1(t, y, parameters)
 }
 \arguments{
-\item{t}{Value of t, the independent variable, to evaluate the derivative
+\item{t}{The value of \ifelse{html}{\out{<i>t</i>}}{\eqn{t}}, the independent variable, to evaluate the derivative
 at. Should be a single number.}
 
-\item{y}{Value of y, the dependent variable, to evaluate the derivative at.
+\item{y}{The value of \ifelse{html}{\out{<i>y</i>}}{\eqn{y}}, the dependent variable, to evaluate the derivative at.
 Should be a single number.}
 
-\item{parameters}{Values of the parameters of the system. Not required here.}
+\item{parameters}{The values of the parameters of the system. Not required here.}
 }
 \value{
-Returns a list dy containing the value of the derivative at (t, y).
+Returns a list \code{dy} containing the value of the derivative at \ifelse{html}{\out{(<i>t</i>, <i>y</i>)}}{\eqn{(t, y)}}.
 }
 \description{
-The derivative function of an example one dimensional autonomus ODE system.
+The derivative function of an example one-dimensional autonomous ODE system.
 }
 \details{
-Evaluates the derivative of the following ODE at the point (t, y):
+Evaluates the derivative of the following ODE at the point \ifelse{html}{\out{(<i>t</i>, <i>y</i>)}}{\eqn{(t, y)}}:
 
-dy/dt = 4 - y^2.
+\ifelse{html}{\out{<center><i>dy</i>/<i>dt</i> = 4 - <i>y</i><sup>2</sup>.</center>}}{\deqn{dy/dt = 4 - y^2.}}
 
-Format is designed to be compatible with ode from the deSolve package.
+Format is designed to be compatible with \code{\link[deSolve]{ode}} from the \code{\link[deSolve]{deSolve}} package.
 }
 \seealso{
-\code{\link{ode}}
+\code{\link[deSolve]{ode}}
 }
 \author{
 Michael J. Grayling
