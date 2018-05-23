@@ -1,36 +1,28 @@
 #' The Lotka Volterra Model
 #' 
-#' The derivative function of the Lotka Volterra model, an example of a two
-#' dimensional autonomous ODE system.
+#' The derivative function of the Lotka Volterra model, an example of a two-dimensional autonomous ODE system.
 #' 
-#' Evaluates the derivative of the following coupled ODE system at the point
-#' (t, x, y):
+#' \code{lotkaVolterra} evaluates the derivative of the following ODE at the point
+#' \ifelse{html}{\out{(<i>t</i>, <i>x</i>, <i>y</i>)}}{\eqn{(t, x, y)}}:
 #' 
-#' dx/dt = lambda*x - epsilon*x*y, dy/dt = eta*x*y - delta*y.
+#' \ifelse{html}{\out{<center><i>dx</i>/<i>dt</i> = <i>&lambda;x</i> - <i>&epsilon;xy</i>,
+#' <i>dy</i>/<i>dt</i> = <i>&eta;xy</i> - <i>&delta;y</i>.</center>}}{\deqn{\frac{dx}{dt} = \lambda x - \epsilon xy, \frac{dy}{dt} = \eta xy - \delta y.}}
 #' 
-#' Format is designed to be compatible with ode from the deSolve package.
+#' Its format is designed to be compatible with \code{\link[deSolve]{ode}} from the \code{\link[deSolve]{deSolve}} package.
 #' 
-#' @param t Value of t, the independent variable, to evaluate the derivative
+#' @param t The value of \ifelse{html}{\out{<i>t</i>}}{\eqn{t}}, the independent variable, to evaluate the derivative
 #' at. Should be a single number.
-#' @param y Values of x and y, the dependent variables, to evaluate the
-#' derivative at. Should be a vector of length 2.
-#' @param parameters Values of the parameters of the system. Should be a vector
-#' with parameters specified in the following order: lambda, epsilon, eta,
-#' delta.
-#' @return Returns a list dy containing the values of the two derivatives at
-#' (t, x, y).
+#' @param y The values of \ifelse{html}{\out{<i>x</i>}}{\eqn{x}} and 
+#' \ifelse{html}{\out{<i>y</i>}}{\eqn{y}}, the dependent
+#' variables, to evaluate the derivative at. Should be a vector of length two.
+#' @param parameters The values of the parameters of the system. Should be a vector
+#' with parameters specified in the following order: \ifelse{html}{\out{<i>&lambda;</i>}}{\eqn{\lambda}}, \ifelse{html}{\out{<i>&epsilon;</i>}}{\eqn{\epsilon}}, \ifelse{html}{\out{<i>&eta;</i>}}{\eqn{\eta}}, \ifelse{html}{\out{<i>&delta;</i>}}{\eqn{\delta}}.
+#' @return Returns a list containing the values of the two derivatives
+#' at \ifelse{html}{\out{(<i>t</i>, <i>x</i>, <i>y</i>)}}{\eqn{(t, x, y)}}.
 #' @author Michael J. Grayling
+#' @seealso \code{\link[deSolve]{ode}}
 #' @export
-#' @seealso \code{\link{ode}}
-lotkaVolterra <- function(t, y, parameters){
-    x <- y[1]
-    y <- y[2]
-    lambda  <- parameters[1]
-    epsilon <- parameters[2]
-    eta     <- parameters[3]
-    delta   <- parameters[4]
-    dy    <- numeric(2)
-    dy[1] <- lambda*x - epsilon*x*y
-    dy[2] <- eta*x*y - delta*y
-    list(dy)
+lotkaVolterra <- function(t, y, parameters) {
+  list(c(parameters[1]*y[1] - parameters[2]*y[1]*y[2],
+         parameters[3]*y[1]*y[2] - parameters[4]*y[2]))
 }

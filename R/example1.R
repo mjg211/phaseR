@@ -4,7 +4,7 @@
 #' 
 #' \code{example1} evaluates the derivative of the following ODE at the point \ifelse{html}{\out{(<i>t</i>, <i>y</i>)}}{\eqn{(t, y)}}:
 #' 
-#' \ifelse{html}{\out{<center><i>dy</i>/<i>dt</i> = 4 - <i>y</i><sup>2</sup>.</center>}}{\deqn{dy/dt = 4 - y^2.}}
+#' \ifelse{html}{\out{<center><i>dy</i>/<i>dt</i> = 4 - <i>y</i><sup>2</sup>.</center>}}{\deqn{\frac{dy}{dt} = 4 - y^2.}}
 #' 
 #' Its format is designed to be compatible with \code{\link[deSolve]{ode}} from the \code{\link[deSolve]{deSolve}} package.
 #' 

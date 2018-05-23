@@ -1,38 +1,33 @@
-#' Species Competition Model
+#' The Species Competition Model
 #' 
 #' The derivative function of the species competition model, an example of a
-#' two dimensional autonomous ODE system.
+#' two-dimensional autonomous ODE system.
 #' 
-#' Evaluates the derivative of the following coupled ODE system at the point
-#' (t, x, y):
+#' \code{competition} evaluates the derivative of the following coupled ODE
+#' system at the point \ifelse{html}{\out{(<i>t</i>, <i>x</i>, <i>y</i>)}}{
+#' \eqn{(t, x, y)}}:
 #' 
-#' dx/dt = r1*x*(K1 - x - alpha12*y)/K1, dy/dt = r2*x*(K2 - x - alpha21*y)/K2.
+#' \ifelse{html}{\out{<center><i>dx</i>/<i>dt</i> = <i>r</i><sub>1</sub><i>x</i>(<i>K</i><sub>1</sub> - <i>x</i> - <i>&alpha;</i><sub>12</sub><i>y</i>)/<i>K</i><sub>1</sub>, 
+#' <i>dy</i>/<i>dt</i> = <i>r</i><sub>2</sub><i>y</i>(<i>K</i><sub>2</sub> - <i>y</i> - <i>&alpha;</i><sub>21</sub><i>x</i>)/<i>K</i><sub>2</sub>.</center>}}{\deqn{\frac{dx}{dt} = r_1x(K_1 - x - \alpha_{12}y)/K_1, \frac{dy}{dt} = r_2y(K_2 - y - \alpha_{21}x)/K_2.}}
 #' 
-#' Format is designed to be compatible with ode from the deSolve package.
+#' Its format is designed to be compatible with \code{\link[deSolve]{ode}} from
+#' the \code{\link[deSolve]{deSolve}} package.
 #' 
-#' @param t Value of t, the independent variable, to evaluate the derivative
-#' at. Should be a single number.
-#' @param y Values of x and y, the dependent variables, to evaluate the
-#' derivative at. Should be a vector of length 2.
-#' @param parameters Values of the parameters of the system. Should be a vector
-#' with parameters specified in the following order: r1, K1, alpha12, r2, K2,
-#' alpha21.
-#' @return Returns a list dy containing the values of the two derivatives at
-#' (t, x, y).
+#' @param t The value of \ifelse{html}{\out{<i>t</i>}}{\eqn{t}}, the independent
+#' variable, to evaluate the derivative at. Should be a single number.
+#' @param y The values of \ifelse{html}{\out{<i>x</i>}}{\eqn{x}} and 
+#' \ifelse{html}{\out{<i>y</i>}}{\eqn{y}}, the dependent
+#' variables, to evaluate the derivative at. Should be a vector of length two.
+#' @param parameters The values of the parameters of the system. Should be a vector
+#' with parameters specified in the following order: \ifelse{html}{\out{<i>r</i><sub>1</sub>}}{\eqn{r_1}}, \ifelse{html}{\out{<i>K</i><sub>1</sub>}}{\eqn{K_1}}, \ifelse{html}{\out{<i>&alpha;</i><sub>12</sub>}}{\eqn{\alpha_{12}}}, \ifelse{html}{\out{<i>r</i><sub>2</sub>}}{\eqn{r_2}}, \ifelse{html}{\out{<i>K</i><sub>2</sub>}}{\eqn{K_2}}, \ifelse{html}{\out{<i>&alpha;</i><sub>21</sub>}}{\eqn{\alpha_{21}}}.
+#' @return Returns a list containing the values of the two derivatives
+#' at \ifelse{html}{\out{(<i>t</i>, <i>x</i>, <i>y</i>)}}{\eqn{(t, x, y)}}.
 #' @author Michael J. Grayling
-#' @seealso \code{\link{ode}}
+#' @seealso \code{\link[deSolve]{ode}}
 #' @export
-competition <- function(t, y, parameters){
-  x <- y[1]
-  y <- y[2]
-  r1      <- parameters[1]
-  K1      <- parameters[2]
-  alpha12 <- parameters[3]
-  r2      <- parameters[4]
-  K2      <- parameters[5]
-  alpha21 <- parameters[6]
-  dy    <- numeric(2)
-  dy[1] <- r1*x*(K1 - x - alpha12*y)/K1
-  dy[2] <- r2*y*(K2 - y - alpha21*x)/K2
-  list(dy)
+competition <- function(t, y, parameters) {
+  list(c(parameters[1]*y[1]*(parameters[2] - y[1] -
+                               parameters[3]*y[2])/parameters[2],
+         parameters[4]*y[2]*(parameters[5] - y[2] -
+                               parameters[6]*y[1])/parameters[5]))
 }

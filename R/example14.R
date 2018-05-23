@@ -7,7 +7,7 @@
 #' \eqn{(t, x, y)}}:
 #' 
 #' \ifelse{html}{\out{<center><i>dx</i>/<i>dt</i> = <i>x</i><sup>2</sup> - <i>y</i> - 10,
-#' <i>dy</i>/<i>dt</i> = -3<i>x</i><sup>2</sup> + <i>x</i><i>y</i>.</center>}}{\deqn{dx/dt = x^2 - y - 10, dy/dt = -3x^2 + xy.}}
+#' <i>dy</i>/<i>dt</i> = -3<i>x</i><sup>2</sup> + <i>x</i><i>y</i>.</center>}}{\deqn{\frac{dx}{dt} = x^2 - y - 10, \frac{dy}{dt} = -3x^2 + xy.}}
 #' 
 #' Its format is designed to be compatible with \code{\link[deSolve]{ode}} from
 #' the \code{\link[deSolve]{deSolve}} package.
