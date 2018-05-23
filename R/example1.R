@@ -13,7 +13,7 @@
 #' @param y The value of \ifelse{html}{\out{<i>y</i>}}{\eqn{y}}, the dependent variable, to evaluate the derivative at.
 #' Should be a single number.
 #' @param parameters The values of the parameters of the system. Not required here.
-#' @return Returns a list \code{dy} containing the value of the derivative at \ifelse{html}{\out{(<i>t</i>, <i>y</i>)}}{\eqn{(t, y)}}.
+#' @return Returns a list containing the value of the derivative at \ifelse{html}{\out{(<i>t</i>, <i>y</i>)}}{\eqn{(t, y)}}.
 #' @author Michael J. Grayling
 #' @seealso \code{\link[deSolve]{ode}}
 #' @export

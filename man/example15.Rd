@@ -2,36 +2,41 @@
 % Please edit documentation in R/example15.R
 \name{example15}
 \alias{example15}
-\title{Example ODE System Number Fifteen}
+\title{Example ODE System 15}
 \usage{
 example15(t, y, parameters)
 }
 \arguments{
-\item{t}{Value of t, the independent variable, to evaluate the derivative
-at. Should be a single number.}
+\item{t}{The value of \ifelse{html}{\out{<i>t</i>}}{\eqn{t}}, the independent
+variable, to evaluate the derivative at. Should be a single number.}
 
-\item{y}{Values of x and y, the dependent variables, to evaluate the
-derivative at. Should be a vector of length 2.}
+\item{y}{The values of \ifelse{html}{\out{<i>x</i>}}{\eqn{x}} and 
+\ifelse{html}{\out{<i>y</i>}}{\eqn{y}}, the dependent
+variables, to evaluate the derivative at. Should be a vector of length two.}
 
-\item{parameters}{Values of the parameters of the system. Not required here.}
+\item{parameters}{The values of the parameters of the system. Not required
+here.}
 }
 \value{
-Returns a list dy containing the values of the two derivatives at
-(t, x, y).
+Returns a list \code{dy} containing the values of the two derivatives
+at \ifelse{html}{\out{(<i>t</i>, <i>x</i>, <i>y</i>)}}{\eqn{(t, x, y)}}.
 }
 \description{
-The derivative function of an example two dimensional autonomous ODE system.
+The derivative function of an example two-dimensional autonomous ODE system.
 }
 \details{
-Evaluates the derivative of the following coupled ODE system at the point
-(t, x, y):
+\code{example15} evaluates the derivatives of the following coupled ODE system
+at the point \ifelse{html}{\out{(<i>t</i>, <i>x</i>, <i>y</i>)}}{
+\eqn{(t, x, y)}}:
 
-dx/dt = x^2 - 3x*y + 2x, dy/dt = x + y - 1.
+\ifelse{html}{\out{<center><i>dx</i>/<i>dt</i> = <i>x</i><sup>2</sup> - 3<i>x</i><i>y</i> + 2<i>x</i>,
+<i>dy</i>/<i>dt</i> = <i>x</i> + <i>y</i> - 1.</center>}}{\deqn{dx/dt = x^2 - 3xy + 2x, dy/dt = x + y - 1.}}
 
-Format is designed to be compatible with ode from the deSolve package.
+Its format is designed to be compatible with \code{\link[deSolve]{ode}} from
+the \code{\link[deSolve]{deSolve}} package.
 }
 \seealso{
-\code{\link{ode}}
+\code{\link[deSolve]{ode}}
 }
 \author{
 Michael J. Grayling

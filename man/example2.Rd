@@ -26,14 +26,14 @@ Returns a list \code{dy} containing the value of the derivative at
 The derivative function of an example one-dimensional autonomous ODE system.
 }
 \details{
-Evaluates the derivative of the following ODE at the point
+\code{example2} evaluates the derivative of the following ODE at the point
 \ifelse{html}{\out{(<i>t</i>, <i>y</i>)}}{\eqn{(t, y)}}:
 
 \ifelse{html}{\out{<center><i>dy</i>/<i>dt</i> = <i>y</i>(1 - <i>y</i>)(2 - 
 <i>y</i>).</center>}}{\deqn{dy/dt = y(1 - y)(2 - y).}}
 
-Format is designed to be compatible with \code{\link[deSolve]{ode}} from the
-\code{\link[deSolve]{deSolve}} package.
+Its format is designed to be compatible with \code{\link[deSolve]{ode}} from
+the \code{\link[deSolve]{deSolve}} package.
 }
 \examples{
 # Plot the flow field and several trajectories

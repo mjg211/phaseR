@@ -1,29 +1,29 @@
-#' Example ODE System Number Thirteen
+#' Example ODE System 13
 #' 
-#' The derivative function of an example two dimensional autonomous ODE system.
+#' The derivative function of an example two-dimensional autonomous ODE system.
 #' 
-#' Evaluates the derivative of the following coupled ODE system at the point
-#' (t, x, y):
+#' \code{example13} evaluates the derivatives of the following coupled ODE system
+#' at the point \ifelse{html}{\out{(<i>t</i>, <i>x</i>, <i>y</i>)}}{
+#' \eqn{(t, x, y)}}:
 #' 
-#' dx/dt = 2 - x^2 - y^2, dy/dt = x^2 - y^2.
+#' \ifelse{html}{\out{<center><i>dx</i>/<i>dt</i> = 2 - <i>x</i><sup>2</sup> - <i>y</i><sup>2</sup>,
+#' <i>dy</i>/<i>dt</i> = <i>x</i><sup>2</sup> - <i>y</i><sup>2</sup>.</center>}}{\deqn{dx/dt = 2 - x^2 - y^2, dy/dt = x^2 - y^2.}}
 #' 
-#' Format is designed to be compatible with ode from the deSolve package.
+#' Its format is designed to be compatible with \code{\link[deSolve]{ode}} from
+#' the \code{\link[deSolve]{deSolve}} package.
 #' 
-#' @param t Value of t, the independent variable, to evaluate the derivative
-#' at. Should be a single number.
-#' @param y Values of x and y, the dependent variables, to evaluate the
-#' derivative at. Should be a vector of length 2.
-#' @param parameters Values of the parameters of the system. Not required here.
-#' @return Returns a list dy containing the values of the two derivatives at
-#' (t, x, y).
+#' @param t The value of \ifelse{html}{\out{<i>t</i>}}{\eqn{t}}, the independent
+#' variable, to evaluate the derivative at. Should be a single number.
+#' @param y The values of \ifelse{html}{\out{<i>x</i>}}{\eqn{x}} and 
+#' \ifelse{html}{\out{<i>y</i>}}{\eqn{y}}, the dependent
+#' variables, to evaluate the derivative at. Should be a vector of length two.
+#' @param parameters The values of the parameters of the system. Not required
+#' here.
+#' @return Returns a list containing the values of the two derivatives
+#' at \ifelse{html}{\out{(<i>t</i>, <i>x</i>, <i>y</i>)}}{\eqn{(t, x, y)}}.
 #' @author Michael J. Grayling
-#' @seealso \code{\link{ode}}
+#' @seealso \code{\link[deSolve]{ode}}
 #' @export
-example13 <- function(t, y, parameters){
-  x <- y[1]
-  y <- y[2]
-  dy    <- numeric(2)
-  dy[1] <- 2 - x^2 - y^2
-  dy[2] <- x^2 - y^2
-  list(dy)
+example13 <- function(t, y, parameters) {
+  list(c(2 - y[1]^2 - y[2]^2, y[1]^2 - y[2]^2))
 }

@@ -1,45 +1,56 @@
-#' Example ODE System Number Twelve
+#' Example ODE System 12
 #' 
-#' The derivative function of an example two dimensional autonomous ODE system.
+#' The derivative function of an example two-dimensional autonomous ODE system.
 #' 
-#' Evaluates the derivative of the following coupled ODE system at the point
-#' (t, x, y):
+#' \code{example12} evaluates the derivatives of the following coupled ODE system
+#' at the point \ifelse{html}{\out{(<i>t</i>, <i>x</i>, <i>y</i>)}}{
+#' \eqn{(t, x, y)}}:
 #' 
-#' dx/dt = x - y, dy/dt = x^2 + y^2 - 2.
+#' \ifelse{html}{\out{<center><i>dx</i>/<i>dt</i> = <i>x</i> - <i>y</i>,
+#' <i>dy</i>/<i>dt</i> = <i>x</i><sup>2</sup> + <i>y</i><sup>2</sup> - 2.</center>}}{\deqn{dx/dt = x - y, dy/dt = x^2 + y^2 - 2.}}
 #' 
-#' Format is designed to be compatible with ode from the deSolve package.
+#' Its format is designed to be compatible with \code{\link[deSolve]{ode}} from
+#' the \code{\link[deSolve]{deSolve}} package.
 #' 
-#' @param t Value of t, the independent variable, to evaluate the derivative
-#' at. Should be a single number.
-#' @param y Values of x and y, the dependent variables, to evaluate the
-#' derivative at. Should be a vector of length 2.
-#' @param parameters Values of the parameters of the system. Not required here.
-#' @return Returns a list dy containing the values of the two derivatives at
-#' (t, x, y).
+#' @param t The value of \ifelse{html}{\out{<i>t</i>}}{\eqn{t}}, the independent
+#' variable, to evaluate the derivative at. Should be a single number.
+#' @param y The values of \ifelse{html}{\out{<i>x</i>}}{\eqn{x}} and 
+#' \ifelse{html}{\out{<i>y</i>}}{\eqn{y}}, the dependent
+#' variables, to evaluate the derivative at. Should be a vector of length two.
+#' @param parameters The values of the parameters of the system. Not required
+#' here.
+#' @return Returns a list containing the values of the two derivatives
+#' at \ifelse{html}{\out{(<i>t</i>, <i>x</i>, <i>y</i>)}}{\eqn{(t, x, y)}}.
 #' @author Michael J. Grayling
-#' @seealso \code{\link{ode}}
-#' @export
+#' @seealso \code{\link[deSolve]{ode}}
 #' @examples
-#' # Plot the velocity field, nullclines and several trajectories.
-#' example12.flowField <- flowField(example12, xlim = c(-4, 4), ylim = c(-4, 4),
-#'                                  points = 17, add = FALSE)
-#' y0                   <- matrix(c(2, 2, -3, 0, 0, 2, 0, -3), ncol = 2, nrow = 4,
-#'                                byrow = TRUE)
-#' example12.nullclines <- nullclines(example12, xlim = c(-4, 4), ylim = c(-4, 4),
-#'                                    points = 200)
-#' example12.trajectory <- trajectory(example12, y0 = y0, tlim = c(0, 10))
-#' example12.manifolds  <- drawManifolds(example12, y0 = c(-1, -1), tend = 1000,
-#'                                       col = c("green", "red"), add.legend = TRUE)
-#' 
-#' # Determine the stability of the equilibrium points.
-#' example12.stability.1 <- stability(example12, ystar = c(1, 1))
-#' example12.stability.2 <- stability(example12, ystar = c(-1, -1))
-#' 
-example12 <- function(t, y, parameters){
-  x <- y[1]
-  y <- y[2]
-  dy    <- numeric(2)
-  dy[1] <- x - y
-  dy[2] <- x^2 + y^2 - 2
-  list(dy)
+#' # Plot the velocity field, nullclines and several trajectories
+#' example12.flowField   <- flowField(example12,
+#'                                    xlim = c(-4, 4),
+#'                                    ylim = c(-4, 4),
+#'                                    points = 17,
+#'                                    add = FALSE)
+#' y0                    <- matrix(c(2, 2, -3, 0,
+#'                                   0, 2, 0, -3), 4, 2,
+#'                                 byrow = TRUE)
+#' example12.nullclines  <- nullclines(example12,
+#'                                     xlim = c(-4, 4),
+#'                                     ylim = c(-4, 4),
+#'                                     points = 200)
+#' example12.trajectory  <- trajectory(example12,
+#'                                     y0 = y0,
+#'                                     tlim = c(0, 10))
+#' example12.manifolds   <- drawManifolds(example12,
+#'                                        y0 = c(-1, -1),
+#'                                        tend = 1000,
+#'                                        col = c("green", "red"),
+#'                                        add.legend = TRUE)
+#' # Determine the stability of the equilibrium points
+#' example12.stability.1 <- stability(example12,
+#'                                    ystar = c(1, 1))
+#' example12.stability.2 <- stability(example12,
+#'                                    ystar = c(-1, -1))
+#' @export
+example12 <- function(t, y, parameters) {
+  list(c(y[1] - y[2], y[1]^2 + y[2]^2 - 2))
 }

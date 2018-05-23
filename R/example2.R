@@ -8,8 +8,8 @@
 #' \ifelse{html}{\out{<center><i>dy</i>/<i>dt</i> = <i>y</i>(1 - <i>y</i>)(2 - 
 #' <i>y</i>).</center>}}{\deqn{dy/dt = y(1 - y)(2 - y).}}
 #' 
-#' Its format is designed to be compatible with \code{\link[deSolve]{ode}} from the
-#' \code{\link[deSolve]{deSolve}} package.
+#' Its format is designed to be compatible with \code{\link[deSolve]{ode}} from
+#' the \code{\link[deSolve]{deSolve}} package.
 #' 
 #' @param t The value of \ifelse{html}{\out{<i>t</i>}}{\eqn{t}}, the independent
 #' variable, to evaluate the derivative
@@ -19,7 +19,7 @@
 #' Should be a single number.
 #' @param parameters The values of the parameters of the system. Not required
 #' here.
-#' @return Returns a list \code{dy} containing the value of the derivative at
+#' @return Returns a list containing the value of the derivative at
 #' \ifelse{html}{\out{(<i>t</i>, <i>y</i>)}}{\eqn{(t, y)}}.
 #' @author Michael J. Grayling
 #' @seealso \code{\link[deSolve]{ode}}
