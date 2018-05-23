@@ -18,7 +18,7 @@ variables, to evaluate the derivative at. Should be a vector of length two.}
 here.}
 }
 \value{
-Returns a list \code{dy} containing the values of the two derivatives
+Returns a list containing the values of the two derivatives
 at \ifelse{html}{\out{(<i>t</i>, <i>x</i>, <i>y</i>)}}{\eqn{(t, x, y)}}.
 }
 \description{
@@ -30,7 +30,7 @@ at the point \ifelse{html}{\out{(<i>t</i>, <i>x</i>, <i>y</i>)}}{
 \eqn{(t, x, y)}}:
 
 \ifelse{html}{\out{<center><i>dx</i>/<i>dt</i> = -2<i>x</i> + 3<i>y</i>,
-<i>dy</i>/<i>dt</i> = 7<i>x</i> + 6<i>y</i>.</center>}}{\deqn{dx/dt = -2x + 3y, dy/dt = 7x + 6y.}}
+<i>dy</i>/<i>dt</i> = 7<i>x</i> + 6<i>y</i>.</center>}}{\deqn{\frac{dx}{dt} = -2x + 3y, \frac{dy}{dt} = 7x + 6y.}}
 
 Its format is designed to be compatible with \code{\link[deSolve]{ode}} from
 the \code{\link[deSolve]{deSolve}} package.

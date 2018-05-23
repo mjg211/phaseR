@@ -7,31 +7,33 @@
 monomolecular(t, y, parameters)
 }
 \arguments{
-\item{t}{Value of t, the independent variable, to evaluate the derivative
+\item{t}{The value of \ifelse{html}{\out{<i>t</i>}}{\eqn{t}}, the independent variable, to evaluate the derivative
 at. Should be a single number.}
 
-\item{y}{Value of y, the dependent variable, to evaluate the derivative at.
+\item{y}{The value of \ifelse{html}{\out{<i>y</i>}}{\eqn{y}}, the dependent variable, to evaluate the derivative at.
 Should be a single number.}
 
-\item{parameters}{Values of the parameters of the system. Should be a vector
-with parameters specified in the following order: beta, K.}
+\item{parameters}{The values of the parameters of the system. Should be a vector
+with parameters specified in the following order: \ifelse{html}{\out{<i>&beta;</i>}}{\eqn{\beta}}, \ifelse{html}{\out{<i>K</i>}}{\eqn{K}}.}
 }
 \value{
-Returns a list dy containing the value of the derivative at (t, y).
+Returns a list containing the value of the derivative at \ifelse{html}{\out{(<i>t</i>, <i>y</i>)}}{\eqn{(t, y)}}.
 }
 \description{
 The derivative function of the monomolecular growth model, an example of a
 one dimensional autonomous ODE system.
 }
 \details{
-Evaluates the derivative of the following ODE at the point (t, y):
+\code{monomolecular} evaluates the derivative of the following ODE at the point
+\ifelse{html}{\out{(<i>t</i>, <i>y</i>)}}{\eqn{(t, y)}}:
 
-dy/dt = beta*(K - y)
+\ifelse{html}{\out{<center><i>dy</i>/<i>dt</i> = <i>&beta;</i>(<i>K</i> - <i>y</i>).</center>}}{
+\deqn{\frac{dy}{dt} = \beta(K - y).}}
 
-Format is designed to be compatible with ode from the deSolve package.
+Its format is designed to be compatible with \code{\link[deSolve]{ode}} from the \code{\link[deSolve]{deSolve}} package.
 }
 \seealso{
-\code{\link{ode}}
+\code{\link[deSolve]{ode}}
 }
 \author{
 Michael J. Grayling

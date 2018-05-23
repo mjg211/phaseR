@@ -7,52 +7,67 @@
 logistic(t, y, parameters)
 }
 \arguments{
-\item{t}{Value of t, the independent variable, to evaluate the derivative
+\item{t}{The value of \ifelse{html}{\out{<i>t</i>}}{\eqn{t}}, the independent variable, to evaluate the derivative
 at. Should be a single number.}
 
-\item{y}{Value of y, the dependent variable, to evaluate the derivative at.
+\item{y}{The value of \ifelse{html}{\out{<i>y</i>}}{\eqn{y}}, the dependent variable, to evaluate the derivative at.
 Should be a single number.}
 
-\item{parameters}{Values of the parameters of the system. Should be a vector
-with parameters specified in the following order: beta, K.}
+\item{parameters}{The values of the parameters of the system. Should be a vector
+with parameters specified in the following order: \ifelse{html}{\out{<i>&beta;</i>}}{\eqn{\beta}}, \ifelse{html}{\out{<i>K</i>}}{\eqn{K}}.}
 }
 \value{
-Returns a list dy containing the value of the derivative at (t, y).
+Returns a list containing the value of the derivative at \ifelse{html}{\out{(<i>t</i>, <i>y</i>)}}{\eqn{(t, y)}}.
 }
 \description{
-The derivative function of the logistic growth model, an example of a two
-dimensional autonomous ODE system.
+The derivative function of the logistic growth model, an example of a two-dimensional autonomous ODE system.
 }
 \details{
-Evaluates the derivative of the following ODE at the point (t, y):
+\code{logistic} evaluates the derivative of the following ODE at the point
+\ifelse{html}{\out{(<i>t</i>, <i>y</i>)}}{\eqn{(t, y)}}:
 
-dy/dt = beta*y*(1 - y/K).
+\ifelse{html}{\out{<center><i>dy</i>/<i>dt</i> = <i>&beta;y</i>(1 - <i>y</i>/<i>K</i>).</center>}}{
+\deqn{\frac{dy}{dt} = \beta y(1 - y/K).}}
 
-Format is designed to be compatible with ode from the deSolve package.
+Its format is designed to be compatible with \code{\link[deSolve]{ode}} from the \code{\link[deSolve]{deSolve}} package.
 }
 \examples{
-# Plot the velocity field, nullclines and several trajectories.
-logistic.flowField  <- flowField(logistic, xlim = c(0, 5), ylim = c(-1, 3),
-                                 parameters = c(1, 2), points = 21, system = "one.dim",
-								                 add = FALSE)
-logistic.nullclines <- nullclines(logistic, xlim = c(0, 5), ylim = c(-1, 3),
-                                  parameters = c(1, 2), system = "one.dim")
-logistic.trajectory <- trajectory(logistic, y0 = c(-0.5, 0.5, 1.5, 2.5), tlim = c(0, 5),
-                                  parameters = c(1, 2), system = "one.dim")
-
-# Plot the phase portrait.
-logistic.phasePortrait <- phasePortrait(logistic, ylim = c(-0.5, 2.5),
-                                        parameters = c(1, 2), points = 10, frac = 0.5)
-
-# Determine the stability of the equilibrium points.
-logistic.stability.1 <- stability(logistic, ystar = 0, parameters = c(1, 2),
-                                  system = "one.dim")
-logistic.stability.2 <- stability(logistic, ystar = 2, parameters = c(1, 2),
-                                  system = "one.dim")
-
+# Plot the velocity field, nullclines and several trajectories
+logistic.flowField     <- flowField(logistic,
+                                    xlim = c(0, 5),
+                                    ylim = c(-1, 3),
+                                    parameters = c(1, 2),
+                                    points = 21,
+                                    system = "one.dim",
+                                    add = FALSE)
+logistic.nullclines    <- nullclines(logistic,
+                                     xlim = c(0, 5),
+                                     ylim = c(-1, 3),
+                                     parameters = c(1, 2),
+                                     system = "one.dim")
+logistic.trajectory    <- trajectory(logistic,
+                                     y0 = c(-0.5, 0.5, 1.5, 2.5),
+                                     tlim = c(0, 5),
+                                     parameters = c(1, 2),
+                                     system = "one.dim")
+# Plot the phase portrait
+logistic.phasePortrait <- phasePortrait(logistic,
+                                        ylim = c(-0.5, 2.5),
+                                        parameters = c(1, 2),
+                                        points = 10,
+                                        frac = 0.5)
+# Determine the stability of the equilibrium points
+logistic.stability.1   <- stability(logistic,
+                                    ystar = 0,
+                                    parameters = c(1, 2),
+                                    system = "one.dim")
+logistic.stability.2   <- stability(logistic,
+                                    ystar = 2,
+                                    parameters = c(1, 2),
+                                    system = "one.dim")
 }
 \seealso{
-\code{\link{ode}}
+\code{\link[deSolve]{ode}}
 }
 \author{
 Michael J. Grayling
