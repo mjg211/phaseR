@@ -53,7 +53,7 @@
 #' If FALSE, a new plot is created. Defaults to TRUE.
 #' @author Michael J. Grayling, Stephen P. Ellner, John M. Guckenheimer
 #' @export
-phasePlaneAnalyser <- function(deriv, xlim, ylim, tend = 100,
+phasePlaneAnalysis <- function(deriv, xlim, ylim, tend = 100,
                                parameters = NULL, system = "two.dim",  
                                add = FALSE){
   if ((!is.vector(xlim)) | (length(xlim) != 2)){
