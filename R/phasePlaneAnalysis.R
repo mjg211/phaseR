@@ -54,8 +54,8 @@
 #' @author Michael J. Grayling, Stephen P. Ellner, John M. Guckenheimer
 #' @export
 phasePlaneAnalysis <- function(deriv, xlim, ylim, tend = 100,
-                               parameters = NULL, system = "two.dim",  
-                               add = FALSE){
+                               parameters = NULL, system = "two.dim",
+                               add = FALSE) {
   if ((!is.vector(xlim)) | (length(xlim) != 2)){
     stop("xlim is not a vector of length 2 as required")
   }
