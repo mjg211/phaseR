@@ -52,7 +52,6 @@
 #' simplePendulum.stability.2 <- stability(simplePendulum,
 #'                                         ystar = c(pi, 0),
 #'                                         parameters = 5)
-#' @export
 simplePendulum <- function(t, y, parameters){
   list(c(y[2], -9.81*sin(y[1])/parameters))
 }
