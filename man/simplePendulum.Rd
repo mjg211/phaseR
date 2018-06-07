@@ -57,7 +57,7 @@ simplePendulum.manifolds   <- drawManifolds(simplePendulum,
                                             tend = 1000,
                                             col = c("green", "red"),
                                             add.legend = TRUE)
-# Determine the stability of two of the equilibrium points
+# Determine the stability of two equilibrium points
 simplePendulum.stability.1 <- stability(simplePendulum,
                                         ystar = c(0, 0),
                                         parameters = 5)

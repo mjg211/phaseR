@@ -7,7 +7,7 @@ Authors@R: c(
     role = c("aut", "cre")),
     person("Gerhard", "Burger", email = "burger.ga@gmail.com", role = "ctb"))
 Imports: grDevices, utils, graphics, deSolve
-Description: phaseR is an R package for the qualitative analysis
+Description: Performs a qualitative analysis
    of one and two dimensional autonomous ODE systems, using phase
    plane methods. Programs are available to identify and classify
    equilibrium points, plot the direction field, and plot trajectories

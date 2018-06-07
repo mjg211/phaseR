@@ -28,7 +28,7 @@ dimensional autonomous ODE system.  \item \code{\link{nullclines}}: Plots
 the nullclines of a two dimensional autonomous ODE system.  \item
 \code{\link{numericalSolution}}: Numerically solves a two dimensional
 autonomous ODE system in order to plot the two dependent variables against
-the independent variable.  \item \code{\link{phasePlaneAnalyser}}: Provides
+the independent variable.  \item \code{\link{phasePlaneAnalysis}}: Provides
 a simple means of performing a phase plane analysis by typing only numbers
 in to the command line.  \item \code{\link{phasePortrait}}: Plots the phase
 portrait of a one dimensional autonomous ODE system, for use in classifying
