@@ -125,37 +125,37 @@ findEquilibrium <- function(deriv, y0 = NULL, parameters = NULL,
         C            <- jacobian[2, 1]
         D            <- jacobian[2, 2]
         Delta        <- A*D - B*C
-        tr           <- A + B
+        tr           <- A + D
         discriminant <- tr^2 - 4*Delta
-        if (Delta < 0){
-          classification <- "Saddle"
-        }
-        if (Delta == 0){
-          classification <- "Indeterminate"
-        }
-        if (Delta > 0){
-          if (discriminant > 0){
-            if (tr < 0){
+        if (Delta == 0) {
+          classification     <- "Indeterminate"
+        } else if (discriminant == 0) {
+          if (tr < 0) {
+            classification   <- "Stable node"
+          } else {
+            classification   <- "Unstable node"
+          }
+        } else if (Delta < 0) {
+            classification   <- "Saddle"
+        } else {
+          if (discriminant > 0) {
+            if (tr < 0) {
               classification <- "Stable node"
-            }
-            if (tr > 0){
+            } else {
               classification <- "Unstable node"
             }
-          }
-          if (discriminant < 0){
+          } else {
             if (tr < 0) {
               classification <- "Stable focus"
-            }
-            if (tr > 0){
+            } else if (tr > 0) {
               classification <- "Unstable focus"
-            }
-            if (tr == 0){
+            } else {
               classification <- "Centre"
             }
           }
         }
       }
-      if (plot.it == TRUE){
+      if (plot.it == TRUE) {
         eigenvalues <- eigen(jacobian)$values 
         pchs        <- matrix(c(17, 5, 2, 16, 1, 1), 2, 3, byrow = TRUE) 
         pch1        <- 1 + as.numeric(Im(eigenvalues[1]) != 0)

@@ -18,7 +18,10 @@ Description: Performs a qualitative analysis
    example systems are provided for the user.
 License: GPL-3
 LazyData: TRUE
-Suggests: testthat
+Suggests: testthat,
+    knitr,
+    rmarkdown
 URL: https://github.com/mjg211/phaseR
 BugReports: https://github.com/mjg211/phaseR/issues
 RoxygenNote: 6.0.1
+VignetteBuilder: knitr

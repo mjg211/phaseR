@@ -15,6 +15,10 @@
 #' @param parameters Parameters of the ODE system, to be passed to deriv.
 #' Supplied as a vector; the order of the parameters can be found from the
 #' deriv file. Defaults to NULL.
+#' @param tstep The step length of the independent variable, used in numerical
+#' integration. Decreasing the absolute magnitude of tstep theoretically makes
+#' the numerical integration more accurate, but increases computation time.
+#' Defaults to 0.01.
 #' @param tend The final time of the numerical integration performed to
 #' identify the manifolds.
 #' @param col Sets the colours used for the stable and unstable manifolds. Will
@@ -40,8 +44,9 @@
 #' @author Michael J. Grayling, Stephen P. Ellner, John M. Guckenheimer
 #' @export
 #' 
-drawManifolds <- function(deriv, y0 = NULL, parameters = NULL, tend = 1000,
-                          col = c("green", "red"), add.legend = TRUE, ...){
+drawManifolds <- function(deriv, y0 = NULL, parameters = NULL, tstep = 0.1,
+                          tend = 1000, col = c("green", "red"),
+                          add.legend = TRUE, ...){
   if (is.null(y0)){
     y0 <- locator(n = 1)
     y0 <- c(y0$x, y0$y)
@@ -91,22 +96,22 @@ drawManifolds <- function(deriv, y0 = NULL, parameters = NULL, tend = 1000,
     ymax       <- 0.5 + max(abs(ystar)) 
     maxtime.1  <- log(2500*ymax)/abs(eigenvalues[i1])
     maxtime.1  <- max(tend, maxtime.1)
-    out.1      <- ode(times = seq(0, maxtime.1, 0.05), y = ystar + eps*v1,
-                     func = deriv, parms = parameters, method = "ode45")
+    out.1      <- ode(times = seq(0, maxtime.1, tstep), y = ystar + eps*v1,
+                     func = deriv, parms = parameters)
     lines(out.1[, 2], out.1[, 3], type = "l", col = col[2], ...)
     unstable.1 <- out.1[, 1:3]
-    out.2      <- ode(times = seq(0, maxtime.1, 0.05), y = ystar - eps*v1,
-                      func = deriv, parms = parameters, method = "ode45")
+    out.2      <- ode(times = seq(0, maxtime.1, tstep), y = ystar - eps*v1,
+                      func = deriv, parms = parameters)
     lines(out.2[, 2], out.2[, 3], type = "l", col = col[2], ...)
     unstable.2 <- out.2[, 1:3]
     maxtime.2  <- log(2500*ymax)/abs(eigenvalues[i2])
     maxtime.2  <- max(tend, maxtime.2)
-    out.3      <- ode(times = -seq(0, maxtime.2, 0.05), y = ystar + eps*v2,
-                      func = deriv, parms = parameters, method = "ode45")
+    out.3      <- ode(times = -seq(0, maxtime.2, tstep), y = ystar + eps*v2,
+                      func = deriv, parms = parameters)
     lines(out.3[, 2], out.3[, 3], type = "l", col = col[1], ...)
     stable.1   <- out.3[, 1:3]
-    out.4      <- ode(times = -seq(0, maxtime.2, 0.05), y = ystar - eps*v2,
-                      func = deriv, parms = parameters, method = "ode45")
+    out.4      <- ode(times = -seq(0, maxtime.2, tstep), y = ystar - eps*v2,
+                      func = deriv, parms = parameters)
     lines(out.4[, 2], out.4[, 3], type = "l", col = col[1], ...)
     stable.2   <- out.4[, 1:3]
     if (add.legend == TRUE){
