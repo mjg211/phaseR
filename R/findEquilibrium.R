@@ -101,13 +101,13 @@ findEquilibrium <- function(deriv, y0 = NULL, parameters = NULL,
   y      <- y0
   dim    <- nrow(y)
   for (i in 1:max.iter){  
-    dy       <- deriv(0, setNames(y, head(state.names, n = dim)), parameters)[[1]] 
+    dy       <- deriv(0, setNames(y, utils::head(state.names, n = dim)), parameters)[[1]] 
     jacobian <- matrix(0, dim, dim)
     for (j in 1:dim){
       h.vec          <- numeric(dim) 
       h.vec[j]       <- h
-      jacobian[, j]  <- (deriv(0, setNames(y + h.vec, head(state.names, n = dim)), parameters)[[1]] - 
-                           deriv(0, setNames(y - h.vec, head(state.names, n = dim)), parameters)[[1]])/(2*h) 
+      jacobian[, j]  <- (deriv(0, setNames(y + h.vec, utils::head(state.names, n = dim)), parameters)[[1]] - 
+                           deriv(0, setNames(y - h.vec, utils::head(state.names, n = dim)), parameters)[[1]])/(2*h) 
     }
     if (sum(dy^2) < tol){ 
       if (system == "one.dim"){
