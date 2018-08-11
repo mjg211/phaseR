@@ -53,7 +53,7 @@ example9.trajectory <- trajectory(example9,
                                   tlim = c(0, 10))
 example9.manifolds  <- drawManifolds(example9,
                                      y0 = c(0, 0),
-                                     tend = 1000,
+                                     tend = 10,
                                      col = c("green", "red"),
                                      add.legend = TRUE)
 # Determine the stability of the equilibrium point
