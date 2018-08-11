@@ -4,9 +4,10 @@
 \alias{phasePortrait}
 \title{Phase Portrait Plot}
 \usage{
-phasePortrait(deriv, ylim, ystep = 0.01, parameters = NULL, points = 10,
-  frac = 0.75, arrow.head = 0.075, col = "black", xlab = "y",
-  ylab = "f(y)", add.grid = TRUE, state.names = c("y"), ...)
+phasePortrait(deriv, ylim, ystep = 0.01, parameters = NULL,
+  points = 10, frac = 0.75, arrow.head = 0.075, col = "black",
+  xlab = "y", ylab = "f(y)", add.grid = TRUE, state.names = c("y"),
+  ...)
 }
 \arguments{
 \item{deriv}{A function computing the derivative at a point for the ODE

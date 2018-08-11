@@ -5,9 +5,9 @@
 \title{Flow Field}
 \usage{
 flowField(deriv, xlim, ylim, parameters = NULL, system = "two.dim",
-  points = 21, col = "gray", arrow.type = "equal", arrow.head = 0.05,
-  frac = 1, add = TRUE, xlab = "x", ylab = "y", state.names = c("x",
-  "y"), ...)
+  points = 21, col = "gray", arrow.type = "equal",
+  arrow.head = 0.05, frac = 1, add = TRUE, xlab = "x",
+  ylab = "y", state.names = c("x", "y"), ...)
 }
 \arguments{
 \item{deriv}{A function computing the derivative at a point for the ODE

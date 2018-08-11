@@ -4,9 +4,9 @@
 \alias{findEquilibrium}
 \title{Equilibrium Point Identification}
 \usage{
-findEquilibrium(deriv, y0 = NULL, parameters = NULL, system = "two.dim",
-  tol = 1e-16, max.iter = 50, h = 1e-06, plot.it = FALSE,
-  summary = TRUE)
+findEquilibrium(deriv, y0 = NULL, parameters = NULL,
+  system = "two.dim", tol = 1e-16, max.iter = 50, h = 1e-06,
+  plot.it = FALSE, summary = TRUE, state.names = c("x", "y"))
 }
 \arguments{
 \item{deriv}{A function computing the derivative at a point for the ODE
@@ -42,6 +42,8 @@ equilibrium point, with shape corresponding to its classification.}
 
 \item{summary}{Set to either TRUE or FALSE to determine whether a summary of
 the progress of the search procedure is returned. Defaults to TRUE.}
+
+\item{state.names}{State names for ode functions that do not use positional states}
 }
 \value{
 Returns a list with the following components (the exact make up is
