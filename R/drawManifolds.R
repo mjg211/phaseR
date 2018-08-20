@@ -4,7 +4,6 @@
 #' procedure is utilised to identify an equilibrium point, and if this is a
 #' saddle then the manifolds are added to the plot.
 #' 
-#' 
 #' @param deriv A function computing the derivative at a point for the ODE
 #' system to be analysed. Discussion of the required structure of these
 #' functions can be found in the package guide.
