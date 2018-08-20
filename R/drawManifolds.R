@@ -26,6 +26,7 @@
 #' c("green", "red").
 #' @param add.legend Logical. If TRUE, a legend is added to the plots. Defaults
 #' to TRUE.
+#' @inheritParams .paramDummy
 #' @param ... Additional arguments to be passed to plot.
 #' @return Returns a list with the following components (the exact make up is
 #' dependent upon the value of system): \item{add.legend}{As per input.}
@@ -46,7 +47,7 @@
 #' 
 drawManifolds <- function(deriv, y0 = NULL, parameters = NULL, tstep = 0.1,
                           tend = 1000, col = c("green", "red"),
-                          add.legend = TRUE, ...){
+                          add.legend = TRUE, state.names = c("x", "y"), ...){
   if (is.null(y0)){
     y0 <- locator(n = 1)
     y0 <- c(y0$x, y0$y)
@@ -80,7 +81,7 @@ drawManifolds <- function(deriv, y0 = NULL, parameters = NULL, tstep = 0.1,
   }
   find.ystar   <- findEquilibrium(deriv = deriv, y0 = y0, system = "two.dim",
                                   parameters = parameters, plot.it = FALSE,
-                                  summary = FALSE)
+                                  summary = FALSE, state.names = state.names)
   ystar        <- find.ystar$ystar
   jacobian     <- find.ystar$jacobian
   eigenvectors <- find.ystar$eigenvectors
@@ -96,21 +97,21 @@ drawManifolds <- function(deriv, y0 = NULL, parameters = NULL, tstep = 0.1,
     ymax       <- 0.5 + max(abs(ystar)) 
     maxtime.1  <- log(2500*ymax)/abs(eigenvalues[i1])
     maxtime.1  <- max(tend, maxtime.1)
-    out.1      <- ode(times = seq(0, maxtime.1, tstep), y = ystar + eps*v1,
+    out.1      <- ode(times = seq(0, maxtime.1, tstep), y = setNames(ystar + eps*v1, state.names),
                      func = deriv, parms = parameters)
     lines(out.1[, 2], out.1[, 3], type = "l", col = col[2], ...)
     unstable.1 <- out.1[, 1:3]
-    out.2      <- ode(times = seq(0, maxtime.1, tstep), y = ystar - eps*v1,
+    out.2      <- ode(times = seq(0, maxtime.1, tstep), y = setNames(ystar - eps*v1, state.names),
                       func = deriv, parms = parameters)
     lines(out.2[, 2], out.2[, 3], type = "l", col = col[2], ...)
     unstable.2 <- out.2[, 1:3]
     maxtime.2  <- log(2500*ymax)/abs(eigenvalues[i2])
     maxtime.2  <- max(tend, maxtime.2)
-    out.3      <- ode(times = -seq(0, maxtime.2, tstep), y = ystar + eps*v2,
+    out.3      <- ode(times = -seq(0, maxtime.2, tstep), y = setNames(ystar + eps*v2, state.names),
                       func = deriv, parms = parameters)
     lines(out.3[, 2], out.3[, 3], type = "l", col = col[1], ...)
     stable.1   <- out.3[, 1:3]
-    out.4      <- ode(times = -seq(0, maxtime.2, tstep), y = ystar - eps*v2,
+    out.4      <- ode(times = -seq(0, maxtime.2, tstep), y = setNames(ystar - eps*v2, state.names),
                       func = deriv, parms = parameters)
     lines(out.4[, 2], out.4[, 3], type = "l", col = col[1], ...)
     stable.2   <- out.4[, 1:3]

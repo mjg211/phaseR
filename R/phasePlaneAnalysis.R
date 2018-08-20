@@ -50,12 +50,13 @@
 #' @param system Set to either "one.dim" or "two.dim" to indicate the type of
 #' system being analysed. Defaults to "two.dim".
 #' @param add Logical. If TRUE, the nullclines are added to an existing plot.
-#' If FALSE, a new plot is created. Defaults to TRUE.
+#' If FALSE, a new plot is created. Defaults to FALSE.
+#' @inheritParams .paramDummy
 #' @author Michael J. Grayling, Stephen P. Ellner, John M. Guckenheimer
 #' @export
 phasePlaneAnalysis <- function(deriv, xlim, ylim, tend = 100,
                                parameters = NULL, system = "two.dim",
-                               add = FALSE) {
+                               add = FALSE, state.names = c("x", "y")) {
   if ((!is.vector(xlim)) | (length(xlim) != 2)){
     stop("xlim is not a vector of length 2 as required")
   }
@@ -77,55 +78,58 @@ phasePlaneAnalysis <- function(deriv, xlim, ylim, tend = 100,
   if (tend <= 0){
     stop("tend must be strictly positive")
   }
+  
+  actions <- c("Flow field", 
+               "Nullclines",
+               "Find fixed point (click on plot)",
+               "Start Forward trajectory (click on plot)",
+               "Start Backward trajectory (click on plot)",
+               "Extend Current trajectory (a trajectory must already be plotted)",
+               "Local S/U manifolds of a saddle (two dimensional systems only) (click on plot)",
+               "Grid of trajectories",
+               "Exit",
+               "Save plot as PDF")
+  
   menu.go <- 1
   all.j   <- NULL
   while (menu.go > 0){
-    jl <- utils::select.list(c("Flow field", 
-                        "Nullclines",
-                        "Find fixed point (click on plot)",
-                        "Start Forward trajectory (click on plot)",
-                        "Start Backward trajectory (click on plot)",
-                        "Extend Current trajectory (a trajectory must already be plotted)",
-                        "Local S/U manifolds of a saddle (two dimensional systems only) (click on plot)",
-                        "Grid of trajectories",
-                        "Exit",
-                        "Save plot as PDF"),
-                      title = "Phase Plane Analyser: Select Action")
-    j     <- substr(jl, 1, 2)
+    jl <- utils::select.list(actions, title = "Phase Plane Analyser: Select Action")
+    if(jl == "") break # menu cancelled (0)
+    j     <- match(jl, actions)
     all.j <- c(all.j, j)
-    if (j == "1:"){
+    if (j == 1){
       flow.field <- flowField(deriv = deriv, xlim = xlim, ylim = ylim,
-                              parameters = parameters, system = system, add = add)
+                              parameters = parameters, system = system, add = add, state.names = state.names)
       add        <- TRUE
-    } else if (j == "2:"){
+    } else if (j == 2){
       null.clines <- nullclines(deriv = deriv, xlim = xlim, ylim = ylim, points = 500,
-                                parameters = parameters, system = system, add = add)
+                                parameters = parameters, system = system, add = add, state.names = state.names)
       add         <- TRUE
-    } else if (j == "3:"){
+    } else if (j == 3){
       if (add == FALSE){
         print("To identify and plot an equilibrium point you must first choose an option that initialises a plot")
       } else {
         ystar <- findEquilibrium(deriv = deriv, parameters = parameters,
-                                 system = system, plot.it = TRUE)
+                                 system = system, plot.it = TRUE, state.names = state.names)
       }
-    } else if (j == "4:"){
+    } else if (j == 4){
       if (add == FALSE){
         print("To plot a trajectory you must first choose an option that initialises a plot")
       } else {
         traj <- trajectory(deriv = deriv, n = 1, tlim = c(0, tend),
                            tstep = 0.01, parameters = parameters,
-                           system = system)
+                           system = system, state.names = state.names)
       }
-    } else if (j == "5:"){
+    } else if (j == 5){
       if (add == FALSE){
         print("To plot a trajectory you must first choose an option that initialises a plot")
       } else {
         traj <- trajectory(deriv = deriv, n = 1, tlim = c(0, -tend),
                            tstep = -0.01, parameters = parameters,
-                           system = system, col = "brown")
+                           system = system, col = "brown", state.names = state.names)
       }
-    } else if (j == "6:"){
-      if (any(all.j %in% c("4:", "5:"))){
+    } else if (j == 6){
+      if (any(all.j %in% c(4, 5))){
         t     <- traj$t
         tstep <- t[2] - t[1]
         y0    <- traj$y[length(t)]
@@ -137,11 +141,11 @@ phasePlaneAnalysis <- function(deriv, xlim, ylim, tend = 100,
         traj  <- trajectory(deriv = deriv, y0 = c(x0, y0),
                             tlim = c(t[1], t[length(t)]),
                             tstep = tstep, parameters = parameters,
-                            system = system, col = col)
+                            system = system, col = col, state.names = state.names)
       } else {
         print("To extend a trajectory one must already have been plotted")
       }
-    } else if (j == "7:"){
+    } else if (j == 7){
       if (system == "one.dim"){
         print("Draw manifolds option is available only for two dimensional systems")
       } else {
@@ -149,10 +153,10 @@ phasePlaneAnalysis <- function(deriv, xlim, ylim, tend = 100,
           print("To identify and plot the manifolds you must first choose an option that initialises a plot")
         } else {
           manifolds <- drawManifolds(deriv = deriv, parameters = parameters,
-                                     tend = tend)
+                                     tend = tend, state.names = state.names)
         }
       }
-    } else if (j == "8:"){
+    } else if (j == 8){
       if (add == FALSE){
         print("To identify and plot trajectories you must first choose an option that initialises a plot")
       } else {
@@ -169,12 +173,16 @@ phasePlaneAnalysis <- function(deriv, xlim, ylim, tend = 100,
         }
         traj.grid <- trajectory(deriv = deriv, y0 = y0, tlim = c(0, tend),
                                 parameters = parameters, system = system,
-                                col = rep("black", nrow(y0)))
+                                col = rep("black", nrow(y0)), state.names = state.names)
       }
-    } else if (j == "9:"){
+    } else if (j == 9){
       menu.go <- 0
-    } else if (j == "10"){
+    } else if (j == 10){
       grDevices::dev.copy2pdf(file = "phasePlaneAnalysis.pdf")
+    } else {
+      # Should not happen
+      stop("select.list problem")
     }
+    
   }
 }

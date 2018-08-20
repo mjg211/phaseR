@@ -4,9 +4,9 @@
 \alias{numericalSolution}
 \title{Numerical Solution and Plotting}
 \usage{
-numericalSolution(deriv, y0 = NULL, tlim, tstep = 0.01, parameters = NULL,
-  type = "one", col = c("red", "blue"), add.grid = TRUE,
-  add.legend = TRUE, state.names = c("x", "y"), ...)
+numericalSolution(deriv, y0 = NULL, tlim, tstep = 0.01,
+  parameters = NULL, type = "one", col = c("red", "blue"),
+  add.grid = TRUE, add.legend = TRUE, state.names = c("x", "y"), ...)
 }
 \arguments{
 \item{deriv}{A function computing the derivative at a point for the ODE

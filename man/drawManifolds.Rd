@@ -4,8 +4,9 @@
 \alias{drawManifolds}
 \title{Stable and Unstable Manifolds}
 \usage{
-drawManifolds(deriv, y0 = NULL, parameters = NULL, tend = 1000,
-  col = c("green", "red"), add.legend = TRUE, ...)
+drawManifolds(deriv, y0 = NULL, parameters = NULL, tstep = 0.1,
+  tend = 1000, col = c("green", "red"), add.legend = TRUE,
+  state.names = c("x", "y"), ...)
 }
 \arguments{
 \item{deriv}{A function computing the derivative at a point for the ODE
@@ -21,6 +22,11 @@ locator to specify the initial point on a plot}
 Supplied as a vector; the order of the parameters can be found from the
 deriv file. Defaults to NULL.}
 
+\item{tstep}{The step length of the independent variable, used in numerical
+integration. Decreasing the absolute magnitude of tstep theoretically makes
+the numerical integration more accurate, but increases computation time.
+Defaults to 0.01.}
+
 \item{tend}{The final time of the numerical integration performed to
 identify the manifolds.}
 
@@ -30,6 +36,8 @@ c("green", "red").}
 
 \item{add.legend}{Logical. If TRUE, a legend is added to the plots. Defaults
 to TRUE.}
+
+\item{state.names}{State names for ode functions that do not use positional states}
 
 \item{...}{Additional arguments to be passed to plot.}
 }

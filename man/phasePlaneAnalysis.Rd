@@ -5,7 +5,7 @@
 \title{Phase Plane Analysis}
 \usage{
 phasePlaneAnalysis(deriv, xlim, ylim, tend = 100, parameters = NULL,
-  system = "two.dim", add = FALSE)
+  system = "two.dim", add = FALSE, state.names = c("x", "y"))
 }
 \arguments{
 \item{deriv}{A function computing the derivative at a point for the ODE
@@ -33,7 +33,9 @@ deriv file. Defaults to NULL.}
 system being analysed. Defaults to "two.dim".}
 
 \item{add}{Logical. If TRUE, the nullclines are added to an existing plot.
-If FALSE, a new plot is created. Defaults to TRUE.}
+If FALSE, a new plot is created. Defaults to FALSE.}
+
+\item{state.names}{State names for ode functions that do not use positional states}
 }
 \description{
 Allows the user to perform a basic phase plane analysis and produce a simple

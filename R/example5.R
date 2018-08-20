@@ -41,7 +41,7 @@
 #'                                          tlim = c(0,10))
 #' example5.manifolds         <- drawManifolds(example5,
 #'                                             y0 = c(0, 0),
-#'                                             tend = 1000,
+#'                                             tend = 100,
 #'                                             col = c("green", "red"),
 #'                                             add.legend = TRUE)
 #' # Plot x and y against t
