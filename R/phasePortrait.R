@@ -4,7 +4,7 @@
 #' derivative against the dependent variable. In addition, along the dependent
 #' variable axis it plots arrows pointing in the direction of dependent
 #' variable change with increasing value of the independent variable. From this
-#' stability of equilibrium points (i.e. locations where the horiztonal axis is
+#' stability of equilibrium points (i.e. locations where the horizontal axis is
 #' crossed) can be determined.
 #' 
 #' 

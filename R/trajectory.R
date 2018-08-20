@@ -48,7 +48,7 @@
 #' input.} \item{parameters}{As per input.} \item{system}{As per input.}
 #' \item{tlim}{As per input.} \item{tstep}{As per input.} \item{t}{A vector
 #' containing the values of the independent variable at each integration step.}
-#' \item{x}{In the two dimensional system casem a matrix whose columns are the
+#' \item{x}{In the two dimensional system case, a matrix whose columns are the
 #' numerically computed values of the first dependent variable for each initial
 #' condition.} \item{y}{In the two dimensional system case, a matrix whose
 #' columns are the numerically computed values of the second dependent variable
