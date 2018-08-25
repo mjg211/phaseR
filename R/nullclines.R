@@ -91,7 +91,8 @@
 nullclines <- function(deriv, xlim, ylim, parameters = NULL,
                        system = "two.dim", points = 101,
                        col = c("blue", "cyan"), add = TRUE, add.legend = TRUE, 
-                       state.names = c("x", "y"), ...){
+                       state.names = if(system == "two.dim") c("x", "y") else "y", 
+                       ...){
   if ((!is.vector(xlim)) | (length(xlim) != 2)){
     stop("xlim is not a vector of length 2 as required")
   }
@@ -134,7 +135,7 @@ nullclines <- function(deriv, xlim, ylim, parameters = NULL,
   dy <- matrix(0, ncol = points, nrow = points)
   if (system == "one.dim"){
     for (i in 1:points){
-      dy[1, i] <- deriv(0, setNames(c(y[i]), state.names[1]), parameters)[[1]]
+      dy[1, i] <- deriv(0, setNames(c(y[i]), state.names), parameters)[[1]]
     }
     for (i in 2:points){
       dy[i, ]  <- dy[1, ]
@@ -142,7 +143,7 @@ nullclines <- function(deriv, xlim, ylim, parameters = NULL,
     contour(x, y, dy, levels = 0, add = add, col = col[1], 
             drawlabels = FALSE, ...)
     if (add.legend == TRUE){
-      legend("bottomright", "dy/dt = 0 for all t", lty = 1, lwd = 1,
+      legend("bottomright", paste0("d", state.names, "/dt = 0 for all t"), lty = 1, lwd = 1,
              col = col[1])
     }
     return(list(add = add, add.legend = add.legend, col = col, deriv = deriv,
@@ -161,7 +162,7 @@ nullclines <- function(deriv, xlim, ylim, parameters = NULL,
     contour(x, y, dy, levels = 0, add = TRUE, col = col[2], 
             drawlabels = FALSE, ...)
     if (add.legend == TRUE){
-      legend("bottomright", c("x nullclines", "y nullclines"), lty = 1,
+      legend("bottomright", paste(state.names, "nullclines"), lty = 1,
              lwd = 1, col = col)
     }
     return(list(add = add, add.legend = add.legend, col = col, deriv = deriv,

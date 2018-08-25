@@ -56,7 +56,7 @@
 findEquilibrium <- function(deriv, y0 = NULL, parameters = NULL,
                             system = "two.dim", tol = 1e-16,
                             max.iter = 50, h = 1e-6, plot.it = FALSE,   
-                            summary = TRUE, state.names = c("x", "y")){
+                            summary = TRUE, state.names = if(system == "two.dim") c("x", "y") else "y"){
   if (is.null(y0)){
     y0   <- locator(n = 1)
     if (system == "one.dim"){
@@ -106,8 +106,8 @@ findEquilibrium <- function(deriv, y0 = NULL, parameters = NULL,
     for (j in 1:dim){
       h.vec          <- numeric(dim) 
       h.vec[j]       <- h
-      jacobian[, j]  <- (deriv(0, setNames(y + h.vec, utils::head(state.names, n = dim)), parameters)[[1]] - 
-                           deriv(0, setNames(y - h.vec, utils::head(state.names, n = dim)), parameters)[[1]])/(2*h) 
+      jacobian[, j]  <- (deriv(0, setNames(y + h.vec, state.names), parameters)[[1]] - 
+                           deriv(0, setNames(y - h.vec, state.names), parameters)[[1]])/(2*h) 
     }
     if (sum(dy^2) < tol){ 
       if (system == "one.dim"){
@@ -173,11 +173,11 @@ findEquilibrium <- function(deriv, y0 = NULL, parameters = NULL,
       }
       if (summary == TRUE){
         if (system == "one.dim"){
-          cat("Fixed point at y = ", y, "\n")
+          cat("Fixed point at ", state.names," = ", y, "\n")
           cat("\nDiscriminant:", discriminant, "  Classification:", 
               classification)
         } else {
-          cat("Fixed point at (x,y) = ", y, "\n")
+          cat("Fixed point at (", paste0(state.names, collapse = ','), ") = ", y, "\n")
           cat("\nT:", tr, "  Delta:", Delta, "  Discriminant:", 
               discriminant, "  Classification:", classification)
         }

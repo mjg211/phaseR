@@ -6,7 +6,7 @@
 \usage{
 trajectory(deriv, y0 = NULL, n = NULL, tlim, tstep = 0.01,
   parameters = NULL, system = "two.dim", col = "black", add = TRUE,
-  state.names = c("x", "y"), ...)
+  state.names = if (system == "two.dim") c("x", "y") else "y", ...)
 }
 \arguments{
 \item{deriv}{A function computing the derivative at a point for the ODE

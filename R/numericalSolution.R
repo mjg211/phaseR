@@ -29,6 +29,8 @@
 #' TRUE.
 #' @param add.legend Logical. If TRUE, a legend is added to the plots. Defaults
 #' to TRUE.
+#' @param xlab Label for the x-axis of the resulting plot.
+#' @param ylab Label for the y-axis of the resulting plot.
 #' @param \dots Additional arguments to be passed to plot.
 #' @inheritParams .paramDummy
 #' @return Returns a list with the following components: \item{add.grid}{As per
@@ -52,7 +54,8 @@
 numericalSolution <- function(deriv, y0 = NULL, tlim, tstep = 0.01,
                               parameters = NULL, type = "one",
                               col = c("red", "blue"), add.grid = TRUE, 
-                              add.legend = TRUE, state.names = c("x", "y"), ...){
+                              add.legend = TRUE, state.names = c("x", "y"), 
+                              xlab = 't', ylab = state.names, ...){
   if (any(tlim < 0)){
     stop("tlim contains negative values")
   }
@@ -110,24 +113,25 @@ numericalSolution <- function(deriv, y0 = NULL, tlim, tstep = 0.01,
   x                <- phase.trajectory[, 2]
   y                <- phase.trajectory[, 3]
   if (type == "one"){
-    plot(t, x, col = col[1], type = "l", xlab = "t", ylab = "x, y", ...)
-    lines(t, y, col = col[2], type = "l", xlab = "t", ylab = "x, y", ...)
+    plot(t, x, col = col[1], type = "l", xlab = xlab, 
+         ylab = paste0(ylab, collapse = ', '), ...)
+    lines(t, y, col = col[2], type = "l", xlab = "t", ...)
     if (add.grid == TRUE){
       grid()
     }
     if (add.legend == TRUE){
-      legend("topright", legend = c("x", "y"), lty = c(1, 1),
+      legend("topright", legend = state.names, lty = c(1, 1),
              col = col)
     }
   }
   if (type == "two"){
     old.par <- par(no.readonly = TRUE)
     par(mfcol = c(2, 1))
-    plot(t, x, col = col[1], type = "l", xlab = "t", ylab = "x", ...)
+    plot(t, x, col = col[1], type = "l", xlab = xlab, ylab = ylab[1], ...)
     if (add.grid == TRUE){
       grid()
     }
-    plot(t, y, col = col[2], type = "l", xlab = "t", ylab = "y", ...)
+    plot(t, y, col = col[2], type = "l", xlab = xlab, ylab = ylab[2], ...)
     if (add.grid == TRUE){
       grid()
     }

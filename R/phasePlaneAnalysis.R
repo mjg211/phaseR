@@ -63,7 +63,7 @@
 #' @export
 phasePlaneAnalysis <- function(deriv, xlim, ylim, tend = 100,
                                parameters = NULL, system = "two.dim",
-                               add = FALSE, state.names = c("x", "y")) {
+                               add = FALSE, state.names = if(system == "two.dim") c("x", "y") else "y") {
   if ((!is.vector(xlim)) | (length(xlim) != 2)){
     stop("xlim is not a vector of length 2 as required")
   }

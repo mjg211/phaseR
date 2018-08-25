@@ -6,7 +6,8 @@
 \usage{
 findEquilibrium(deriv, y0 = NULL, parameters = NULL,
   system = "two.dim", tol = 1e-16, max.iter = 50, h = 1e-06,
-  plot.it = FALSE, summary = TRUE, state.names = c("x", "y"))
+  plot.it = FALSE, summary = TRUE, state.names = if (system ==
+  "two.dim") c("x", "y") else "y")
 }
 \arguments{
 \item{deriv}{A function computing the derivative at a point for the ODE
