@@ -84,7 +84,8 @@
 #' 
 trajectory <- function(deriv, y0 = NULL, n = NULL, tlim, tstep = 0.01, 
                        parameters = NULL, system = "two.dim",
-                       col = "black", add = TRUE, state.names = c("x", "y"), 
+                       col = "black", add = TRUE, 
+                       state.names = if(system == "two.dim") c("x", "y") else "y", 
                        ...){
   if (tstep == 0){
     stop("tstep is equal to 0")
@@ -149,7 +150,6 @@ trajectory <- function(deriv, y0 = NULL, n = NULL, tlim, tstep = 0.01,
     if (ncol(y0) > nrow(y0)){
       y0 <- t(y0)
     }
-    state.names <- state.names[1]
   } else {
     if ((nrow(y0) == 2) & (ncol(y0) != 2)){
       y0 <- t(y0)

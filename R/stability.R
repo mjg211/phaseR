@@ -61,7 +61,7 @@
 #' 
 stability <- function(deriv, ystar = NULL, parameters = NULL,
                       system = "two.dim", h = 1e-07, summary = TRUE, 
-                      state.names = c("x", "y")){
+                      state.names = if(system == "two.dim") c("x", "y") else "y"){
   if (is.null(ystar)){
     ystar   <- locator(n = 1)
     if (system == "two.dim"){
@@ -97,8 +97,8 @@ stability <- function(deriv, ystar = NULL, parameters = NULL,
   }
   if (system == "one.dim"){
     discriminant <- as.numeric(
-      (deriv(0, setNames(ystar + h, state.names[1]), parameters = parameters)[[1]] 
-       - deriv(0, setNames(ystar - h, state.names[1]), parameters = parameters)[[1]])
+      (deriv(0, setNames(ystar + h, state.names), parameters = parameters)[[1]] 
+       - deriv(0, setNames(ystar - h, state.names), parameters = parameters)[[1]])
       / (2*h))
     if (discriminant > 0){
       classification <- "Unstable"

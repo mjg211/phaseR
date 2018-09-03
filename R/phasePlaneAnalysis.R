@@ -63,7 +63,7 @@
 #' @export
 phasePlaneAnalysis <- function(deriv, xlim, ylim, tend = 100,
                                parameters = NULL, system = "two.dim",
-                               add = FALSE, state.names = c("x", "y")) {
+                               add = FALSE, state.names = if(system == "two.dim") c("x", "y") else "y") {
   if ((!is.vector(xlim)) | (length(xlim) != 2)){
     stop("xlim is not a vector of length 2 as required")
   }
@@ -169,6 +169,7 @@ phasePlaneAnalysis <- function(deriv, xlim, ylim, tend = 100,
       } else {
         if (system == "one.dim"){
           y0 <- seq(from = ylim[1], to = ylim[2], length.out = 8)
+          times = length(y0) 
         } else {
           x  <- seq(from = xlim[1], to = xlim[2], length.out = 4)
           y  <- seq(from = ylim[1], to = ylim[2], length.out = 4)
@@ -177,10 +178,11 @@ phasePlaneAnalysis <- function(deriv, xlim, ylim, tend = 100,
             y0[(1 + 4*(i - 1)):(4*i), ] <- cbind(x, rep(y[i], 4))
           }
           y0 <- y0[-c(4, 16), ]
+          times = nrow(y0) 
         }
         traj.grid <- trajectory(deriv = deriv, y0 = y0, tlim = c(0, tend),
                                 parameters = parameters, system = system,
-                                col = rep("black", nrow(y0)), state.names = state.names)
+                                col = rep("black", times), state.names = state.names)
       }
     } else if (j == 9){
       menu.go <- 0

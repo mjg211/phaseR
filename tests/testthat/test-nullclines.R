@@ -38,3 +38,15 @@ test_that("alternative formulation equal to reference behavior", {
   ex10.alt.out <- do.call(nullclines, c(list(deriv=ex10.alt, state.names = c("I", "N")), ex10.pars))
   expect_equal(ex10.alt.out[c("dx","dy")], ex10.out[c("dx","dy")])
 })
+
+test_that("default state.names for 1D should be y", {
+  logistic.alt = function(t, state, parameters) {
+    with(as.list(c(state, parameters)), {
+      dy = b * y * (1 - y/K)
+      list(c(dy))
+    })
+  }
+  nullclines(logistic, xlim = c(0, 5), ylim = c(-1, 3),
+             parameters = c(b = 1, K = 2), system = "one.dim", add = F)
+})
+

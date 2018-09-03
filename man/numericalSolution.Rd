@@ -6,7 +6,8 @@
 \usage{
 numericalSolution(deriv, y0 = NULL, tlim, tstep = 0.01,
   parameters = NULL, type = "one", col = c("red", "blue"),
-  add.grid = TRUE, add.legend = TRUE, state.names = c("x", "y"), ...)
+  add.grid = TRUE, add.legend = TRUE, state.names = c("x", "y"),
+  xlab = "t", ylab = state.names, ...)
 }
 \arguments{
 \item{deriv}{A function computing the derivative at a point for the ODE
@@ -43,6 +44,10 @@ TRUE.}
 to TRUE.}
 
 \item{state.names}{State names for ode functions that do not use positional states}
+
+\item{xlab}{Label for the x-axis of the resulting plot.}
+
+\item{ylab}{Label for the y-axis of the resulting plot.}
 
 \item{\dots}{Additional arguments to be passed to plot.}
 }
