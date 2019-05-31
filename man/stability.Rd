@@ -33,7 +33,8 @@ system being analysed. Defaults to "two.dim".}
 \item{summary}{Set to either TRUE or FALSE to determine whether a summary of
 the stability analysis is returned. Defaults to TRUE.}
 
-\item{state.names}{State names for ode functions that do not use positional states}
+\item{state.names}{State names for ode functions that do not use positional
+states}
 }
 \value{
 Returns a list with the following components (the exact make up is

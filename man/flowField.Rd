@@ -63,7 +63,8 @@ FALSE, a new plot is created. Defaults to TRUE.}
 
 \item{ylab}{Label for the y-axis of the resulting plot. Defaults to "y".}
 
-\item{state.names}{State names for ode functions that do not use positional states}
+\item{state.names}{State names for ode functions that do not use positional
+states}
 
 \item{\dots}{Additional arguments to be passed to either plot or arrows.}
 }

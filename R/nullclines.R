@@ -44,7 +44,7 @@
 #' \item{add.legend}{As per input.} \item{col}{As per input, but with possible
 #' editing if a vector of the wrong length was supplied.} \item{deriv}{As per
 #' input.} \item{dx}{A matrix. In the case of a two dimensional system, the
-#' values of the derivative of the first dependent derivative at all evaluted
+#' values of the derivative of the first dependent derivative at all evaluated
 #' points.} \item{dy}{A matrix. In the case of a two dimensional system, the
 #' values of the derivative of the second dependent variable at all evaluated
 #' points. In the case of a one dimensional system, the values of the

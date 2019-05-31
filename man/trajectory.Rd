@@ -51,7 +51,8 @@ conditions. Defaults to "black".}
 \item{add}{Logical. If TRUE, the trajectories added to an existing plot. If
 FALSE, a new plot is created. Defaults to TRUE.}
 
-\item{state.names}{State names for ode functions that do not use positional states}
+\item{state.names}{State names for ode functions that do not use positional
+states}
 
 \item{\dots}{Additional arguments to be passed to plot.}
 }

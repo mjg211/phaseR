@@ -4,7 +4,6 @@
 #' specified set of initial conditions. Plots the resulting solution(s) in the
 #' phase plane.
 #' 
-#' 
 #' @param deriv A function computing the derivative at a point for the ODE
 #' system to be analysed. Discussion of the required structure of these
 #' functions can be found in the package guide.

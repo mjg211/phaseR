@@ -2,13 +2,14 @@
 % Please edit documentation in R/phaseR.R
 \name{.paramDummy}
 \alias{.paramDummy}
-\title{Just a function so we can apply DRY in param documentation}
+\title{A function such that we can apply DRY in param documentation}
 \usage{
 .paramDummy(state.names)
 }
 \arguments{
-\item{state.names}{State names for ode functions that do not use positional states}
+\item{state.names}{State names for ode functions that do not use positional
+states}
 }
 \description{
-Just a function so we can apply DRY in param documentation
+A function such that we can apply DRY in param documentation
 }

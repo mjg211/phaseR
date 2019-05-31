@@ -50,7 +50,8 @@ If FALSE, a new plot is created. Defaults to TRUE.}
 \item{add.legend}{Logical. If TRUE, a legend is added to the plots. Defaults
 to TRUE.}
 
-\item{state.names}{State names for ode functions that do not use positional states}
+\item{state.names}{State names for ode functions that do not use positional
+states}
 
 \item{\dots}{Additional arguments to be passed to either plot or contour.}
 }
@@ -60,7 +61,7 @@ dependent upon the value of system): \item{add}{As per input.}
 \item{add.legend}{As per input.} \item{col}{As per input, but with possible
 editing if a vector of the wrong length was supplied.} \item{deriv}{As per
 input.} \item{dx}{A matrix. In the case of a two dimensional system, the
-values of the derivative of the first dependent derivative at all evaluted
+values of the derivative of the first dependent derivative at all evaluated
 points.} \item{dy}{A matrix. In the case of a two dimensional system, the
 values of the derivative of the second dependent variable at all evaluated
 points. In the case of a one dimensional system, the values of the

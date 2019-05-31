@@ -2,35 +2,40 @@
 % Please edit documentation in R/example15.R
 \name{example15}
 \alias{example15}
-\title{Example ODE System 15}
+\title{Example ODE system 15}
 \usage{
 example15(t, y, parameters)
 }
 \arguments{
 \item{t}{The value of \ifelse{html}{\out{<i>t</i>}}{\eqn{t}}, the independent
-variable, to evaluate the derivative at. Should be a single number.}
+variable, to evaluate the derivative at. Should be a
+\code{\link[base]{numeric}} \code{\link[base]{vector}} of
+\code{\link[base]{length}} one.}
 
 \item{y}{The values of \ifelse{html}{\out{<i>x</i>}}{\eqn{x}} and 
-\ifelse{html}{\out{<i>y</i>}}{\eqn{y}}, the dependent
-variables, to evaluate the derivative at. Should be a vector of length two.}
+\ifelse{html}{\out{<i>y</i>}}{\eqn{y}}, the dependent variables, to evaluate
+the derivative at. Should be a \code{\link[base]{numeric}}
+\code{\link[base]{vector}} of \code{\link[base]{length}} two.}
 
-\item{parameters}{The values of the parameters of the system. Not required
-here.}
+\item{parameters}{The values of the parameters of the system. Not used here.}
 }
 \value{
-Returns a list containing the values of the two derivatives
-at \ifelse{html}{\out{(<i>t</i>, <i>x</i>, <i>y</i>)}}{\eqn{(t, x, y)}}.
+Returns a \code{\link[base]{list}} containing the values of the two
+derivatives at
+\ifelse{html}{\out{(<i>t</i>, <i>x</i>, <i>y</i>)}}{\eqn{(t, x, y)}}.
 }
 \description{
 The derivative function of an example two-dimensional autonomous ODE system.
 }
 \details{
-\code{example15} evaluates the derivatives of the following coupled ODE system
-at the point \ifelse{html}{\out{(<i>t</i>, <i>x</i>, <i>y</i>)}}{
+\code{example15} evaluates the derivatives of the following coupled ODE
+system at the point \ifelse{html}{\out{(<i>t</i>, <i>x</i>, <i>y</i>)}}{
 \eqn{(t, x, y)}}:
 
-\ifelse{html}{\out{<center><i>dx</i>/<i>dt</i> = <i>x</i><sup>2</sup> - 3<i>x</i><i>y</i> + 2<i>x</i>,
-<i>dy</i>/<i>dt</i> = <i>x</i> + <i>y</i> - 1.</center>}}{\deqn{\frac{dx}{dt} = x^2 - 3xy + 2x, \frac{dy}{dt} = x + y - 1.}}
+\ifelse{html}{\out{<center><i>dx</i>/<i>dt</i> = <i>x</i><sup>2</sup> -
+3<i>x</i><i>y</i> + 2<i>x</i>, <i>dy</i>/<i>dt</i> =
+<i>x</i> + <i>y</i> - 1.</center>}}{\deqn{\frac{dx}{dt} = x^2 - 3xy + 2x,
+\frac{dy}{dt} = x + y - 1.}}
 
 Its format is designed to be compatible with \code{\link[deSolve]{ode}} from
 the \code{\link[deSolve]{deSolve}} package.
@@ -39,5 +44,5 @@ the \code{\link[deSolve]{deSolve}} package.
 \code{\link[deSolve]{ode}}
 }
 \author{
-Michael J. Grayling
+Michael J Grayling
 }

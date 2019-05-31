@@ -1,28 +1,37 @@
 Package: phaseR
 Type: Package
-Title: Phase Plane Analysis of One and Two Dimensional Autonomous ODE Systems
-Version: 2.0
-Authors@R: c(
-    person(c("Michael", "J."), "Grayling", email = "mjg211@cam.ac.uk", 
-    role = c("aut", "cre")),
-    person("Gerhard", "Burger", email = "burger.ga@gmail.com", role = "ctb"))
-Imports: grDevices, utils, graphics, deSolve
-Description: Performs a qualitative analysis
-   of one and two dimensional autonomous ODE systems, using phase
-   plane methods. Programs are available to identify and classify
-   equilibrium points, plot the direction field, and plot trajectories
-   for multiple initial conditions. In the one dimensional case, a 
+Title: Phase plane analysis of one- and two-dimensional autonomous ODE systems
+Version: 2.1
+Authors@R: c(person(given  = "Michael J",
+                    family = "Grayling",
+                    email  = "michael.grayling@ncl.ac.uk",
+                    role   = c("aut", "cre")),
+             person(given  = "Gerhard",
+                    family = "Burger",
+                    email  = "burger.ga@gmail.com",
+                    role = "ctb"))
+Imports:
+    deSolve,
+    graphics,
+    grDevices,
+    utils
+Description: Performs a qualitative analysis of one- and two-dimensional
+   autonomous ODE systems, using phase plane methods. Programs are available to
+   identify and classify equilibrium points, plot the direction field, and plot
+   trajectories for multiple initial conditions. In the one-dimensional case, a 
    program is also available to plot the phase portrait. Whilst in the
-   two dimensional case, programs are additionally available to plot 
-   nullclines and stable/unstable manifolds of saddle points. Many 
-   example systems are provided for the user.
+   two-dimensional case, programs are additionally available to plot nullclines
+   and stable/unstable manifolds of saddle points. Many example systems are
+   provided for the user.
 License: GPL-3
 LazyData: TRUE
-Suggests: testthat,
+Suggests:
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat
+Date: 2019-05-31
 URL: https://github.com/mjg211/phaseR
 BugReports: https://github.com/mjg211/phaseR/issues
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Encoding: UTF-8
 VignetteBuilder: knitr

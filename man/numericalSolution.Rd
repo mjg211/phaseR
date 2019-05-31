@@ -42,7 +42,8 @@ TRUE.}
 \item{add.legend}{Logical. If TRUE, a legend is added to the plots. Defaults
 to TRUE.}
 
-\item{state.names}{State names for ode functions that do not use positional states}
+\item{state.names}{State names for ode functions that do not use positional
+states}
 
 \item{\dots}{Additional arguments to be passed to plot.}
 }

@@ -50,7 +50,8 @@ Will be reset accordingly if it is not a vector of length one. Defaults to
 \item{add.grid}{Logical. If TRUE, a grid is added to the plot. Defaults to
 TRUE.}
 
-\item{state.names}{State names for ode functions that do not use positional states}
+\item{state.names}{State names for ode functions that do not use positional
+states}
 
 \item{\dots}{Additional arguments to be passed to either plot or arrows.}
 }

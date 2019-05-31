@@ -35,7 +35,8 @@ system being analysed. Defaults to "two.dim".}
 \item{add}{Logical. If TRUE, the chosen features are added to an existing
 plot. If FALSE, a new plot is created. Defaults to FALSE.}
 
-\item{state.names}{State names for ode functions that do not use positional states}
+\item{state.names}{State names for ode functions that do not use positional
+states}
 }
 \description{
 Allows the user to perform a basic phase plane analysis and produce a simple

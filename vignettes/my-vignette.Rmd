@@ -1,10 +1,10 @@
 ---
-title: "phaseR: 2.0"
-author: "Michael J Grayling"
+title: "phaseR: 2.1"
+author: "Michael J Grayling (michael.grayling@ncl.ac.uk)"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{phaseR: 2.0}
+  %\VignetteIndexEntry{phaseR: 2.1}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,137 +16,123 @@ knitr::opts_chunk$set(
 )
 ```
 
-__phaseR__ is an R package for the qualitative analysis of one and two dimensional autonomous ODE systems, using phase plane methods. Programs are available to identify and classify equilibrium points, plot the direction field, and plot trajectories for multiple initial conditions. In the one dimensional case, a program is also available to plot the phase portrait. Whilst in the two dimensional case, additionally programs are available to plot nullclines and the stable/unstable manifolds of saddle points. Many example systems are provided for the user.
+__phaseR__ is an R package for the qualitative analysis of one- and two-dimensional autonomous ODE systems, using phase plane methods. Programs are available to identify and classify equilibrium points, plot the direction field, and plot trajectories for multiple initial conditions. In the one-dimensional case, a program is also available to plot the phase portrait. Whilst in the two-dimensional case, additionally programs are available to plot nullclines and the stable/unstable manifolds of saddle points. Many example systems are provided for the user.
 
 ## Introduction
 
-Contrary to what may seem to be the case when you first encounter ordinary differential equations (ODEs), the majority of ODE systems cannot be solved analytically. In this case, there is usually no option but to resort to numerical solution, often through the assistance of a computer. However, for certain classes of ODE systems it is possible to undertake a qualitative examination using phase plane methods, as introduced by Henry Poincare, amongst others, in the 19th Century. These methods allow the analyser to circumvent the need for explicit solutions, via a highly graphical approach. Indeed, this qualitative analysis can in fact be useful even when the system can be solved analytically. Specifically, it is usually possible to plot trajectories for various initial conditions, before obtaining information about stability and other motion patterns of the system.
+Contrary to what may seem to be the case when you first encounter ordinary differential equations (ODEs), the majority of ODE systems cannot be solved analytically. In such a scenario, there is usually no option but to resort to numerical solution. However, for certain classes of ODE systems it is possible to undertake a qualitative examination using phase plane methods, as introduced by Henry Poincare, amongst others, in the 19th century. These methods allow the analyser to circumvent the need for explicit solutions, via a highly graphical approach. And in fact, this qualitative analysis is often useful even when the system can be solved analytically. Specifically, it is usually possible to plot trajectories for various initial conditions, before obtaining information about stability and other motion patterns of the system.
 
-This package, __phaseR__, allows the user to perform such analyses for one and two dimensional autonomous ODE systems. Programs are available to determine and classify equilibrium points, plot the flow or vector field, and plot trajectories for multiple initial conditions. In the one variable case, a program is also available to plot the phase portrait. Whilst in the two variable case, additionally programs are available to plot nullclines and the stable/unstable manifolds of saddle points. This accompanying guide has been written not only to provide further information on how to use __phaseR__, but also as a teaching utility for phase plane methods. In this way, __phaseR__ can hopefully serve as a package for both independent learning, and for group based teaching; assisting lecturers in explaining the herein techniques.
+This package, __phaseR__, allows the user to perform such analyses for one- and two-dimensional autonomous ODE systems. Programs are available to determine and classify equilibrium points, plot the flow or vector field, and plot trajectories for multiple initial conditions. In the one-dimensional case, a program is also available to plot the phase portrait. Whilst in the two-dimensional case, additionally programs are available to plot nullclines and the stable/unstable manifolds of saddle points. This accompanying guide has been written not only to provide further information on how to use __phaseR__, but also as a teaching utility for phase plane methods. In this way, __phaseR__ can hopefully serve as both a package for both independent learning, and for group based teaching; assisting lecturers in explaining the supported techniques.
 
-Thus, since it is an important skill to be able to perform phase plane analysis by hand, and as a background to the package, this guide will proceed by introducing mathematically the systems that it can examine and the techniques for analysis. The level of mathematics is most akin to a first year undergraduate mathematics course, however it should also be useful to those from natural science and engineering backgrounds as well. Following this, an explanation of the usage of the programs in __phaseR__ will be given. For this, good knowledge of R is useful, but the programs are not difficult to use. Examples will then be provided for both one and two dimensional systems. Further example systems available in the package will be described, before finally, exercises are provided for the user to undertake should they wish. Solutions to these exercises are provided in a separate pdf. Throughout, to make things simpler, we will stick to using the letters $x$, $y$ and $t$ only as variables, as these are the variable names used by the programs. In practice however, it is obviously not difficult to deal with cases where alternative notation is used.
+Thus, since it is an important skill to be able to perform phase plane analysis by hand, and also as a background to the package, this guide will proceed by introducing mathematically the systems that it can examine as well as of the techniques for analysis that it supports. The complexity is most similar to a first year undergraduate mathematics course, however it should hopefully also be useful to those from natural science and engineering backgrounds as well. Following the mathematical descriptions, an explanation of the usage of the programs in __phaseR__ will be given. For this, good knowledge of R is useful, however the programs are not difficult to use. Worked examples will then be provided for both one- and two-dimensional systems. Further example systems available in the package will next be described, before finally, exercises are provided for the user to undertake should they wish. Throughout, to keep things simple, we will stick to using the letters $x$, $y$ and $t$ only as variables, as these are the variable names used by the programs. In practice however, it is obviously not difficult to deal with cases where alternative notation is used.
 
-Acknowledgment goes to Professors Daniel Kaplan and Daniel Flath at Macalester College who established the initial code for phase plane analysis of two dimensional systems (http://www.macalester.edu/~kaplan/math135/pplane.pdf) upon which this package was based. Additionally, I would like to thank Stephen Ellner and John Guckenheimer who graciously provided code which allowed the creation of the `findEquilibrium()`, `drawManifolds()` and `phasePlaneAnalyser()` functions. I welcome any corrections or comments on both the programs and these notes.
+Acknowledgment goes to Professors Daniel Kaplan and Daniel Flath at Macalester College who established the initial code for phase plane analysis of two dimensional systems (http://www.macalester.edu/~kaplan/math135/pplane.pdf) upon which this package was based. Additionally, I would like to thank Stephen Ellner and John Guckenheimer
+who graciously provided code which allowed the creation of the `findEquilibrium()`, `drawManifolds()`, and `phasePlaneAnalyser()` functions, as well as Gerhard Burger who helped to substantially advance the package's inner workings. I welcome any corrections or comments on both the programs and these notes.
 
-## First order dynamical systems in one dimension
+## First order one-dimensional dynamical systems
 
-#### Autonomous ordinary differential equations in one dimension
+#### Autonomous one-dimensional ordinary differential equations
 
-A first order dynamical system of one variable, $y(t)$ say, can be written in the following form
-
+A first order dynamical system of one variable, $y(t)$ say, can be written in the following form:
 $$ \frac{dy}{dt}=f(y,t). $$
-
-In many cases (usually the ones found in introductory calculus texts) this ODE can be solved analytically; with several techniques, such as integrating factors and separation of variables, at hand to help. However, more often than not, when a differential equation is written down to describe a real life system, it cannot be solved analytically. This is particularly true of non-linear ODEs, for which numerical solution would frequently have to be utilised. As a result, many computer packages are today available for numerical integration.
+In many cases (usually the ones found in introductory calculus texts) this ODE can be solved analytically; with several techniques, such as integrating factors and separation of variables, at hand to help. However, more often than not, when a differential equation is written down to describe a real life system, it cannot be solved analytically. This is particularly true of non-linear ODEs, for which numerical solution would frequently have to be utilised. As a result, many computer packages are today available to support such calculations.
 
 However, an alternative approach to numerical integration is sometimes possible. This approach is usually termed the phase plane method, or phase plane analysis. This methodology is concerned with determining qualitative features of the solutions to ODEs, without the need for explicit solution. Whilst such analysis may be more germane to systems we cannot solve analytically, the methods are just as valid to systems we can.
 
 Although this qualitative analysis is indeed possible for ODEs of the type above, in this package we restrict ourselves slightly to the case of ‘autonomous ODEs’, for reasons that should hopefully become clear later. This class of first order ODEs can be written in the following form:
-
 $$ \frac{dy}{dt}=f(y), $$
+i.e., it is the case where this is no dependence upon the independent variable $t$ in the functional form of $f$. Moreover, formally, we also assume that $f$ is a continuous, differentiable function. Whilst this may seem a strong restriction, many real life models can be written in this form.
 
-i.e., it is the case of no dependence upon the independent variable $t$ in the functional form of $f$. Moreover, technically, we also assume that $f$ is a continuous, differentiable function. However, this is rarely an important point in what follows. Whilst this may seem a strong restriction, many real life models can be written in this form.
-
-Now, within this framework of qualitative analysis there are several important concepts that we will proceed to discuss. Namely; the flow field, equilibrium points, and the phase portrait.
+Now, within this framework of qualitative analysis there are several important concepts that we will proceed to discuss. Namely, the flow field, equilibrium points, and the phase portrait.
 
 #### The flow field
 
-We begin with a discussion of the flow, or direction, field. Consider again the autonomous ODE above, and imagine making a sketch in the $t$-$y$ plane by drawing at every point $(t,y)$ a small line of slope $f(y)$. This resulting picture of many line segments is the flow field. The use of such a picture lies in that solution curves to the ODE must be tangent to the directions of the line segments. Thus we can construct approximate graphical solutions to this ODE system by beginning at any point $(0,y_0)$ (i.e., $y(0)=y_0$) and sketching a curve that proceeds through the plane in the direction of the flow field. In this way, if we start at many different initial points, we can generate a family of solution curves that qualitatively describe the behaviour specified by the ODE.
+We begin with a discussion of the flow, or direction, field. Consider again the autonomous ODE above, and imagine making a sketch in the $t$-$y$ plane by drawing at every point $(t,y)$ a small line of slope $f(y)$. This resulting picture of line segments is the flow field. The use of such a picture lies in that solution curves to the ODE must be tangent to the directions of the line segments. Thus we can construct approximate graphical solutions to this ODE system by beginning at any point $(0,y_0)$ (i.e., $y(0)=y_0$) and sketching a curve that proceeds through the plane in the direction of the flow field. In this way, if we start at many different initial points, we can generate a family of solution curves that qualitatively describe the behaviour specified by the ODE.
 
-It is important to note however, that whilst the flow field method is incredibly useful for plotting trajectories by hand, it is an approximate method. Since we can only plot a finite number of line segments some approximation will always be introduced. Usually however, solutions accurate enough to gain a reasonable understanding of the ODE can be achieved, and in general, the more line segments we plot the more accurate our sketches will be. By hand this can be time consuming, utilising a computer however, it is not so difficult.
+It is important to note, however, that whilst the flow field method is incredibly useful for plotting trajectories by hand, it is an approximate method: since we can only plot a finite number of line segments some approximation will always be introduced. Usually however, solutions accurate enough to gain a reasonable understanding of the ODE can be achieved, and in general, the more line segments we plot the more accurate our sketches will be. By hand this can be time consuming, utilising a computer however, it is not so difficult.
 
-Some texts on phase plane methods would here discuss the concept of isoclines, defined as lines across which $dy/dt$ is constant, i.e.
+Note also that some texts on phase plane methods would here discuss the concept of isoclines, defined as lines across which $dy/dt$ is constant, i.e., where $f(y)=\alpha$ for different values of $\alpha$. These lines are used in the same manner as the small line segments of the flow field, since we know the angle at which solution curves should cut them. They however are more useful in the setting of non-autonomous ODEs, and thus we will make little further mention of them.
 
-$$ f(y)=\alpha,$$
-
-for different values of $\alpha$. These lines are used in the same manner as the small line segments of the flow field, since we know the angle at which solution curves should cut them. They however are more useful in the setting of non-autonomous ODEs, and thus we will make little further mention of them.
-
-Additionally, some texts advise to plot the line segments at lengths reflecting the rate of change of $y$. However, by hand this will almost always be a very laborious task, whilst even with a computer if $f(y)$ takes a large range of values the resulting plot can become somewhat uninformative with obscuring arrows of great length, and other arrows of length too short to be useful. Thus, it is usually best to plot all line segments at some small arbitrary length.
-
+Additionally, some texts advise to plot the line segments at lengths reflecting the rate of change of $y$. However, by hand this will almost always be a very laborious task, whilst even with a computer if $f(y)$ takes a large range of values the resulting plot can become somewhat uninformative with obscuring arrows of great length and other arrows of length too short to be useful. Thus, it is usually best to plot all line segments at some small arbitrary length.
 
 As is often the case in mathematics, concepts can be more easily understood through an example. As such, consider now the ODE:
-
 $$ \frac{dy}{dt}=4-y^2, $$
+provided in the package as `example1()`. More information will be provided later on how to utilise the programs in __phaseR__, as well as how to specify your own systems. For now though, simply note the flow field produced below, and the multiple trajectories that follow it:
 
-provided in the package as `example1()`. More information will be provided later on how to utilise the programs in __phaseR__, as well as how to specify your own systems. For now though simply note the flow field produced below, and the multiple trajectories that follow it:
+```{r, echo = F, fig.dim = c(7, 5)}
+library(phaseR)
+example1_flowField  <- flowField(example1,
+                                 xlim   = c(0, 10), 
+                                 ylim   = c(-5, 5),
+                                 system = "one.dim",
+                                 add    = F)
+example1_trajectories <- trajectory(example1,
+                                    y0     = c(-4, -1, 1, 4),
+                                    tlim   = c(0, 10),
+                                    system = "one.dim",
+                                    add    = T)
+```
 
 #### Equilibrium points and stability
 
 We now turn our attention to the so-called equilibrium points of our autonomous ODE. These points are defined by the locations where:
-
 $$ f(y)=0. $$
-
-It is easy to understand why they are termed equilibrium points. Beginning at a point $y_*$ where $f(y_*)=0$, the system if unperturbed will remain at $y_*$ throughout its evolution. Their great importance lies in determining the long term behaviour of the ODE.
+It is easy to understand why they are termed equilibrium points. Beginning at a point $y_*$ where $f(y_*)=0$, the system if unperturbed will remain at $y_*$ throughout its evolution. The great importance of these points lies in determining the long-term behaviour of the ODE.
 
 Considering our example ODE $dy/dt=4-y^2$ again, it is a simple matter to find its equilibrium points:
-
 $$ f(y_*)=0 \Rightarrow 4-y_*^2=0 \Rightarrow (2-y_*)(2+y_*)=0 \Rightarrow y_*=-2,2.$$
-
-For the equilibrium points however, just as much as we are interested in their location, we are interested in whether they are stable or unstable. Here, informally, being stable means that if the system is placed a small distance away from the equilibrium point, it will remain close to this equilibrium point. Whilst being unstable means a small perturbation away from the equilibrium point causes the solution to diverge large distances away. More precisely, the definition of stability can be stated as:
-
-if for every $\epsilon>0$, there exists $\delta>0$ such that whenever $|y(0)-y_*|<\delta$ then $|y(t)-y_*|<\epsilon$ for all $t$
+For the equilibrium points however, just as much as we are interested in their location, we are interested in whether they are stable or unstable. Here, informally, being stable means that if the system is placed a small distance away from the equilibrium point, it will remain close to this equilibrium point. Whilst being unstable means a small perturbation away from the equilibrium point causes the solution to diverge large distances away. More precisely, the definition of stability can be stated as: if for every $\epsilon>0$, there exists $\delta>0$ such that whenever $|y(0)-y_*|<\delta$ then $|y(t)-y_*|<\epsilon$ for all $t$.
 
 Classically, to determine the stability of any located equilibrium points, we have two options. The first method is the phase portrait. Indeed, our earlier decision to restrict our attention to autonomous systems was motivated by the condition required for phase portrait analysis: when we remove time dependence from our systems evolution, it allows us to collapse our qualitative analysis from the $t$-$y$ plane to simply considering how $f(y)$ varies with $y$.
 
 So, in phase portrait analysis, we first plot $f(y)$ against $y$. From the definition of our autonomous ODE it should be easy to see that whenever $f(y)>0$, $y$ will increase. Whilst whenever $f(y)<0$, $y$ will decrease. Moreover, the locations where $f(y)$ cross the $y$-axis are exactly the equilibrium points (thus this plot can be useful for locating equilibrium points). Therefore, we can represent the evolution of $y$ in this plot by simply placing arrows along the $y$-axis indicating whether $y$ would be increasing or decreasing. Then, the cases where arrows either side of an equilibrium point towards each other denote stability, whilst when they point away they denote instability.
 
-Again, as an example we consider the system $dy/dt=4-y^2$. Plotting $f(y)=4-y^2$ against $y$ and adding arrows as described we acquire the following graph
+Again, as an example we consider the system $dy/dt=4-y^2$. Plotting $f(y)=4-y^2$ against $y$ and adding arrows as described we acquire the following graph:
+
+```{r, echo = F, fig.dim = c(7, 5)}
+library(phaseR)
+example1_phasePortrait  <- phasePortrait(example1,
+                                         ylim   = c(-5, 5))
+```
 
 Thus, we can see that the equilibrium point $y_*=2$ is stable, whilst $y_*=-2$ is unstable. Indeed, looking back at the trajectories we plotted earlier, we can observe that solutions do converge towards $y=2$, but away from $y=-2$.
 
-Moreover, we now note an important consequence of requiring f to be continuous and differentiable; that the solution curves cannot touch each other (except to converge at equilibrium points). This is because these conditions on f guarantee solutions to autonmous ODEs are unique. We can observe in our earlier plot of several trajectories of the system $dy/dt=4-y^2$ that this is indeed the case.
+Moreover, we now note an important consequence of requiring $f$ to be continuous and differentiable: that the solution curves cannot touch each other (except to converge at equilibrium points). This is because these conditions on $f$ guarantee solutions to autonmous ODEs are unique. We can observe in our earlier plot of several trajectories of the system $dy/dt=4-y^2$ that this is indeed the case.
 
-Our second option to perform such stability analysis comes from utilising the Taylor Series expansion of $f$. We begin by supposing we are a small distance $\delta(0)$ away from our fixed point $y_*$, i.e., $y(0)=y_*+\delta(0)$, and in general that $y(t)=y_*+\delta(t)$. Then we can write the Taylor Series of $f$ as
-
+Our second option to perform such stability analyses comes from utilising the Taylor Series expansion of $f$. We begin by supposing we are a small distance $\delta(0)$ away from our fixed point $y_*$, i.e., $y(0)=y_*+\delta(0)$, and in general that $y(t)=y_*+\delta(t)$. Then we can write the Taylor Series of $f$ as:
 $$ f(y_*+\delta)=f(y_*)+\delta\frac{\partial f}{\partial y}(y_*)+o(\delta), $$
-
-assuming higher order terms can be neglected. Recalling $f(y_*)=0$, our autonomous ODE becomes
-
+assuming higher order terms can be neglected. Recalling $f(y_*)=0$, our autonomous ODE becomes:
 $$ \frac{d}{dt}(y_*+\delta)=\delta\frac{\partial f}{\partial y}(y_*) \Rightarrow \frac{d\delta}{dt}=\delta\frac{\partial f}{\partial y}(y_*)=k\delta. $$
-
-This ODE for $\delta$ can be solved easily to give $\delta(t)=\delta(0)e^{kt}$. Then stability can be found based upon whether $\delta(t)$ grows or decays as $t$ increases, i.e., we have
-
+This ODE for $\delta$ can be solved easily to give $\delta(t)=\delta(0)e^{kt}$. Then stability can be found based upon whether $\delta(t)$ grows or decays as $t$ increases, i.e., we have:
 $$ k = \frac{\partial f}{\partial y}(y_*)\begin{cases} > 0 &: \ \text{Stable},\\ < 0 &: \ \text{Unstable}.  \end{cases} $$
+Here, $k$ is sometimes referred to as the discriminant, whilst this approach is often referred to as perturbation analysis.
 
-Here, $k$ here is sometimes referred to as the discriminant, whilst this approach is often referred to as Perturbation Analysis.
-
-Returning to our example ODE again, we can perform such analysis easily
-
+Returning to our example ODE again, we can perform such analysis easily:
 $$ \frac{\partial f}{\partial y}(y_*) = -2y_*= \begin{cases} -4 &: \ y_*=2, \\ +4 &: \ y_* = -2. \end{cases}$$
-
 Thus we draw the same conclusion as before; $y_*=2$ is stable, and $y_*=-2$ is unstable. We will see later how one of the programs in __phaseR__ can perform this stability analysis for us.
 
-It should now be clear that we can clearly state if $y(0)>2$ or $0<y(0)<2$; the solution will eventually approach $y=2$. However, if $y(0)<0$, $y\rightarrow-\infty$ as $t\rightarrow\infty$ Such general statements can often be made as a result of the above analysis.
+It should now be clear that we can clearly state if $y(0)>2$ or $0<y(0)<2$ then the solution will eventually approach $y=2$. However, if $y(0)<0$, $y\rightarrow-\infty$ as $t\rightarrow\infty$. Such general statements can often be made as a result of the phase plane analyses.
 
-It is worthwhile noting here that if we find
-
+It is worthwhile noting here that if we find:
 $$ \frac{\partial f}{\partial y}(y_*)=0, $$
-
 then to this order of the Taylor Series no conclusion can be drawn about stability. 
 
-So, now we have observed all of the key components required to perform a qualitative analysis upon a one dimensional autonomous ODE. We begin by plotting the flow field, and from this several trajectories. We then identify the equilibrium points and choose a method to determine their stability. All such techniques are available in this package, and we will later discuss how to implement them. First however, we will discuss how these methods can be generalised to coupled ODEs.
+So, we have now observed all of the key components required to perform a qualitative analysis upon a one-dimensional autonomous ODE. We begin by plotting the flow field, and from this several trajectories. We then identify the equilibrium points and choose a method to determine their stability. All such techniques are available in this package, and we will later discuss how to implement them. First, however, we will discuss how these methods can be generalised to coupled ODEs.
  
-## First order dynamical systems in two dimensions
+## First order two-dimensional dynamical systemss
 
-####  Autonomous Ordinary Differential Equations in Two Dimensions
+#### Autonomous two-dimensional ordinary differential equations
 
-As may well be expected, things get substantially more complex in the world of coupled ODEs; very rarely can such systems be solved analytically. Unfortunately, the analysis of many real life systems does involve interacting variables, and so these systems are not uncommon. Here, the first restriction we make is to the case of two dimensional (or two variable) systems; a necessity for the following techniques to be possible (this is often considered a disadvantage of phase plane methods; that they cannot be generalised to more than two dimensions. Fortunately however, many systems can be approximated to two dimensions). These systems can be written in their most general form as
-
+As may well be expected, things get substantially more complex in the world of coupled ODEs; very rarely can such systems be solved analytically. Unfortunately, the analysis of many real life systems does involve interacting variables, and so these systems are not uncommon. Here, the first restriction we make is to the case of two-dimensional (or two variable) systems; a necessity for the following techniques to be implementable (this is often considered a disadvantage of phase plane methods; that they cannot be generalised to more than two dimensions. Fortunately however, many systems can be approximated to two dimensions). These systems can be written in their most general form as:
 $$ \frac{dx}{dt}=f(x,y,t),\ \frac{dy}{dt}=g(x,y,t), $$
-
-for $x=x(t)$ and $y=y(t)$. In this most general case numerical solution would almost certainly be the only way forward. However, if we again make the restriction to autonomous systems, the phase plane methods from one dimension can be generalised to avoid the need for numerical integration. Following the same route as in the one dimensional case, an autonomous system can be written for two coupled ODEs as
-
+for $x=x(t)$ and $y=y(t)$. In this most general case numerical solution would almost certainly be the only way forward. However, if we again make the restriction to autonomous systems, the phase plane methods from one dimension can be generalised to avoid the need for numerical integration. Following the same route as in the one-dimensional case, an autonomous system can be written for two coupled ODEs as:
 $$ \frac{dx}{dt}=f(x,y),\ \frac{dy}{dt}=g(x,y). $$
+As before, the definition of the flow field (more commonly, and from here on out, referred to as the velocity field) and equilibrium points, as well as their stability, will be important. Here however, we also meet the concept of nullclines and stable/unstable manifolds. Again, we formally require that $f$ and $g$ are continuous, (and now) partially differentiable functions.
 
-As before, the definition of the flow field (more commonly, and from here on out, referred to as the velocity field) and equilibrium points, as well as their stability will be important. Here however, we also meet the concept of nullclines and stable/unstable manifolds. Again, technically we require that $f$ and $g$ are continuous, (and now) partially differentiable functions.
-
-Before we proceed to discuss the generalisation of our earlier techniques to this two dimensional system, it is useful to note that certain second order ODEs can indeed be re-cast by variable substitution into a system of the type above. Indeed, consider the second order ODE given by:
-
+Before we proceed to discuss the generalisation of our earlier techniques to such two-dimensional systems, it is useful to note that certain second order ODEs can indeed be re-cast by variable substitution into a system of the type above. Indeed, consider the second order ODE given by:
 $$ a(y)\frac{d^2y}{dt} + b(y)\frac{dy}{dt} + c(y) = 0. $$
-
 We make the substitution $x=dy/dt$ and re-write our system as:
-
 $$ \frac{dy}{dt} = x,\ \frac{dx}{dt} = \frac{1}{a(y)}\{-b(y)x-c(y)\}. $$
-
 In this way, it is actually possible to analyse the behaviour of certain second order ODEs using the methods for coupled first order ODEs.
 
 #### The velocity field
@@ -317,7 +303,7 @@ drawManifolds(deriv, y0 = NULL, parameters = NULL,
 
 This function allows the user to plot the stable and unstable manifolds of a saddle point. The following inputs can be set:
 
-- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. More discussion of the required structure of these functions is supplied at the end of this Chapter.
+- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. More discussion of the required structure of these functions is supplied at the end of this section.
 - `y0`: The initial point from which a saddle will be searched for. This can either be a vector of length two reflecting the location of the two dependent variables initially, or it can be left blank and the user can use `locator()` to specify the initial point on a plot.
 - `parameters`: Parameters of the ODE system, to be passed to `deriv`. Supplied as a vector; the order of the parameters can be found from the `deriv` file. Defaults to `NULL`.
 - `tend`: The final time of the numerical integration performed to identify the manifolds.
@@ -339,7 +325,7 @@ findEquilibrium(deriv, y0 = NULL, parameters = NULL,
 
 This function allows the user to search for an equilibrium point. The following inputs can be set:
 
-- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. More discussion of the required structure of these functions is supplied at the end of this Chapter.
+- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. More discussion of the required structure of these functions is supplied at the end of this section.
 - `y0`: The initial point from which a saddle will be searched for. This can either be a vector of length two reflecting the location of the two dependent variables initially, or it can be left blank and the user can use `locator()` to specify the initial point on a plot.
 - `parameters`: Parameters of the ODE system, to be passed to `deriv`. Supplied as a vector; the order of the parameters can be found from the `deriv` file. Defaults to `NULL`.
 - `system`: Set to either `"one.dim"` or `"two.dim"` to indicate the type of system being analysed. Defaults to `"two.dim"`.
@@ -369,7 +355,7 @@ flowField(deriv, xlim, ylim, parameters = NULL,
 
 This function allows the user to plot the flow or velocity field for a one or two dimensional autonomous ODE system. The following inputs can be set:
 
-- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. More discussion of the required structure of these functions is supplied at the end of this Chapter.
+- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. More discussion of the required structure of these functions is supplied at the end of this section.
 - `xlim`: In the case of a two dimensional system, this sets the limits of the first dependent variable in which gradient reflecting line segments should be plotted. In the case of a one dimensional system, this sets the limits of the independent variable in which these line segments should be plotted. Should be a vector of length two.
 - `ylim`: In the case of a two dimensional system this sets the limits of the second dependent variable in which gradient reflecting line segments should be plotted. In the case of a one variable system, this sets the limits of the dependent variable in which these line segments should be plotted. Should be a vector of length two.
 - `parameters`: Parameters of the ODE system, to be passed to `deriv`. Supplied as a vector; the order of the parameters can be found from the `deriv` file. Defaults to `NULL`.
@@ -402,7 +388,7 @@ nullclines(deriv, xlim, ylim, parameters = NULL,
 
 This function allows the user to plot nullclines for two dimensional autonomous ODE systems. Or it can be used to plot horizontal lines at equilibrium points for one dimensional autonomous ODE systems. The following inputs can be set:
 
-- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. More discussion of the required structure of these functions is supplied at the end of this Chapter.
+- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. More discussion of the required structure of these functions is supplied at the end of this section.
 - `xlim`: In the case of a two dimensional system, this sets the limits of the first dependent variable in which gradient reflecting line segments should be plotted. In the case of a one dimensional system, this sets the limits of the independent variable in which these line segments should be plotted. Should be a vector of length two.  
 - `ylim`: In the case of a two dimensional system this sets the limits of the second dependent variable in which gradient reflecting line segments should be plotted. In the case of a dimensional system, this sets the limits of the dependent variable in which these line segments should be plotted. Should be a vector of length two.
 - `parameters`: Parameters of the ODE system, to be passed to `deriv`. Supplied as a vector; the order of the parameters can be found from the `deriv` file. Defaults to `NULL`.
@@ -431,7 +417,7 @@ numericalSolution(deriv, y0 = NULL, tlim, tstep = 0.01,
 
 Used for two dimensional systems, this function numerically solves the autonomous ODE system for a given initial condition. It then plots the dependent variables against the independent variable. The following inputs can be set:
 
-- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. More discussion of the required structure of these functions is supplied at the end of this Chapter.
+- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. More discussion of the required structure of these functions is supplied at the end of this section.
 - `y0`: The initial condition. Should be a vector of length two reflecting the location of the two dependent variables initially.
 - `tlim`: A vector of length 2 containing the values of the independent variable to begin and end the numerical integration at.
 - `tstep`: The step length of the independent variable, used in numerical integration. Decreasing `tstep` theoretically makes the numerical integration more accurate, but increases computation time. Defaults to `0.01`.
@@ -460,7 +446,7 @@ phasePlaneAnalysis(deriv, xlim, ylim, tend = 100,
 
 This function allows the user to perform a basic phase plane analysis and produce a simple plot without the need to use the other functions directly. Specifically, a list is provided and the user inputs a value to the console to decide what is added to the plot. The following inputs can be set:
 
-- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. More discussion of the required structure of these functions is supplied at the end of this Chapter.
+- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. More discussion of the required structure of these functions is supplied at the end of this section.
 - `xlim`: In the case of a two dimensional system, this sets the limits of the first dependent variable in which gradient reflecting line segments should be plotted. In the case of a one dimensional system, this sets the limits of the independent variable in which these line segments should be plotted. Should be a vector of length two.  
 - `ylim`: In the case of a two dimensional system this sets the limits of the second dependent variable in which gradient reflecting line segments should be plotted. In the case of a dimensional system, this sets the limits of the dependent variable in which these line segments should be plotted. Should be a vector of length two.
 - `tend`: The final time of the numerical integration performed to identify the manifolds.
@@ -479,7 +465,7 @@ phasePortrait(deriv, ylim, ystep = 0.01, parameters = NULL,
 
 For a one dimensional autonomous ODE, it plots the phase portrait, i.e., the derivative against the dependent variable. In addition, along the dependent variable axis it plots arrows pointing in the direction of dependent variable change with increasing value of the independent variable. From this stability of equilibrium points (i.e., locations where the horizontal axis is crossed) can be determined:
 
-- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. More discussion of the required structure of these functions is supplied at the end of this Chapter.
+- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. More discussion of the required structure of these functions is supplied at the end of this section.
 - `ylim`: Sets the limits of the dependent variable for which the derivative should be computed and plotted. Should be a vector of length two.
 - `ystep`: Sets the step length of the dependent variable vector for which derivatives are computed and plotted. Decreasing `ystep` makes the resulting plot more accurate, but comes at a small cost to computation time. Defaults to `0.01`.
 - `parameters`: Parameters of the ODE system, to be passed to `deriv`. Supplied as a vector; the order of the parameters can be found from the `deriv` file. Defaults to `NULL`.
@@ -506,7 +492,7 @@ stability(deriv, ystar = NULL, parameters = NULL,
 
 Uses stability analysis to classify equilibrium points. Uses the Taylor Series approach (also known as Perturbation Analysis) to classify equilibrium points of a one dimensional autonomous ODE system, or the Jacobian approach to classify equilibrium points of a two dimensional autonomous ODE system. The following inputs can be set:
 
-- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. More discussion of the required structure of these functions is supplied at the end of this Chapter.
+- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. More discussion of the required structure of these functions is supplied at the end of this section.
 - `ystar`: The point at which to perform stability analysis. For a one variable system this should be a single number, for a two variable system this should be a vector of length two (i.e. presently only one equilibrium points stability can be evaluated at a time). Alternatively this can be left blank and the user can use locator to choose a point to perform the analysis. However, given you are unlikely to locate exactly the equilibrium point, if possible enter `ystar` yourself. Defaults to `NULL`.
 - `parameters`: Parameters of the ODE system, to be passed to `deriv`. Supplied as a vector; the order of the parameters can be found from the `deriv` file. Defaults to `NULL`.
 - `system`: Set to either `"one.dim"` or `"two.dim"` to indicate the type of system being analysed. Defaults to `"two.dim"`.
@@ -532,7 +518,7 @@ trajectory(deriv, y0 = NULL, n = NULL, tlim, tstep = 0.01,
 
 This function allows the user to plot trajectories by performing numerical integration of the chosen ODE system, for a user specifiable range of initial conditions. The following inputs can be set:
 
-- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. More discussion of the required structure of these functions is supplied at the end of this Chapter.
+- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. More discussion of the required structure of these functions is supplied at the end of this section.
 - `y0`: The initial condition(s). In the case of a one dimensional system, this can either be a single number indicating the location of the dependent variable initially, or a vector indicating multiple initial locations of the independent variable. In the case of a two dimensional system, this can either be a vector of length two reflecting the location of the two dependent variables initially. Or it can be matrix where each row reflects a different initial condition. Alternatively this can be left blank and the user can use `locator()` to specify initial condition(s) on a plot. In this case, for one dimensional systems, all initial conditions are taken at the first value of the vector `tlim`, even if not selected so on the graph. Defaults to `NULL`.
 - `n`: If `y0` is left `NULL` so initial conditions can be specified using `locator()`, `n` sets the number of initial conditions to be chosen. Defaults to `NULL`.
 - `tlim`: A vector of length 2 containing the values of the independent variable to begin and end the numerical integration at.
@@ -602,7 +588,7 @@ derivative <- function(t, y, parameters) {
 }
 ```
 
-Things are slightly simpler for one dimensional systems, where no such vector considerations need to be made. We would for example create a derivative function for the system:
+Things are slightly simpler for one-dimensional systems, where no such vector considerations need to be made. We would for example create a derivative function for the system:
 
 $$ \frac{dy}{dt}=a(b-3-y)^2, $$
 
@@ -619,7 +605,7 @@ derivative <- function(t, y, parameters) {
 
 ## Examples
 
-Within phaseR numerous example systems are available. Here we will analyse some of them, as an indication of how to perform phase plane analysis by hand, and with the help of phaseR. The language is again at times deliberatively repetitive; here to indicate how a general procedure can be used when performing analysis. It is not a useful exercise for me to provide inferior hand drawn plots, only ones produced by phaseR are shown. It is in addition useful to note that the small circles on the trajectory plots indicate initial conditions specified by the user.
+Within __phaseR__ numerous example systems are available. Here we will analyse some of them, as an indication of how to perform phase plane analysis by hand, and with the help of phaseR. The language is again at times deliberatively repetitive; here to indicate how a general procedure can be used when performing analysis. It is not a useful exercise for me to provide inferior hand drawn plots, only ones produced by phaseR are shown. It is in addition useful to note that the small circles on the trajectory plots indicate initial conditions specified by the user.
 
 ### `example2()`
 
@@ -1028,109 +1014,93 @@ It appears that the solutions are bounded, and indeed oscillate as the name sugg
 
 ## Additional available systems
 
-As well as those studied earlier, numerous other derivative functions for one and two dimensional systems are available in __phaseR__. This chapter provides a list of them. In some instances further explanation of the models is provided in their respective exercises at the end of this vignette. Again, parameters are specified in the order they appear in the model; for ultimate clarify see the help page for the function with R.
+As well as those studied earlier, numerous other derivative functions for one- and two-dimensional systems are available in __phaseR__. This section provides a list of them. In some instances further explanation of the models is provided in their respective exercises at the end of this vignette. Again, parameters are specified in the order they appear in the model; for ultimate clarify see the help page for the function within R.
 
 ### `exponential()`
 
-The exponential growth model, often used in Biology and Chemistry to model growth and decay of biological or chemical species, is given by:
-
+The exponential growth model, often used in biology and chemistry to model growth and decay of biological or chemical species, is given by:
 $$ \frac{dy}{dt} = \beta y. $$
 
 ### `monomolecular()`
 
-The monomolecular growth model, often used to model the heating and cooling of objects, or to model physiological processes, is given by
-
+The monomolecular growth model, often used to model the heating and cooling of objects, or to model physiological processes, is given by:
 $$ \frac{dy}{dt} = \beta(K-y). $$
 
 ### `vonBertalanffy()`
 
-The von Bertalanffy model, often used in Biology to model the growth of organisms, is given by
-
+The von Bertalanffy model, often used in Biology to model the growth of organisms, is given by:
 $$ \frac{dy}{dt} = \alpha y^{2/3} - \beta y. $$
 
 ### `example3()`
 
-Function `example3()` is a linear two dimensional system given by
-
+Function `example3()` is a linear two-dimensional system given by:
 $$ \frac{dx}{dt}=-x,\ \frac{dy}{dt} = -4x. $$
 
 ### `example6()`
 
-Function `example6()` is a linear two dimensional system given by
-
+Function `example6()` is a linear two-dimensional system given by:
 $$ \frac{dx}{dt}=x+2y,\ \frac{dy}{dt} = -2x+y. $$
 
 ### `example7()`
 
-Function `example7()` is a linear two dimensional system given by
-
+Function `example7()` is a linear two-dimensional system given by:
 $$ \frac{dx}{dt}=-x-y,\ \frac{dy}{dt} = 4x+y. $$
 
 ### `example9()`
 
-Function `example9()` is a linear two dimensional system given by
-
+Function `example9()` is a linear two-dimensional system given by:
 $$ \frac{dx}{dt}=-2x+3y,\ \frac{dy}{dt} = 7x+6y. $$
 
 ### `example10()`
 
-Function `example10()` is a non-linear two dimensional system given by
-
+Function `example10()` is a non-linear two-dimensional system given by:
 $$ \frac{dx}{dt}=-x+x^3,\ \frac{dy}{dt} = -2y. $$
 
 ### `example13()`
 
-Function `example13()` is a non-linear two dimensional system given by:
-
+Function `example13()` is a non-linear two-dimensional system given by:
 $$ \frac{dx}{dt} = 2-x^2-y^2,\ \frac{dy}{dt} = x^2-y^2. $$
 
 ### `example14()`
 
-Function `example14()` is a non-linear two dimensional system given by:
-
+Function `example14()` is a non-linear two-dimensional system given by:
 $$ \frac{dx}{dt} = x^2-y-10,\ \frac{dy}{dt} = -3x^2+xy. $$
 
 ### `example15()`
 
-Function `example15()` is a non-linear two dimensional system given by:
-
+Function `example15()` is a non-linear two-dimensional system given by:
 $$ \frac{dx}{dt} = x^2-3xy+2x,\ \frac{dy}{dt} = x+y-1. $$
 
 ### `lindemannMechanism()`
 
-The non-dimensional version of the Lindemann Mechanism, used for gas-phase unimolecular reaction modelling, can be written in the form
-
+The non-dimensional version of the Lindemann mechanism, used for gas-phase unimolecular reaction modelling, can be written in the form:
 $$ \frac{dx}{dt} = -x^2 + \alpha xy,\ \frac{dy}{dt} = x^2 - \alpha xy - y. $$
 
 ### `SIR()`
 
-The SIR model for the spread of an infectious disease can be written in the form
-
+The SIR model for the spread of an infectious disease can be written in the form:
 $$ \frac{dx}{dt} = -\beta xy,\ \frac{dy}{dt} = βxy-νy. $$
 
 ### `lotkaVolterra()`
 
-The Lotka-Volterra model, used to model interacting species of predator and prey in Biology, is given by
-
+The Lotka-Volterra model, used to model interacting species of predator and prey in Biology, is given by:
 $$ \frac{dx}{dt} = \lambda x - \epsilon xy,\ \frac{dy}{dt} = -\delta y + \eta xy. $$
 
 ### `competition()`
 
-A simple two species competition model, used in Ecology, is given by
-
+A simple two species competition model, used in ecology, is given by:
 $$ \frac{dx}{dt} = r_1 x\left(\frac{K_1-x-\alpha_{12} y}{K_1} \right),\      \frac{dy}{dt} = r_2 y\left(\frac{K_2-y-\alpha_{21} x}{K_2} \right). $$
 
 ### `toggle()`
 
 A simple model for a genetic toggle switch is given by:
-
 $$ \frac{dx}{dt} = -x+\frac{\alpha}{1+y^\beta},\ \frac{dy}{dt} = -y+\frac{\alpha}{1+x^\gamma}. $$
 
 ### `morrisLecar()`
 
-The Morris-Lecar model is a biological neuron model developed to reproduce the variety of oscialltory behaviour in relation to $C_a^{++}$ and $K+$ conductance in the giant barnacle muscle fiber. It is given by
-
-$$ \begin{align*} \frac{dx}{dt} &= \frac{1}{20}\left[90 - 0.5g_{C_a}\left\{1+\tanh\left(\frac{x+1.2}{18}\right)\right\}(x-120) - 8y(x+84) - 2(x+60)\right],\\ \frac{dy}{dt} &= \phi\left[0.5\left\{1+\tanh\left(\frac{x-2}{30}\right)\right\}-y\right]\cosh\left(\frac{x-2}{60}\right). \end{align*} $$
+The Morris-Lecar model is a biological neuron model developed to reproduce the variety of oscialltory behaviour in relation to $C_a^{++}$ and $K+$ conductance in the giant barnacle muscle fiber. It is given by:
+$$ \begin{align*} \frac{dx}{dt} &= \frac{1}{20}\left[90 - 0.5g_{C_a}\left\{1+\tanh\left(\frac{x+1.2}{18}\right)\right\}(x-120) - 8y(x+84) - 2(x+60)\right],\\ \frac{dy}{dt} &= \phi\left[0.5\left\{1+\tanh\left(\frac{x-2}{30}\right)\right\}-y\right]\cosh\left(\frac{x-2}{60}\right).
+\end{align*} $$
 
 ## Exercises
 
@@ -1142,39 +1112,33 @@ Reproduce the plots and stability analysis of `example1()` given in this guide u
 
 ### Exercise 2
 
-In Biology, the exponential growth model is used, for example, to model the growth or decline of a population. Qualitatively analyse it using the function `exponential()`. Restrict attention to the case $y(0)>0$ and take $\beta=1$. Where is the equilibrium point? What happens as you change the sign of $\beta$? What conclusions can we draw in general about this model? How does the sign of $\beta$ reflect the biological system we may be modelling? Perform the analysis both yourself, and provide code for checking your results using __phaseR__.
+In biology, the exponential growth model is used, for example, to model the growth or decline of a population. Qualitatively analyse it using the function `exponential()`. Restrict attention to the case $y(0)>0$ and take $\beta=1$. Where is the equilibrium point? What happens as you change the sign of $\beta$? What conclusions can we draw in general about this model? How does the sign of $\beta$ reflect the biological system we may be modelling? Perform the analysis both yourself, and provide code for checking your results using __phaseR__.
 
 ### Exercise 3
 
-The monomolecular growth model assumes that the rate of change of a function, is proportional to the difference between its current value and some hypothetical value $K$, i.e.
-
+The monomolecular growth model assumes that the rate of change of a function, is proportional to the difference between its current value and some hypothetical value, $K$ say, i.e.:
 $$ \frac{dy}{dt} = \beta(K-y). $$
-
-Qualitatively analyse this model using the derivative function monomolecular. Restrict attention to the case $y(0)>0$, and begin with the values $\beta=1$, $K=3$. Where is the equilibrium point? What happens when you change the sign of $\beta$? How does the sign of $\beta$ reflect the biological system we may be modelling? Perform the analysis both yourself, and provide code for checking your results using __phaseR__.
+Qualitatively analyse this model using the derivative function `monomolecular()`. Restrict attention to the case $y(0)>0$, and begin with the values $\beta=1$, $K=3$. Where is the equilibrium point? What happens when you change the sign of $\beta$? How does the sign of $\beta$ reflect the biological system we may be modelling? Perform the analysis both yourself, and provide code for checking your results using __phaseR__.
 
 ### Exercise 4
 
-von Bertalanffy assumed that an organism would gain material by anabolic processes, proportional to surface area. In addition, material would be lost by catabolic processes, proportional to weight. Since weight is related to surface area by a 2/3 power, his ODE for rate of change of weight $y$ therefore was
-
+von Bertalanffy assumed that an organism would gain material by anabolic processes, proportional to surface area. In addition, material would be lost by catabolic processes, proportional to weight. Since weight is related to surface area by a 2/3 power, his ODE for rate of change of weight $y$ was therefore:
 $$ \frac{dy}{dt} = \alpha y^{2/3} - \beta y. $$
-
 Qualitatively analyse this model using the derivative function `vonBertanalffy()`. Restrict attention to the case $y(0)>0$, and begin with the values $\alpha=2$, $\beta=1$. Where are the equilibrium points? Are they stable? Perform the analysis both yourself, and provide code for checking your results using __phaseR__.
 
 ### Exercise 5
 
 Create your own derivative function, as explained earlier, for the ODE given by:
-
 $$ \frac{dy}{dt} = \sin(y). $$
-
-Focusing on the range $y\in[-2\pi,2\pi]$, perform a qualitative analysis yourself and provide code for checking your results using __phaseR__. Specifically, identify the location of the equilibria and classify them.
+Focusing on the range $y\in[-2\pi,2\pi]$, perform a qualitative analysis yourself and provide code for checking your results using __phaseR__. Specifically, identify the location of the equilibrium points and classify them.
 
 ### Exercise 6
 
-Repeat the example analysis Lotka-Volterra analysis from this guide, using the `lotkaVolterra()` function and the parameter values $\lambda=\epsilon=\delta=\eta=1$, using the programs available in __phaseR__.
+Repeat the example analysis of the Lotka-Volterra system from this guide, using the `lotkaVolterra()` function and the parameter values $\lambda=\epsilon=\delta=\eta=1$, along with the programs available in __phaseR__.
 
 ### Exercise 7
 
-For each of the following linear two dimensional systems, perform a phase plane analysis. Ensure to identify and plot the nullclines, and then plot the velocity field. From this add trajectories for several initial conditions. Then locate the equilibrium point(s) and determine their classification. Perform this analysis first by hand and then also provide code to check your results using __phaseR__.
+For each of the following linear two-dimensional systems, perform a phase plane analysis. Ensure to identify and plot the nullclines, and then plot the velocity field. From this add trajectories for several initial conditions. Then locate the equilibrium point(s) and determine their classification. Perform this analysis first by hand and then also provide code to check your results using __phaseR__.
 
 - `example3()`.
 - `example6()`.
@@ -1183,7 +1147,7 @@ For each of the following linear two dimensional systems, perform a phase plane 
 
 ### Exercise 8
 
-For each of the following non-linear two dimensional systems, perform a phase plane analysis. Ensure to identify and plot the nullclines, and then plot the velocity field. From this add trajectories for several initial conditions. Then locate the equilibrium point(s) and determine their classification. Perform this analysis first by hand and then also provide code to check your results using __phaseR__.
+For each of the following non-linear two-dimensional systems, perform a phase plane analysis. Ensure to identify and plot the nullclines, and then plot the velocity field. From this add trajectories for several initial conditions. Then locate the equilibrium point(s) and determine their classification. Perform this analysis first by hand and then also provide code to check your results using __phaseR__.
 
 - `example10()`.
 - `example13()`.
@@ -1194,38 +1158,34 @@ For each of the following non-linear two dimensional systems, perform a phase pl
 ### Exercise 9
 
 Create your own derivative function, as explained earlier, for the ODE system given by:
-
 $$ \frac{dx}{dt} = 6x-3y, \ \frac{dy}{dt} = 2x-y. $$
-
 Then perform a phase plane analysis; identifying and plotting nullclines, the velocity field, trajectories, and locating the equilibrium point and classifying it. Perform this analysis first by hand and then also provide code to check your results using __phaseR__.
 
 ### Exercise 10
 
 Create your own derivative function, as explained earlier, for the ODE system given by:
-
 $$ \frac{dx}{dt} = x^2+y^2-13,\ \frac{dy}{dt} = xy-2x-2y+4. $$
-
 Then perform a phase plane analysis; identifying and plotting nullclines, the velocity field, trajectories, and locating the equilibria and classifying them. Perform this analysis first by hand and also provide code to check your results using __phaseR__.
 
 ### Exercise 11
 
-Perform a phase plane analysis of the Lindemann Mechanism first by hand and then using the function `lindemannMechanism()` in __phaseR__. Where is the equilibrium point? Is it stable? How does thing depend on the value of the parameter α?
+Perform a phase plane analysis of the Lindemann mechanism, first by hand and then using the function `lindemannMechanism()` in __phaseR__. Where is the equilibrium point? Is it stable? How do things depend on the value of the parameter $\alpha$?
 
 ### Exercise 12
 
-Perform a phase plane analysis of the SIR epidemic model first by hand and then using the function `SIR()` in __phaseR__. Where are the equilibrium points and what is there stability? What does this mean biologically?
+Perform a phase plane analysis of the SIR epidemic model, first by hand and then using the function `SIR()` in __phaseR__. Where are the equilibrium points and what is their stability? What does this mean biologically?
 
 ### Exercise 13
 
-Perform a phase plane analysis of the Lotka Volterra model first by hand and then using the function `lotkaVolterra()` in __phaseR__. Restrict your attention to the case where all four parameters are positive. Where are the equilibrium points? Are they stable? What does this mean biologically?
+Perform a phase plane analysis of the Lotka-Volterra model, first by hand and then using the function `lotkaVolterra()` in __phaseR__. Restrict your attention to the case where all four parameters are positive. Where are the equilibrium points? Are they stable? What does this mean biologically?
 
 ### Exercise 14
 
-Perform a phase plane analysis of the Species Competition model first by hand and then using the function `competition()` in __phaseR__. Restrict your attention to the case where all four parameters are positive. Identify the four possible cases depending upon the parameter values. Where are the equilibrium points? Are they stable? What does this mean biologically?
+Perform a phase plane analysis of the species competition model, first by hand and then using the function `competition()` in __phaseR__. Restrict your attention to the case where all four parameters are positive. Identify the four possible cases depending upon the parameter values. Where are the equilibrium points? Are they stable? What does this mean biologically?
 
 ### Exercise 15
 
-Perform a phase plane analysis of the Genetic Toggle Switch model first by hand and then using the function `toggle()` in __phaseR__. Restrict your attention to the case where all three parameters are positive. Where are the equilibrium points? Are they stable? What does this mean biologically?
+Perform a phase plane analysis of the genetic toggle switch model, first by hand and then using the function `toggle()` in __phaseR__. Restrict your attention to the case where all three parameters are positive. Where are the equilibrium points? Are they stable? What does this mean biologically?
 
 ### Exercise 16
 

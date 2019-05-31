@@ -2,21 +2,28 @@
 % Please edit documentation in R/exponential.R
 \name{exponential}
 \alias{exponential}
-\title{The Exponential Growth Model}
+\title{The exponential growth model}
 \usage{
 exponential(t, y, parameters)
 }
 \arguments{
-\item{t}{The value of \ifelse{html}{\out{<i>t</i>}}{\eqn{t}}, the independent variable, to evaluate the derivative
-at. Should be a single number.}
+\item{t}{The value of \ifelse{html}{\out{<i>t</i>}}{\eqn{t}}, the independent
+variable, to evaluate the derivative at. Should be a
+\code{\link[base]{numeric}} \code{\link[base]{vector}} of
+\code{\link[base]{length}} one.}
 
-\item{y}{The value of \ifelse{html}{\out{<i>y</i>}}{\eqn{y}}, the dependent variable, to evaluate the derivative at.
-Should be a single number.}
+\item{y}{The value of \ifelse{html}{\out{<i>y</i>}}{\eqn{y}}, the dependent
+variable, to evaluate the derivative at. Should be a
+\code{\link[base]{numeric}} \code{\link[base]{vector}} of
+\code{\link[base]{length}} one.}
 
-\item{parameters}{The values of the parameters of the system. Should be a single number prescribing the value of \ifelse{html}{\out{<i>&beta;</i>}}{\eqn{\beta}}.}
+\item{parameters}{The values of the parameters of the system. Should be a
+\code{\link[base]{numeric}} \code{\link[base]{vector}} prescribing the value
+of \ifelse{html}{\out{<i>&beta;</i>}}{\eqn{\beta}}.}
 }
 \value{
-Returns a list containing the value of the derivative at \ifelse{html}{\out{(<i>t</i>, <i>y</i>)}}{\eqn{(t, y)}}.
+Returns a \code{\link[base]{list}} containing the value of the
+derivative at \ifelse{html}{\out{(<i>t</i>, <i>y</i>)}}{\eqn{(t, y)}}.
 }
 \description{
 The derivative function of the exponential growth model, an example of a one-
@@ -29,11 +36,12 @@ dimensional autonomous ODE system.
 \ifelse{html}{\out{<center><i>dy</i>/<i>dt</i> = <i>&beta;y</i>.</center>}}{
 \deqn{\frac{dy}{dt} = \beta y.}}
 
-Its format is designed to be compatible with \code{\link[deSolve]{ode}} from the \code{\link[deSolve]{deSolve}} package.
+Its format is designed to be compatible with \code{\link[deSolve]{ode}} from
+the \code{\link[deSolve]{deSolve}} package.
 }
 \seealso{
 \code{\link[deSolve]{ode}}
 }
 \author{
-Michael J. Grayling
+Michael J Grayling
 }
