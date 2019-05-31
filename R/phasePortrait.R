@@ -33,8 +33,8 @@
 #' @param col Sets the colour of the line in the plot, as well as the arrows.
 #' Will be reset accordingly if it is not a vector of length one. Defaults to
 #' "black".
-#' @param xlab Label for the x-axis of the resulting plot. Defaults to "y".
-#' @param ylab Label for the y-axis of the resulting plot. Defaults to "f(y)".
+#' @param xlab Label for the x-axis of the resulting plot.
+#' @param ylab Label for the y-axis of the resulting plot.
 #' @param add.grid Logical. If TRUE, a grid is added to the plot. Defaults to
 #' TRUE.
 #' @param \dots Additional arguments to be passed to either plot or arrows.
@@ -58,8 +58,8 @@
 #' 
 phasePortrait <- function(deriv, ylim, ystep = 0.01, parameters = NULL,
                           points = 10, frac = 0.75, arrow.head = 0.075,
-                          col = "black", xlab = "y", ylab = "f(y)",
-                          add.grid = TRUE, state.names = c("y"), ...){
+                          col = "black", add.grid = TRUE, state.names = c("y"), 
+                          xlab = state.names, ylab = paste0('d', state.names), ...){
     if ((!is.vector(ylim)) | (length(ylim) != 2)){
         stop("ylim is not a vector of length 2 as required")
     }

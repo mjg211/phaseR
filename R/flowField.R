@@ -41,8 +41,10 @@
 #' plots. Defaults to 1.
 #' @param add Logical. If TRUE, the flow field is added to an existing plot. If
 #' FALSE, a new plot is created. Defaults to TRUE.
-#' @param xlab Label for the x-axis of the resulting plot. Defaults to "x".
-#' @param ylab Label for the y-axis of the resulting plot. Defaults to "y".
+#' @param xlab Label for the x-axis of the resulting plot.
+#' @param ylab Label for the y-axis of the resulting plot.
+#' @param state.names State names for ode functions that do not use positional
+#' states.
 #' @param \dots Additional arguments to be passed to either plot or arrows.
 #' @inheritParams .paramDummy
 #' 
@@ -95,8 +97,10 @@
 #' 
 flowField <- function(deriv, xlim, ylim, parameters = NULL, system = "two.dim",
                       points = 21, col = "gray", arrow.type = "equal",
-                      arrow.head = 0.05, frac = 1, add = TRUE, xlab = "x",
-                      ylab = "y", state.names = c("x", "y"), ...){
+                      arrow.head = 0.05, frac = 1, add = TRUE, 
+                      state.names = if(system == "two.dim") c("x", "y") else "y", 
+                      xlab = if(system == "two.dim") state.names[1] else "t",
+                      ylab = if(system == "two.dim") state.names[2] else state.names[1], ...){
   if ((!is.vector(xlim)) | (length(xlim) != 2)){
     stop("xlim is not a vector of length 2 as required")
   }
@@ -147,7 +151,7 @@ flowField <- function(deriv, xlim, ylim, parameters = NULL, system = "two.dim",
   }
   if (system == "one.dim"){
     for (i in 1:points){
-      dy[1, i] <- deriv(0, setNames(c(y[i]), state.names[1]), parameters)[[1]]
+      dy[1, i] <- deriv(0, setNames(c(y[i]), state.names), parameters)[[1]]
     }
     for (i in 2:points){
       dy[i, ]   <- dy[1, ]

@@ -5,7 +5,8 @@
 \title{Phase Plane Analysis}
 \usage{
 phasePlaneAnalysis(deriv, xlim, ylim, tend = 100, parameters = NULL,
-  system = "two.dim", add = FALSE, state.names = c("x", "y"))
+  system = "two.dim", add = FALSE, state.names = if (system ==
+  "two.dim") c("x", "y") else "y")
 }
 \arguments{
 \item{deriv}{A function computing the derivative at a point for the ODE

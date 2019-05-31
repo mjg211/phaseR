@@ -6,8 +6,8 @@
 \usage{
 phasePortrait(deriv, ylim, ystep = 0.01, parameters = NULL,
   points = 10, frac = 0.75, arrow.head = 0.075, col = "black",
-  xlab = "y", ylab = "f(y)", add.grid = TRUE, state.names = c("y"),
-  ...)
+  add.grid = TRUE, state.names = c("y"), xlab = state.names,
+  ylab = paste0("d", state.names), ...)
 }
 \arguments{
 \item{deriv}{A function computing the derivative at a point for the ODE
@@ -43,15 +43,15 @@ Defaults to 0.075.}
 Will be reset accordingly if it is not a vector of length one. Defaults to
 "black".}
 
-\item{xlab}{Label for the x-axis of the resulting plot. Defaults to "y".}
-
-\item{ylab}{Label for the y-axis of the resulting plot. Defaults to "f(y)".}
-
 \item{add.grid}{Logical. If TRUE, a grid is added to the plot. Defaults to
 TRUE.}
 
 \item{state.names}{State names for ode functions that do not use positional
 states}
+
+\item{xlab}{Label for the x-axis of the resulting plot.}
+
+\item{ylab}{Label for the y-axis of the resulting plot.}
 
 \item{\dots}{Additional arguments to be passed to either plot or arrows.}
 }

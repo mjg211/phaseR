@@ -6,7 +6,8 @@
 \usage{
 nullclines(deriv, xlim, ylim, parameters = NULL, system = "two.dim",
   points = 101, col = c("blue", "cyan"), add = TRUE,
-  add.legend = TRUE, state.names = c("x", "y"), ...)
+  add.legend = TRUE, state.names = if (system == "two.dim") c("x", "y")
+  else "y", ...)
 }
 \arguments{
 \item{deriv}{A function computing the derivative at a point for the ODE

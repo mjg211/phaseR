@@ -6,8 +6,10 @@
 \usage{
 flowField(deriv, xlim, ylim, parameters = NULL, system = "two.dim",
   points = 21, col = "gray", arrow.type = "equal",
-  arrow.head = 0.05, frac = 1, add = TRUE, xlab = "x",
-  ylab = "y", state.names = c("x", "y"), ...)
+  arrow.head = 0.05, frac = 1, add = TRUE, state.names = if (system
+  == "two.dim") c("x", "y") else "y", xlab = if (system == "two.dim")
+  state.names[1] else "t", ylab = if (system == "two.dim") state.names[2]
+  else state.names[1], ...)
 }
 \arguments{
 \item{deriv}{A function computing the derivative at a point for the ODE
@@ -59,12 +61,12 @@ plots. Defaults to 1.}
 \item{add}{Logical. If TRUE, the flow field is added to an existing plot. If
 FALSE, a new plot is created. Defaults to TRUE.}
 
-\item{xlab}{Label for the x-axis of the resulting plot. Defaults to "x".}
-
-\item{ylab}{Label for the y-axis of the resulting plot. Defaults to "y".}
-
 \item{state.names}{State names for ode functions that do not use positional
-states}
+states.}
+
+\item{xlab}{Label for the x-axis of the resulting plot.}
+
+\item{ylab}{Label for the y-axis of the resulting plot.}
 
 \item{\dots}{Additional arguments to be passed to either plot or arrows.}
 }

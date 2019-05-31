@@ -5,7 +5,8 @@
 \title{Stability Analysis}
 \usage{
 stability(deriv, ystar = NULL, parameters = NULL, system = "two.dim",
-  h = 1e-07, summary = TRUE, state.names = c("x", "y"))
+  h = 1e-07, summary = TRUE, state.names = if (system == "two.dim")
+  c("x", "y") else "y")
 }
 \arguments{
 \item{deriv}{A function computing the derivative at a point for the ODE
