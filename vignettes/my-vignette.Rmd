@@ -1083,7 +1083,7 @@ $$ \frac{dx}{dt} = -\beta xy,\ \frac{dy}{dt} = βxy-νy. $$
 
 ### `lotkaVolterra()`
 
-The Lotka-Volterra model, used to model interacting species of predator and prey in Biology, is given by:
+The Lotka-Volterra model, used to model interacting species of predator and prey in biology, is given by:
 $$ \frac{dx}{dt} = \lambda x - \epsilon xy,\ \frac{dy}{dt} = -\delta y + \eta xy. $$
 
 ### `competition()`

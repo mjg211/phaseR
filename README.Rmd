@@ -27,7 +27,6 @@ library(phaseR)
 `r badger::badge_doi("10.32614/RJ-2014-023", "green")`
 `r badger::badge_devel("mjg211/phaseR", "blue")`
 `r badger::badge_code_size("mjg211/phaseR")`
-`r badger::badge_last_commit("mjg211/phaseR")`
 `r badger::badge_custom("contributions", "welcome", "blue")`
 
 ## Description
