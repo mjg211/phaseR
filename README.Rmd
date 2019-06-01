@@ -1,0 +1,40 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+[![cran
+version](http://www.r-pkg.org/badges/version/phaseR)](https://cran.r-project.org/package=phaseR)
+![](https://cranlogs.r-pkg.org/badges/phaseR)
+![](https://cranlogs.r-pkg.org/badges/grand-total/phaseR)
+`r badger::badge_code_size("mjg211/phaseR")`
+`r badger::badge_last_commit("mjg211/phaseR")`
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/dwyl/esta/issues)
+
+# phaseR
+
+__phaseR__ a qualitative analysis of one- and two-dimensional autonomous ODE systems, using phase plane methods. Programs are available to identify and classify equilibrium points, plot the direction field, and plot trajectories for multiple initial conditions. In the one-dimensional case, a program is also available to plot the phase portrait. Whilst in the two-dimensional case, programs are additionally available to plot nullclines and stable/unstable manifolds of saddle points. Many example systems are provided for the user.
+
+## Installation
+
+You can install the released version of __phaseR__ from [CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("phaseR")
+```
+
+Alternatively, the latest development version available on [GitHub](https://github.com/) can be installed with:
+
+``` r
+devtools::install_github("mjg211/phaseR")
+```
