@@ -2,7 +2,7 @@
 % Please edit documentation in R/flowField.R
 \name{flowField}
 \alias{flowField}
-\title{Flow Field}
+\title{Flow field}
 \usage{
 flowField(deriv, xlim, ylim, parameters = NULL, system = "two.dim",
   points = 21, col = "gray", arrow.type = "equal",
@@ -14,52 +14,58 @@ flowField(deriv, xlim, ylim, parameters = NULL, system = "two.dim",
 \arguments{
 \item{deriv}{A function computing the derivative at a point for the ODE
 system to be analysed. Discussion of the required format of these functions
-can be found in the package guide.}
+can be found in the package vignette, or in the help file for the
+function \code{\link[deSolve]{ode}}.}
 
-\item{xlim}{In the case of a two dimensional system, this sets the limits of
+\item{xlim}{In the case of a two-dimensional system, this sets the limits of
 the first dependent variable in which gradient reflecting line segments
-should be plotted. In the case of a one dimensional system, this sets the
+should be plotted. In the case of a one-dimensional system, this sets the
 limits of the independent variable in which these line segments should be
-plotted. Should be a vector of length two.}
+plotted. Should be a \code{\link[base]{numeric}} \code{\link[base]{vector}}
+of \code{\link[base]{length}} two.}
 
-\item{ylim}{In the case of a two dimensional system this sets the limits of
+\item{ylim}{In the case of a two-dimensional system this sets the limits of
 the second dependent variable in which gradient reflecting line segments
-should be plotted. In the case of a one variable system, this sets the
+should be plotted. In the case of a one-dimensional system, this sets the
 limits of the dependent variable in which these line segments should be
-plotted. Should be a vector of length two.}
+plotted. Should be a \code{\link[base]{numeric}} \code{\link[base]{vector}}
+of \code{\link[base]{length}} two.}
 
-\item{parameters}{Parameters of the ODE system, to be passed to deriv.
-Supplied as a vector; the order of the parameters can be found from the
-deriv file. Defaults to NULL.}
+\item{parameters}{Parameters of the ODE system, to be passed to \code{deriv}.
+Supplied as a \code{\link[base]{numeric}} \code{\link[base]{vector}}; the
+order of the parameters can be found from the \code{deriv} file. Defaults to
+\code{NULL}.}
 
-\item{system}{Set to either "one.dim" or "two.dim" to indicate the type of
-system being analysed. Defaults to "two.dim".}
+\item{system}{Set to either \code{"one.dim"} or \code{"two.dim"} to indicate
+the type of system being analysed. Defaults to \code{"two.dim"}.}
 
-\item{points}{Sets the density of the line segments to be plotted. points
-segments will be plotted in the x and y directions. Fine tuning here, by
-shifting points up and down, allows for the creation of more aesthetically
-pleasing plots. Defaults to 11.}
+\item{points}{Sets the density of the line segments to be plotted;
+\code{points} segments will be plotted in the x and y directions. Fine tuning
+here, by shifting \code{points} up and down, allows for the creation of more
+aesthetically pleasing plots. Defaults to \code{11}.}
 
-\item{col}{Sets the colour of the plotted line segments. Should be a vector
-of length one. Will be reset accordingly if it is a vector of the wrong
-length. Defaults to "gray".}
+\item{col}{Sets the colour of the plotted line segments. Should be a
+\code{\link[base]{character}} \code{\link[base]{vector}} of
+\code{\link[base]{length}} one. Will be reset accordingly if it is of the
+wrong \code{\link[base]{length}}. Defaults to \code{"gray"}.}
 
 \item{arrow.type}{Sets the type of line segments plotted. If set to
-"proportional" the length of the line segments reflects the magnitude of the
-derivative. If set to "equal" the line segments take equal lengths, simply
-reflecting the gradient of the derivative(s). Defaults to "equal".}
+\code{"proportional"} the \code{\link[base]{length}} of the line segments
+reflects the magnitude of the derivative. If set to \code{"equal"} the line
+segments take equal lengths, simply reflecting the gradient of the
+derivative(s). Defaults to \code{"equal"}.}
 
-\item{arrow.head}{Sets the length of the arrow heads. Passed to arrows.
-Defaults to 0.05.}
+\item{arrow.head}{Sets the length of the arrow heads. Passed to
+\code{\link[graphics]{arrows}}. Defaults to \code{0.05}.}
 
 \item{frac}{Sets the fraction of the theoretical maximum length line
 segments can take without overlapping, that they can actually attain. In
-practice, frac can be set to greater than 1 without line segments
+practice, \code{frac} can be set to greater than 1 without line segments
 overlapping. Fine tuning here assists the creation of aesthetically pleasing
-plots. Defaults to 1.}
+plots. Defaults to \code{1}.}
 
-\item{add}{Logical. If TRUE, the flow field is added to an existing plot. If
-FALSE, a new plot is created. Defaults to TRUE.}
+\item{add}{Logical. If \code{TRUE}, the flow field is added to an existing
+plot. If \code{FALSE}, a new plot is created. Defaults to \code{TRUE}.}
 
 \item{state.names}{State names for ode functions that do not use positional
 states.}
@@ -68,62 +74,94 @@ states.}
 
 \item{ylab}{Label for the y-axis of the resulting plot.}
 
-\item{\dots}{Additional arguments to be passed to either plot or arrows.}
+\item{\dots}{Additional arguments to be passed to either
+\code{\link[graphics]{plot}} or \code{\link[graphics]{arrows}}.}
 }
 \value{
-Returns a list with the following components (the exact make up is
-dependent upon the value of system): \item{add}{As per input.}
-\item{arrow.head}{As per input.} \item{arrow.type}{As per input.}
-\item{col}{As per input, but with possible editing if a vector of the wrong
-length was supplied.} \item{deriv}{As per input.} \item{dx}{A matrix. In the
-case of a two dimensional system, the values of the derivative of the first
-dependent derivative at all evaluated points.} \item{dy}{A matrix. In the
-case of a two dimensional system, the values of the derivative of the second
-dependent variable at all evaluated points. In the case of a one dimensional
-system, the values of the derivative of the dependent variable at all
-evaluated points.} \item{frac}{As per input.} \item{parameters}{As per
-input.} \item{points}{As per input.} \item{system}{As per input.} \item{x}{A
-vector. In the case of a two dimensional system, the values of the first
-dependent variable at which the derivatives were computed. In the case of a
-one dimensional system, the values of the independent variable at which the
-derivatives were computed.} \item{xlab}{As per input.} \item{xlim}{As per
-input.} \item{y}{A vector. In the case of a two dimensional system, the
-values of the second dependent variable at which the derivatives were
-computed. In the case of a one dimensional system, the values of the
-dependent variable at which the derivatives were computed.} \item{ylab}{As
-per input.} \item{ylim}{As per input.}
+Returns a \code{\link[base]{list}} with the following components (the
+exact make up is dependent on the value of \code{system}):
+\item{add}{As per input.}
+\item{arrow.head}{As per input.}
+\item{arrow.type}{As per input.}
+\item{col}{As per input, but with possible editing if a
+\code{\link[base]{character}} \code{\link[base]{vector}} of the wrong
+\code{\link[base]{length}} was supplied.}
+\item{deriv}{As per input.}
+\item{dx}{A \code{\link[base]{matrix}}. In the case of a two-dimensional
+system, the values of the derivative of the first dependent derivative at all
+evaluated points.}
+\item{dy}{A \code{\link[base]{matrix}}. In the case of a two-dimensional
+system, the values of the derivative of the second dependent variable at all
+evaluated points. In the case of a one-dimensional system, the values of the
+derivative of the dependent variable at all evaluated points.}
+\item{frac}{As per input.}
+\item{parameters}{As per
+input.}
+\item{points}{As per input.}
+\item{system}{As per input.}
+\item{x}{A \code{\link[base]{numeric}} \code{\link[base]{vector}}. In the
+case of a two-dimensional system, the values of the first dependent variable
+at which the derivatives were computed. In the case of a one-dimensional
+system, the values of the independent variable at which the derivatives were
+computed.}
+\item{xlab}{As per input.}
+\item{xlim}{As per input.}
+\item{y}{A \code{\link[base]{numeric}} \code{\link[base]{vector}}. In the
+case of a two-dimensional system, the values of the second dependent variable
+at which the derivatives were computed. In the case of a one-dimensional
+system, the values of the dependent variable at which the derivatives were
+computed.}
+\item{ylab}{As per input.}
+\item{ylim}{As per input.}
 }
 \description{
-Plots the flow or velocity field for a one or two dimensional autonomous ODE
+Plots the flow or velocity field for a one- or two-dimensional autonomous ODE
 system.
 }
 \examples{
-# Plot the flow field, nullclines and several trajectories for the one
-# dimensional autonomous ODE system logistic.
-logistic.flowField <- flowField(logistic, xlim = c(0, 5), ylim = c(-1, 3),
-                                parameters = c(1, 2), points = 21, system = "one.dim",
-								add = FALSE)
-logistic.nullclines <- nullclines(logistic, xlim = c(0, 5), ylim = c(-1, 3),
-                                  parameters = c(1, 2), system = "one.dim")
-logistic.trajectory <- trajectory(logistic, y0 = c(-0.5, 0.5, 1.5, 2.5), tlim = c(0, 5),
-                                  parameters = c(1, 2), system = "one.dim")
+# Plot the flow field, nullclines and several trajectories for the
+# one-dimensional autonomous ODE system logistic
+logistic_flowField <- flowField(logistic,
+                                xlim       = c(0, 5),
+                                ylim       = c(-1, 3),
+                                parameters = c(1, 2),
+                                points     = 21,
+                                system     = "one.dim",
+								                 add        = FALSE)
+logistic_nullclines <- nullclines(logistic,
+                                  xlim       = c(0, 5),
+                                  ylim       = c(-1, 3),
+                                  parameters = c(1, 2),
+                                  system     = "one.dim")
+logistic_trajectory <- trajectory(logistic,
+                                  y0         = c(-0.5, 0.5, 1.5, 2.5),
+                                  tlim       = c(0, 5),
+                                  parameters = c(1, 2),
+                                  system     = "one.dim")
 
-# Plot the velocity field, nullclines and several trajectories for the two dimensional
-# autonomous ODE system simplePendulum.
-simplePendulum.flowField  <- flowField(simplePendulum, xlim = c(-7, 7),
-                                       ylim = c(-7, 7), parameters = 5, points = 19,
-									   add = FALSE)
-y0                        <- matrix(c(0, 1, 0, 4, -6, 1, 5, 0.5, 0, -3), ncol = 2,
-                                    nrow = 5, byrow = TRUE)
-simplePendulum.nullclines <- nullclines(simplePendulum, xlim = c(-7, 7),
-                                        ylim = c(-7, 7), parameters = 5, points = 500)
-simplePendulum.trajectory <- trajectory(simplePendulum, y0 = y0, tlim = c(0, 10),
+# Plot the velocity field, nullclines and several trajectories for the
+# two-dimensional autonomous ODE system simplePendulum
+simplePendulum_flowField  <- flowField(simplePendulum,
+                                       xlim       = c(-7, 7),
+                                       ylim       = c(-7, 7),
+                                       parameters = 5,
+                                       points     = 19,
+                                       add        = FALSE)
+y0                        <- matrix(c(0, 1, 0, 4, -6, 1, 5, 0.5, 0, -3),
+                                    5, 2, byrow = TRUE)
+simplePendulum_nullclines <- nullclines(simplePendulum,
+                                        xlim       = c(-7, 7),
+                                        ylim       = c(-7, 7),
+                                        parameters = 5,
+                                        points     = 500)
+simplePendulum_trajectory <- trajectory(simplePendulum,
+                                        y0         = y0,
+                                        tlim       = c(0, 10),
                                         parameters = 5)
-
 }
 \seealso{
-\code{\link{arrows}}, \code{\link{plot}}
+\code{\link[graphics]{arrows}}, \code{\link[graphics]{plot}}
 }
 \author{
-Michael J. Grayling
+Michael J Grayling
 }

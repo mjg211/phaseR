@@ -2,7 +2,7 @@
 % Please edit documentation in R/phasePortrait.R
 \name{phasePortrait}
 \alias{phasePortrait}
-\title{Phase Portrait Plot}
+\title{Phase portrait plot}
 \usage{
 phasePortrait(deriv, ylim, ystep = 0.01, parameters = NULL,
   points = 10, frac = 0.75, arrow.head = 0.075, col = "black",
@@ -12,39 +12,45 @@ phasePortrait(deriv, ylim, ystep = 0.01, parameters = NULL,
 \arguments{
 \item{deriv}{A function computing the derivative at a point for the ODE
 system to be analysed. Discussion of the required structure of these
-functions can be found in the package guide.}
+functions can be found in the package vignette, or in the help file for the
+function \code{\link[deSolve]{ode}}.}
 
 \item{ylim}{Sets the limits of the dependent variable for which the
-derivative should be computed and plotted. Should be a vector of length two.}
+derivative should be computed and plotted. Should be a
+\code{\link[base]{numeric}} \code{\link[base]{vector}} of
+\code{\link[base]{length}} two.}
 
 \item{ystep}{Sets the step length of the dependent variable vector for which
-derivatives are computed and plotted. Decreasing ystep makes the resulting
-plot more accurate, but comes at a small cost to computation time. Defaults
-to 0.01.}
+derivatives are computed and plotted. Decreasing \code{ystep} makes the
+resulting plot more accurate, but comes at a small cost to computation time.
+Defaults to \code{0.01}.}
 
-\item{parameters}{Parameters of the ODE system, to be passed to deriv.
-Supplied as a vector; the order of the parameters can be found from the
-deriv file.}
+\item{parameters}{Parameters of the ODE system, to be passed to \code{deriv}.
+Supplied as a \code{\link[base]{numeric}} \code{\link[base]{vector}}; the
+order of the parameters can be found from the \code{deriv} file. Defaults to
+\code{NULL}.}
 
 \item{points}{Sets the density at which arrows are plotted along the
-horizontal axis. points arrows will be plotted. Fine tuning here, by
-shifting points up and down, allows for the creation of more aesthetically
-pleasing plots. Defaults to 10.}
+horizontal axis; \code{points} arrows will be plotted. Fine tuning here, by
+shifting \code{points} up and down, allows for the creation of more
+aesthetically pleasing plots. Defaults to \code{10}.}
 
 \item{frac}{Sets the fraction of the theoretical maximum length line
 segments can take without overlapping, that they actually attain. Fine
 tuning here assists the creation of aesthetically pleasing plots. Defaults
-to 0.75.}
+to \code{0.75}.}
 
-\item{arrow.head}{Sets the length of the arrow heads. Passed to arrows.
-Defaults to 0.075.}
+\item{arrow.head}{Sets the length of the arrow heads. Passed to
+\code{\link[graphics]{arrows}}. Defaults to \code{0.075}.}
 
 \item{col}{Sets the colour of the line in the plot, as well as the arrows.
-Will be reset accordingly if it is not a vector of length one. Defaults to
-"black".}
+Should be a \code{\link[base]{character}}
+\code{\link[base]{vector}} of \code{\link[base]{length}} one. Will be reset
+accordingly if it is of the wrong \code{\link[base]{length}}. Defaults to
+\code{"black"}.}
 
-\item{add.grid}{Logical. If TRUE, a grid is added to the plot. Defaults to
-TRUE.}
+\item{add.grid}{Logical. If \code{TRUE}, a grid is added to the plot.
+Defaults to \code{TRUE}.}
 
 \item{state.names}{State names for ode functions that do not use positional
 states}
@@ -56,32 +62,43 @@ states}
 \item{\dots}{Additional arguments to be passed to either plot or arrows.}
 }
 \value{
-Returns a list with the following components: \item{add.grid}{As per
-input.} \item{arrow.head}{As per input.} \item{col}{As per input.}
-\item{deriv}{As per input.} \item{dy}{A vector containing the value of the
-derivative at each evaluated point.} \item{frac}{As per input.}
-\item{parameters}{As per input.} \item{points}{As per input.} \item{xlab}{As
-per input.} \item{y}{A vector containing the values of the dependent
-variable for which the derivative was evaluated.} \item{ylab}{As per input.}
-\item{ylim}{As per input.} \item{ystep}{As per input.}
+Returns a list with the following components:
+\item{add.grid}{As per input.}
+\item{arrow.head}{As per input.}
+\item{col}{As per input, but with possible editing if a
+\code{\link[base]{character}} \code{\link[base]{vector}} of the wrong
+\code{\link[base]{length}} was supplied.}
+\item{deriv}{As per input.}
+\item{dy}{A vector containing the value of the derivative at each evaluated
+point.}
+\item{frac}{As per input.}
+\item{parameters}{As per input.}
+\item{points}{As per input.}
+\item{xlab}{As per input.}
+\item{y}{A \code{\link[base]{numeric}} \code{\link[base]{vector}} containing
+the values of the dependent variable for which the derivative was evaluated.}
+\item{ylab}{As per input.}
+\item{ylim}{As per input.}
+\item{ystep}{As per input.}
 }
 \description{
-For a one dimensional autonomous ODE, it plots the phase portrait i.e. the
+For a one-dimensional autonomous ODE, it plots the phase portrait, i.e., the
 derivative against the dependent variable. In addition, along the dependent
 variable axis it plots arrows pointing in the direction of dependent
 variable change with increasing value of the independent variable. From this
-stability of equilibrium points (i.e. locations where the horizontal axis is
+stability of equilibrium points (i.e., locations where the horizontal axis is
 crossed) can be determined.
 }
 \examples{
-# A one dimensional autonomous ODE system, example2.
-example2.phasePortrait <- phasePortrait(example2, ylim = c(-0.5, 2.5), points = 10,
-                                        frac = 0.5)
-
+# A one-dimensional autonomous ODE system, example2.
+example2_phasePortrait <- phasePortrait(example2,
+                                        ylim   = c(-0.5, 2.5),
+                                        points = 10,
+                                        frac   = 0.5)
 }
 \seealso{
-\code{\link{arrows}}, \code{\link{plot}}
+\code{\link[graphics]{arrows}}, \code{\link[graphics]{plot}}
 }
 \author{
-Michael J. Grayling
+Michael J Grayling
 }

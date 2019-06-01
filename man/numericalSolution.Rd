@@ -2,7 +2,7 @@
 % Please edit documentation in R/numericalSolution.R
 \name{numericalSolution}
 \alias{numericalSolution}
-\title{Numerical Solution and Plotting}
+\title{Numerical solution and plotting}
 \usage{
 numericalSolution(deriv, y0 = NULL, tlim, tstep = 0.01,
   parameters = NULL, type = "one", col = c("red", "blue"),
@@ -12,36 +12,44 @@ numericalSolution(deriv, y0 = NULL, tlim, tstep = 0.01,
 \arguments{
 \item{deriv}{A function computing the derivative at a point for the ODE
 system to be analysed. Discussion of the required structure of these
-functions can be found in the package guide.}
+functions can be found in the package vignette, or in the help file for the
+function \code{\link[deSolve]{ode}}.}
 
-\item{y0}{The initial condition. Should be a vector of length two reflecting
+\item{y0}{The initial condition. Should be a \code{\link[base]{numeric}}
+\code{\link[base]{vector}} of \code{\link[base]{length}} two reflecting
 the location of the two dependent variables initially.}
 
 \item{tlim}{Sets the limits of the independent variable for which the
-solution should be plotted. Should be a vector of length two. If tlim[2] >
-tlim[1], then tstep should be negative to indicate a backwards trajectory.}
+solution should be plotted. Should be a \code{\link[base]{numeric}}
+\code{\link[base]{vector}} of \code{\link[base]{length}} two. If
+\code{tlim[2] > tlim[1]}, then \code{tstep} should be negative to indicate a
+backwards trajectory.}
 
 \item{tstep}{The step length of the independent variable, used in numerical
-integration. Decreasing the absolute magnitude of tstep theoretically makes
-the numerical integration more accurate, but increases computation time.
-Defaults to 0.01.}
+integration. Decreasing the absolute magnitude of \code{tstep} theoretically
+makes the numerical integration more accurate, but increases computation
+time. Defaults to \code{0.01}.}
 
-\item{parameters}{Parameters of the ODE system, to be passed to deriv.
-Supplied as a vector; the order of the parameters can be found from the
-deriv file. Defaults to NULL.}
+\item{parameters}{Parameters of the ODE system, to be passed to \code{deriv}.
+Supplied as a \code{\link[base]{numeric}} \code{\link[base]{vector}}; the
+order of the parameters can be found from the \code{deriv} file. Defaults to
+\code{NULL}.}
 
-\item{type}{If set to "one" the trajectories are plotted on the same graph.
-If set to "two" they are plotted on separate graphs. Defaults to "one".}
+\item{type}{If set to \code{"one"} the trajectories are plotted on the same
+graph. If set to \code{"two"} they are plotted on separate graphs. Defaults
+to \code{"one"}.}
 
 \item{col}{Sets the colours of the trajectories of the two dependent
-variables. Will be reset accordingly if it is not a vector of length two.
-Defaults to c("red", "blue").}
+variables. Should be a \code{\link[base]{character}}
+\code{\link[base]{vector}} of \code{\link[base]{length}} two. Will be reset
+accordingly if it is of the wrong \code{\link[base]{length}}. Defaults to
+\code{c("red", "blue")}.}
 
-\item{add.grid}{Logical. If TRUE, grids are added to the plots. Defaults to
-TRUE.}
+\item{add.grid}{Logical. If \code{TRUE}, grids are added to the plots.
+Defaults to \code{TRUE}.}
 
-\item{add.legend}{Logical. If TRUE, a legend is added to the plots. Defaults
-to TRUE.}
+\item{add.legend}{Logical. If \code{TRUE}, a \code{\link[graphics]{legend}}
+is added to the plots. Defaults to \code{TRUE}.}
 
 \item{state.names}{State names for ode functions that do not use positional
 states}
@@ -53,25 +61,37 @@ states}
 \item{\dots}{Additional arguments to be passed to plot.}
 }
 \value{
-Returns a list with the following components: \item{add.grid}{As per
-input.} \item{add.legend}{As per input.} \item{col}{As per input, but with
-possible editing if a colour vector of the wrong length was supplied.}
-\item{deriv}{As per input.} \item{parameters}{As per input.} \item{t}{A
-vector containing the values of the independent variable at each integration
-step.} \item{tlim}{As per input.} \item{tstep}{As per input.} \item{x}{A
-vector containing the numerically computed values of the first dependent
-variable at each integration step.} \item{y}{A vector containing the
-numerically computed values of the second dependent variable at each
-integration step.} \item{y0}{As per input.}
+Returns a \code{\link[base]{list}} with the following components:
+\item{add.grid}{As per input.}
+\item{add.legend}{As per input.}
+\item{col}{As per input, but with possible editing if a
+\code{\link[base]{character}} \code{\link[base]{vector}} of the wrong
+\code{\link[base]{length}} was supplied.}
+\item{deriv}{As per input.}
+\item{parameters}{As per input.}
+\item{t}{A \code{\link[base]{numeric}} \code{\link[base]{vector}} containing
+the values of the independent variable at each integration step.}
+\item{tlim}{As per input.}
+\item{tstep}{As per input.}
+\item{x}{A \code{\link[base]{numeric}} \code{\link[base]{vector}} containing
+the numerically computed values of the first dependent variable at each
+integration step.}
+\item{y}{A \code{\link[base]{numeric}} \code{\link[base]{vector}} containing
+the numerically computed values of the second dependent variable at each
+integration step.}
+\item{y0}{As per input.}
 }
 \description{
-Numerically solves a two dimensional autonomous ODE system for a given
-initial condition, using ode from the package deSolve. It then plots the
-dependent variables against the independent variable.
+Numerically solves a two-dimensional autonomous ODE system for a given
+initial condition, using \code{\link[deSolve]{ode}} from the package
+\code{\link[deSolve]{deSolve}}. It then plots the dependent variables against
+the independent variable.
 }
 \examples{
-# A two dimensional autonomous ODE system, vanDerPol.
-vanDerPol.numericalSolution <- numericalSolution(vanDerPol, y0 = c(4, 2), tlim = c(0, 100),
+# A two-dimensional autonomous ODE system, vanDerPol.
+vanDerPol_numericalSolution <- numericalSolution(vanDerPol,
+                                                 y0         = c(4, 2),
+                                                 tlim       = c(0, 100),
                                                  parameters = 3)
 
 }
@@ -79,5 +99,5 @@ vanDerPol.numericalSolution <- numericalSolution(vanDerPol, y0 = c(4, 2), tlim =
 \code{\link{ode}}, \code{\link{plot}}
 }
 \author{
-Michael J. Grayling
+Michael J Grayling
 }

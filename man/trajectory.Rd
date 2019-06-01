@@ -2,7 +2,7 @@
 % Please edit documentation in R/trajectory.R
 \name{trajectory}
 \alias{trajectory}
-\title{Phase Plane Trajectory Plotting}
+\title{Phase plane trajectory plotting}
 \usage{
 trajectory(deriv, y0 = NULL, n = NULL, tlim, tstep = 0.01,
   parameters = NULL, system = "two.dim", col = "black", add = TRUE,
@@ -11,45 +11,54 @@ trajectory(deriv, y0 = NULL, n = NULL, tlim, tstep = 0.01,
 \arguments{
 \item{deriv}{A function computing the derivative at a point for the ODE
 system to be analysed. Discussion of the required structure of these
-functions can be found in the package guide.}
+functions can be found in the package vignette, or in the help file for the
+function \code{\link[deSolve]{ode}}.}
 
-\item{y0}{The initial condition(s). In the case of a one dimensional system,
-this can either be a single number indicating the location of the dependent
-variable initially, or a vector indicating multiple initial locations of the
-independent variable. In the case of a two dimensional system, this can
-either be a vector of length two reflecting the location of the two
-dependent variables initially. Or it can be matrix where each row reflects a
-different initial condition. Alternatively this can be left blank and the
-user can use locator to specify initial condition(s) on a plot. In this
-case, for one dimensional systems, all initial conditions are taken at
-tlim[1], even if not selected so on the graph. Defaults to NULL.}
+\item{y0}{The initial condition(s). In the case of a one-dimensional system,
+this can either be a \code{\link[base]{numeric}} \code{\link[base]{vector}}
+of \code{\link[base]{length}} one ,indicating the location of the dependent
+variable initially, or a \code{\link[base]{numeric}}
+\code{\link[base]{vector}} indicating multiple initial locations of the
+independent variable. In the case of a two-dimensional system, this can
+either be a \code{\link[base]{numeric}} \code{\link[base]{vector}} of
+\code{\link[base]{length}} two, reflecting the location of the two
+dependent variables initially, or it can be \code{\link[base]{numeric}}
+\code{\link[base]{matrix}} where each row reflects a different initial
+condition. Alternatively this can be left blank and the
+user can use \code{\link[graphics]{locator}} to specify initial condition(s)
+on a plot. In this case, for one-dimensional systems, all initial conditions
+are taken at tlim[1], even if not selected so on the graph. Defaults to NULL.}
 
-\item{n}{If y0 is left NULL so initial conditions can be specified using
-locator, n sets the number of initial conditions to be chosen. Defaults to
-NULL.}
+\item{n}{If \code{y0} is left \code{NULL}, such initial conditions can be
+specified using \code{\link[graphics]{locator}}, \code{n} sets the number of
+initial conditions to be chosen. Defaults to \code{NULL}.}
 
 \item{tlim}{Sets the limits of the independent variable for which the
-solution should be plotted. Should be a vector of length two. If tlim[2] >
-tlim[1], then tstep should be negative to indicate a backwards trajectory.}
+solution should be plotted. Should be a \code{\link[base]{numeric}}
+\code{\link[base]{vector}} of \code{\link[base]{length}} two. If
+\code{tlim[2] > tlim[1]}, then \code{tstep} should be negative to indicate a
+backwards trajectory.}
 
 \item{tstep}{The step length of the independent variable, used in numerical
-integration. Decreasing the absolute magnitude of tstep theoretically makes
-the numerical integration more accurate, but increases computation time.
-Defaults to 0.01.}
+integration. Decreasing the absolute magnitude of \code{tstep} theoretically
+makes the numerical integration more accurate, but increases computation
+time. Defaults to \code{0.01}.}
 
-\item{parameters}{Parameters of the ODE system, to be passed to deriv.
-Supplied as a vector; the order of the parameters can be found from the
-deriv file. Defaults to NULL.}
+\item{parameters}{Parameters of the ODE system, to be passed to \code{deriv}.
+Supplied as a \code{\link[base]{numeric}} \code{\link[base]{vector}}; the
+order of the parameters can be found from the \code{deriv} file. Defaults to
+\code{NULL}.}
 
-\item{system}{Set to either "one.dim" or "two.dim" to indicate the type of
-system being analysed. Defaults to "two.dim".}
+\item{system}{Set to either \code{"one.dim"} or \code{"two.dim"} to indicate
+the type of system being analysed. Defaults to \code{"two.dim"}.}
 
-\item{col}{The colour(s) to plot the trajectories in. Will be reset
-accordingly if it is a vector not of the length of the number of initial
-conditions. Defaults to "black".}
+\item{col}{The colour(s) to plot the trajectories in. Should be a
+\code{\link[base]{character}} \code{\link[base]{vector}}. Will be reset
+accordingly if it is not of the \code{\link[base]{length}} of the number of
+initial conditions. Defaults to \code{"black"}.}
 
-\item{add}{Logical. If TRUE, the trajectories added to an existing plot. If
-FALSE, a new plot is created. Defaults to TRUE.}
+\item{add}{Logical. If \code{TRUE}, the trajectories added to an existing
+plot. If \code{FALSE}, a new plot is created. Defaults to \code{TRUE}.}
 
 \item{state.names}{State names for ode functions that do not use positional
 states}
@@ -58,53 +67,80 @@ states}
 }
 \value{
 Returns a list with the following components (the exact make up is
-dependent upon the type of system being analysed): \item{add}{As per input.}
-\item{col}{As per input, but with possible editing if a colour vector of the
-wrong length was supplied.} \item{deriv}{As per input.} \item{n}{As per
-input.} \item{parameters}{As per input.} \item{system}{As per input.}
-\item{tlim}{As per input.} \item{tstep}{As per input.} \item{t}{A vector
-containing the values of the independent variable at each integration step.}
-\item{x}{In the two dimensional system case, a matrix whose columns are the
-numerically computed values of the first dependent variable for each initial
-condition.} \item{y}{In the two dimensional system case, a matrix whose
-columns are the numerically computed values of the second dependent variable
-for each initial condition. In the one dimensional system case, a matrix
-whose columns are the numerically computed values of the dependent variable
-for each initial condition.} \item{y0}{As per input, but converted to a
-matrix if supplied as a vector initially.}
+dependent on the value of \code{system}):
+\item{add}{As per input.}
+\item{col}{As per input, but with possible editing if a
+\code{\link[base]{character}} \code{\link[base]{vector}} of the wrong
+\code{\link[base]{length}} was supplied.}
+\item{deriv}{As per input.}
+\item{n}{As per input.}
+\item{parameters}{As per input.}
+\item{system}{As per input.}
+\item{tlim}{As per input.}
+\item{tstep}{As per input.}
+\item{t}{A \code{\link[base]{numeric}} \code{\link[base]{vector}} containing
+the values of the independent variable at each integration step.}
+\item{x}{In the two-dimensional system case, a \code{\link[base]{numeric}}
+\code{\link[base]{matrix}} whose columns are the numerically computed values
+of the first dependent variable for each initial condition.}
+\item{y}{In the two-dimensional system case, a \code{\link[base]{numeric}}
+\code{\link[base]{matrix}} whose columns are the numerically computed values
+of the second dependent variable for each initial condition.
+In the one-dimensional system case, a \code{\link[base]{numeric}}
+\code{\link[base]{matrix}} whose columns are the numerically computed values
+of the dependent variable for each initial condition.}
+\item{y0}{As per input, but converted to a \code{\link[base]{numeric}}
+\code{\link[base]{matrix}} if supplied as a vector initially.}
 }
 \description{
-Performs numerical integration of the chosen ODE system, for a user
-specified set of initial conditions. Plots the resulting solution(s) in the
-phase plane.
+Performs numerical integration of the chosen ODE system, for a user specified
+set of initial conditions. Plots the resulting solution(s) in the phase
+plane.
 }
 \examples{
-# Plot the flow field, nullclines and several trajectories for the one
-# dimensional autonomous ODE system logistic.
-logistic.flowField <- flowField(logistic, xlim = c(0, 5), ylim = c(-1, 3),
-                                parameters = c(1, 2), points = 21, system = "one.dim",
-								add = FALSE)
-logistic.nullclines <- nullclines(logistic, xlim = c(0, 5), ylim = c(-1, 3),
-                                  parameters = c(1, 2), system = "one.dim")
-logistic.trajectory <- trajectory(logistic, y0 = c(-0.5, 0.5, 1.5, 2.5), tlim = c(0,5),
-                                  parameters = c(1, 2), system = "one.dim")
+# Plot the flow field, nullclines and several trajectories for the
+# one-dimensional autonomous ODE system logistic
+logistic_flowField <- flowField(logistic,
+                                xlim       = c(0, 5),
+                                ylim       = c(-1, 3),
+                                parameters = c(1, 2),
+                                points     = 21,
+                                system     = "one.dim",
+								                 add        = FALSE)
+logistic_nullclines <- nullclines(logistic,
+                                  xlim       = c(0, 5),
+                                  ylim       = c(-1, 3),
+                                  parameters = c(1, 2),
+                                  system     = "one.dim")
+logistic_trajectory <- trajectory(logistic,
+                                  y0         = c(-0.5, 0.5, 1.5, 2.5),
+                                  tlim       = c(0, 5),
+                                  parameters = c(1, 2),
+                                  system     = "one.dim")
 
-# Plot the velocity field, nullclines and several trajectories for the two dimensional
-# autonomous ODE system simplePendulum.
-simplePendulum.flowField  <- flowField(simplePendulum, xlim = c(-7, 7),
-                                       ylim = c(-7, 7), parameters = 5, points = 19,
-									   add = FALSE)
-y0                        <- matrix(c(0, 1, 0, 4, -6, 1, 5, 0.5, 0, -3), ncol = 2,
-                                    nrow = 5, byrow = TRUE)
-simplePendulum.nullclines <- nullclines(simplePendulum, xlim = c(-7, 7),
-                                        ylim = c(-7, 7), parameters = 5, points = 500)
-simplePendulum.trajectory <- trajectory(simplePendulum, y0 = y0, tlim = c(0,10),
+# Plot the velocity field, nullclines and several trajectories for the
+# two-dimensional autonomous ODE system simplePendulum
+simplePendulum_flowField  <- flowField(simplePendulum,
+                                       xlim       = c(-7, 7),
+                                       ylim       = c(-7, 7),
+                                       parameters = 5,
+                                       points     = 19,
+                                       add        = FALSE)
+y0                        <- matrix(c(0, 1, 0, 4, -6, 1, 5, 0.5, 0, -3),
+                                    5, 2, byrow = TRUE)
+simplePendulum_nullclines <- nullclines(simplePendulum,
+                                        xlim       = c(-7, 7),
+                                        ylim       = c(-7, 7),
+                                        parameters = 5,
+                                        points     = 500)
+simplePendulum_trajectory <- trajectory(simplePendulum,
+                                        y0         = y0,
+                                        tlim       = c(0, 10),
                                         parameters = 5)
-
 }
 \seealso{
-\code{\link{ode}}, \code{\link{plot}}
+\code{\link[deSolve]{ode}}, \code{\link[graphics]{plot}}
 }
 \author{
-Michael J. Grayling
+Michael J Grayling
 }

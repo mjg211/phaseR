@@ -2,7 +2,7 @@
 % Please edit documentation in R/drawManifolds.R
 \name{drawManifolds}
 \alias{drawManifolds}
-\title{Stable and Unstable Manifolds}
+\title{Stable and unstable manifolds}
 \usage{
 drawManifolds(deriv, y0 = NULL, parameters = NULL, tstep = 0.1,
   tend = 1000, col = c("green", "red"), add.legend = TRUE,
@@ -11,31 +11,33 @@ drawManifolds(deriv, y0 = NULL, parameters = NULL, tstep = 0.1,
 \arguments{
 \item{deriv}{A function computing the derivative at a point for the ODE
 system to be analysed. Discussion of the required structure of these
-functions can be found in the package guide.}
+functions can be found in the package vignette, or in the help file for the
+function \code{\link[deSolve]{ode}}.}
 
 \item{y0}{The initial point from which a saddle will be searched for. This
 can either be a vector of length two reflecting the location of the two
-dependent variables initially, or it can be left blank and the user can use
-locator to specify the initial point on a plot}
+dependent variables, or it can be left blank and the user can use
+\code{\link[graphics]{locator}} to specify the initial point on a plot.}
 
-\item{parameters}{Parameters of the ODE system, to be passed to deriv.
+\item{parameters}{Parameters of the ODE system, to be passed to \code{deriv}.
 Supplied as a vector; the order of the parameters can be found from the
-deriv file. Defaults to NULL.}
+\code{deriv} file. Defaults to \code{\link[base]{NULL}}.}
 
 \item{tstep}{The step length of the independent variable, used in numerical
-integration. Decreasing the absolute magnitude of tstep theoretically makes
-the numerical integration more accurate, but increases computation time.
-Defaults to 0.01.}
+integration. Decreasing the absolute magnitude of \code{tstep} theoretically
+makes the numerical integration more accurate, but increases computation
+time. Defaults to \code{0.01}.}
 
 \item{tend}{The final time of the numerical integration performed to
 identify the manifolds.}
 
-\item{col}{Sets the colours used for the stable and unstable manifolds. Will
-be reset accordingly if it is a vector of the wrong length. Defaults to
-c("green", "red").}
+\item{col}{Sets the colours used for the stable and unstable manifolds.
+Should be a \code{\link[base]{character}} \code{\link[base]{vector}} of
+\code{\link[base]{length}} two. Will be reset accordingly if it is of the
+wrong \code{\link[base]{length}}. Defaults to \code{c("green", "red")}.}
 
-\item{add.legend}{Logical. If TRUE, a legend is added to the plots. Defaults
-to TRUE.}
+\item{add.legend}{Logical. If \code{TRUE}, a legend is added to the plots.
+Defaults to \code{TRUE}.}
 
 \item{state.names}{State names for ode functions that do not use positional
 states}
@@ -43,26 +45,35 @@ states}
 \item{...}{Additional arguments to be passed to plot.}
 }
 \value{
-Returns a list with the following components (the exact make up is
-dependent upon the value of system): \item{add.legend}{As per input.}
-\item{col}{As per input, but with possible editing if a vector of the wrong
-length was supplied.} \item{deriv}{As per input.} \item{parameters}{As per
-input.} \item{stable.1}{A matrix whose columns are the numerically computed
-values of the dependent variables for part of the stable manifold.}
-\item{stable.2}{A matrix whose columns are the numerically computed values
-of the dependent variables for part of the stable manifold.} \item{tend}{As
-per input.} \item{unstable.1}{A matrix whose columns are the numerically
-computed values of the dependent variables for part of the unstable
-manifold.} \item{unstable.2}{A matrix whose columns are the numerically
-computed values of the dependent variables for part of the unstable
-manifold.} \item{y0}{As per input.} \item{ystar}{Location of the identified
-equilibrium point.}
+Returns a \code{\link[base]{list}} with the following components (the
+exact make up is dependent on the value of \code{system}):
+\item{add.legend}{As per input.}
+\item{col}{As per input, but with possible editing if a
+\code{\link[base]{character}} \code{\link[base]{vector}} of the wrong
+\code{\link[base]{length}} was supplied.}
+\item{deriv}{As per input.}
+\item{parameters}{As per input.}
+\item{stable.1}{A \code{\link[base]{matrix}} whose columns are the
+numerically computed values of the dependent variables for part of the stable
+manifold.}
+\item{stable.2}{A \code{\link[base]{matrix}} whose columns are the
+numerically computed values of the dependent variables for part of the stable
+manifold.}
+\item{tend}{As per input.}
+\item{unstable.1}{A \code{\link[base]{matrix}} whose columns are the
+numerically computed values of the dependent variables for part of the
+unstable manifold.}
+\item{unstable.2}{A \code{\link[base]{matrix}} whose columns are the
+numerically computed values of the dependent variables for part of the
+unstable manifold.}
+\item{y0}{As per input.}
+\item{ystar}{Location of the identified equilibrium point.}
 }
 \description{
 Plots the stable and unstable manifolds of a saddle point. A search
-procedure is utilised to identify an equilibrium point, and if this is a
-saddle then the manifolds are added to the plot.
+procedure is utilised to identify an equilibrium point, and if it is a saddle
+then its manifolds are added to the plot.
 }
 \author{
-Michael J. Grayling, Stephen P. Ellner, John M. Guckenheimer
+Michael J Grayling, Stephen P Ellner, John M Guckenheimer
 }
