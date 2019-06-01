@@ -6,3 +6,5 @@ inst/doc
 .Rproj
 .DS_Store
 man/dot-paramDummy.Rd
+.Rbuildignore
+.gitignore
