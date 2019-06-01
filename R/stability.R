@@ -1,12 +1,12 @@
 #' Stability analysis
-#' 
+#'
 #' Uses stability analysis to classify equilibrium points. Uses the Taylor
 #' Series approach (also known as perturbation analysis) to classify equilibrium
 #' points of a one -imensional autonomous ODE system, or the Jacobian approach
 #' to classify equilibrium points of a two-dimensional autonomous ODE system. In
 #' addition, it can be used to return the Jacobian at any point of a
 #' two-dimensional system.
-#' 
+#'
 #' @param deriv A function computing the derivative at a point for the ODE
 #' system to be analysed. Discussion of the required structure of these
 #' functions can be found in the package vignette, or in the help file for the
@@ -39,7 +39,7 @@
 #' determinant at \code{ystar}.}
 #' \item{deriv}{As per input.}
 #' \item{discriminant}{In the one-dimensional system case, the value of the
-#' discriminant used in perturbation analysis to assess stability. In the 
+#' discriminant used in perturbation analysis to assess stability. In the
 #' two-dimensional system case, the value of \code{tr^2 - 4*Delta}.}
 #' \item{eigenvalues}{In the two-dimensional system case, the value of the
 #' Jacobian's eigenvalues at \code{ystar}.}
@@ -62,7 +62,7 @@
 #' example2_stability_1 <- stability(example2, ystar = 0, system = "one.dim")
 #' example2_stability_2 <- stability(example2, ystar = 1, system = "one.dim")
 #' example2_stability_3 <- stability(example2, ystar = 2, system = "one.dim")
-#' 
+#'
 #' # Determine the stability of the equilibrium points of the two-dimensional
 #' # autonomous ODE system example11
 #' example11_stability_1 <- stability(example11, ystar = c(0, 0))
@@ -70,7 +70,7 @@
 #' example11_stability_3 <- stability(example11, ystar = c(1, 1))
 #' example11_stability_4 <- stability(example11, ystar = c(3, 0))
 stability <- function(deriv, ystar = NULL, parameters = NULL,
-                      system = "two.dim", h = 1e-07, summary = TRUE, 
+                      system = "two.dim", h = 1e-07, summary = TRUE,
                       state.names =
                         if (system == "two.dim") c("x", "y") else "y") {
   if (is.null(ystar)) {
@@ -120,9 +120,9 @@ stability <- function(deriv, ystar = NULL, parameters = NULL,
     } else {
       classification     <- "Indeterminate"
     }
-    if (summary == TRUE){
-      cat("discriminant = ", discriminant, ", classification = ", 
-          classification)
+    if (summary) {
+      message("discriminant = ", round(discriminant, 5), ", classification = ",
+              classification)
     }
     return(list(classification = classification,
                 deriv          = deriv,
@@ -135,12 +135,12 @@ stability <- function(deriv, ystar = NULL, parameters = NULL,
   } else {
     jacobian             <- matrix(0, 2, 2)
     for (j in 1:2) {
-      h.vec              <- numeric(2) 
+      h.vec              <- numeric(2)
       h.vec[j]           <- h
       jacobian[, j]      <-
         (deriv(0, stats::setNames(ystar + h.vec, state.names), parameters)[[1]] -
            deriv(0, stats::setNames(ystar - h.vec, state.names),
-                 parameters)[[1]])/(2*h) 
+                 parameters)[[1]])/(2*h)
     }
     A                    <- jacobian[1, 1]
     B                    <- jacobian[1, 2]
@@ -174,8 +174,9 @@ stability <- function(deriv, ystar = NULL, parameters = NULL,
       }
     }
     if (summary) {
-      message("tr = ", tr, ", Delta = ", Delta, ", discriminant = ", 
-              discriminant, ", classification = ", classification)
+      message("tr = ", round(tr, 5), ", Delta = ", round(Delta, 5),
+              ", discriminant = ",  round(discriminant, 5),
+              ", classification = ", classification)
     }
     return(list(classification = classification,
                 Delta          = Delta,

@@ -1,8 +1,8 @@
 #' Flow field
-#' 
+#'
 #' Plots the flow or velocity field for a one- or two-dimensional autonomous ODE
 #' system.
-#' 
+#'
 #' @param deriv A function computing the derivative at a point for the ODE
 #' system to be analysed. Discussion of the required format of these functions
 #' can be found in the package vignette, or in the help file for the
@@ -112,7 +112,7 @@
 #'                                   tlim       = c(0, 5),
 #'                                   parameters = c(1, 2),
 #'                                   system     = "one.dim")
-#' 
+#'
 #' # Plot the velocity field, nullclines and several trajectories for the
 #' # two-dimensional autonomous ODE system simplePendulum
 #' simplePendulum_flowField  <- flowField(simplePendulum,
@@ -134,9 +134,9 @@
 #'                                         parameters = 5)
 flowField <- function(deriv, xlim, ylim, parameters = NULL, system = "two.dim",
                       points = 21, col = "gray", arrow.type = "equal",
-                      arrow.head = 0.05, frac = 1, add = TRUE, 
+                      arrow.head = 0.05, frac = 1, add = TRUE,
                       state.names =
-                        if (system == "two.dim") c("x", "y") else "y", 
+                        if (system == "two.dim") c("x", "y") else "y",
                       xlab = if (system == "two.dim") state.names[1] else "t",
                       ylab =
                         if (system == "two.dim") state.names[2] else
@@ -256,8 +256,8 @@ flowField <- function(deriv, xlim, ylim, parameters = NULL, system = "two.dim",
     }
     abs.dx            <- abs(dx)
     abs.dy            <- abs(dy)
-    abs.dx.non        <- abs.dx[which(all(abs.dx != 0, abs.dy != 0))]
-    abs.dy.non        <- abs.dy[which(all(abs.dx != 0, abs.dy != 0))]
+    abs.dx.non        <- abs.dx[which(abs.dx != 0 & abs.dy != 0)]
+    abs.dy.non        <- abs.dy[which(abs.dx != 0 & abs.dy != 0)]
     max.length        <- max(sqrt(dx^2 + dy^2))
     coefficient       <-
       frac*min(xmax.length, ymax.length)/

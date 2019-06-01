@@ -1,10 +1,10 @@
 #' Equilibrium point identification
-#' 
+#'
 #' Searches for an equilibium point of a system, taking the starting point of
 #' the search as a user specified location. On identifying such a point, a
 #' classification is performed, and an informatively shaped point can be added
 #' to the plot.
-#' 
+#'
 #' @param deriv A function computing the derivative at a point for the ODE
 #' system to be analysed. Discussion of the required structure of these
 #' functions can be found in the package vignette, or in the help file for the
@@ -67,7 +67,7 @@
 #' @export
 findEquilibrium <- function(deriv, y0 = NULL, parameters = NULL,
                             system = "two.dim", tol = 1e-16,
-                            max.iter = 50, h = 1e-6, plot.it = FALSE,   
+                            max.iter = 50, h = 1e-6, plot.it = FALSE,
                             summary = TRUE,
                             state.names =
                               if (system == "two.dim") c("x", "y") else "y") {
@@ -116,20 +116,20 @@ findEquilibrium <- function(deriv, y0 = NULL, parameters = NULL,
   }
   y                          <- y0
   dim                        <- nrow(y)
-  for (i in 1:max.iter) {  
+  for (i in 1:max.iter) {
     dy                       <-
       deriv(0, stats::setNames(y, utils::head(state.names, n = dim)),
-            parameters)[[1]] 
+            parameters)[[1]]
     jacobian                 <- matrix(0, dim, dim)
     for (j in 1:dim) {
-      h.vec                  <- numeric(dim) 
+      h.vec                  <- numeric(dim)
       h.vec[j]               <- h
       jacobian[, j]          <-
-        (deriv(0, stats::setNames(y + h.vec, state.names), parameters)[[1]] - 
+        (deriv(0, stats::setNames(y + h.vec, state.names), parameters)[[1]] -
            deriv(0, stats::setNames(y - h.vec, state.names),
-                 parameters)[[1]])/(2*h) 
+                 parameters)[[1]])/(2*h)
     }
-    if (sum(dy^2) < tol) { 
+    if (sum(dy^2) < tol) {
       if (system == "one.dim") {
         discriminant         <- jacobian
         if (discriminant > 0) {
@@ -176,8 +176,8 @@ findEquilibrium <- function(deriv, y0 = NULL, parameters = NULL,
         }
       }
       if (plot.it) {
-        eigenvalues          <- eigen(jacobian)$values 
-        pchs                 <- matrix(c(17, 5, 2, 16, 1, 1), 2, 3, byrow = T) 
+        eigenvalues          <- eigen(jacobian)$values
+        pchs                 <- matrix(c(17, 5, 2, 16, 1, 1), 2, 3, byrow = T)
         pch1                 <- 1 + as.numeric(Im(eigenvalues[1]) != 0)
         pch2                 <- 1 + sum(Re(eigenvalues) > 0)
         graphics::par(xpd = T)
@@ -188,18 +188,19 @@ findEquilibrium <- function(deriv, y0 = NULL, parameters = NULL,
           graphics::points(y[1], y[2], type = "p", pch = pchs[pch1, pch2],
                            cex = 1.5, lwd = 2)
         }
-        graphics::par(xpd = F) 
+        graphics::par(xpd = F)
       }
       if (summary) {
         if (system == "one.dim") {
-          message("Fixed point at ", state.names," = ", y)
-          message("discriminant = ", discriminant, ", classification = ", 
-                  classification)
+          message("Fixed point at ", state.names," = ", round(y, 5))
+          message("discriminant = ", round(discriminant, 5),
+                  ", classification = ", classification)
         } else {
           message("Fixed point at (", paste0(state.names, collapse = ','),
-                  ") = ", y)
-          message("tr = ", tr, ", Delta = ", Delta, ", discriminant = ", 
-                  discriminant, ", classification = ", classification)
+                  ") = ", round(y, 5))
+          message("tr = ", round(tr, 5), ", Delta = ", round(Delta, 5),
+                  ", discriminant = ", round(discriminant, 5),
+                  ", classification = ", classification)
         }
       }
       if (system == "one.dim") {
