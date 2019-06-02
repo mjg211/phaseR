@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r, echo = F}
-library(phaseR)
+suppressPackageStartupMessages(library(phaseR))
 ```
 
 # phaseR
@@ -41,7 +41,7 @@ You can install the released version of __phaseR__ from [CRAN](https://CRAN.R-pr
 install.packages("phaseR")
 ```
 
-Alternatively, the latest development version available on [GitHub](https://github.com/) can be installed with:
+Alternatively, the latest development version available from [GitHub](https://github.com/) can be installed with:
 
 ``` r
 devtools::install_github("mjg211/phaseR")

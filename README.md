@@ -35,7 +35,7 @@ You can install the released version of **phaseR** from
 install.packages("phaseR")
 ```
 
-Alternatively, the latest development version available on
+Alternatively, the latest development version available from
 [GitHub](https://github.com/) can be installed with:
 
 ``` r
