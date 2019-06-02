@@ -1,13 +1,13 @@
 #' Phase plane analysis
-#' 
+#'
 #' Allows the user to perform a basic phase plane analysis and produce a simple
 #' plot without the need to use the other functions directly. Specifically, a
 #' range of options are provided and the user inputs a value to the console to
 #' decide what is added to the plot.
-#' 
+#'
 #' The user designates the derivative file and other arguments as per the
 #' above. Then the following ten options are available for execution:
-#' 
+#'
 #' \itemize{
 #' \item 1.  Flow field: Plots the flow field of the system. See
 #' \code{\link{flowField}}.
@@ -37,7 +37,7 @@
 #' \item 10. Save plot as PDF: Saves the produced plot as
 #' "phasePlaneAnalysis.pdf" in the current working directory.
 #' }
-#' 
+#'
 #' @param deriv A function computing the derivative at a point for the ODE
 #' system to be analysed. Discussion of the required structure of these
 #' functions can be found in the package vignette, or in the help file for the
@@ -93,7 +93,7 @@ phasePlaneAnalysis <- function(deriv, xlim, ylim, tend = 100,
   if (tend <= 0) {
     stop("tend must be strictly positive")
   }
-  actions <- c("Flow field", 
+  actions <- c("Flow field",
                "Nullclines",
                "Find fixed point (click on plot)",
                "Start Forward trajectory (click on plot)",
@@ -190,7 +190,7 @@ phasePlaneAnalysis <- function(deriv, xlim, ylim, tend = 100,
       } else {
         if (system == "one.dim") {
           y0        <- seq(ylim[1], ylim[2], length.out = 8)
-          times     <- length(y0) 
+          times     <- length(y0)
         } else {
           x         <- seq(xlim[1], xlim[2], length.out = 4)
           y         <- seq(from = ylim[1], ylim[2], length.out = 4)
@@ -199,7 +199,7 @@ phasePlaneAnalysis <- function(deriv, xlim, ylim, tend = 100,
             y0[(1 + 4*(i - 1)):(4*i), ] <- cbind(x, rep(y[i], 4))
           }
           y0        <- y0[-c(4, 16), ]
-          times     <- nrow(y0) 
+          times     <- nrow(y0)
         }
         traj.grid   <- trajectory(deriv = deriv, y0 = y0, tlim = c(0, tend),
                                   parameters = parameters, system = system,
@@ -212,7 +212,7 @@ phasePlaneAnalysis <- function(deriv, xlim, ylim, tend = 100,
       grDevices::dev.copy2pdf(file = "phasePlaneAnalysis.pdf")
     } else {
       # Should not happen
-      stop("select.list problem")
+      stop("utils::select.list() problem")
     }
   }
 }
