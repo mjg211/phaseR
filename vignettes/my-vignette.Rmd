@@ -1,5 +1,5 @@
 ---
-title: "phaseR: 2.1"
+title: "phaseR: v2.1"
 author: "Michael J Grayling (michael.grayling@ncl.ac.uk)"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -14,6 +14,10 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+```
+
+```{r, echo = F}
+suppressPackageStartupMessages(library(phaseR))
 ```
 
 __phaseR__ is an R package for the qualitative analysis of one- and two-dimensional autonomous ODE systems, using phase plane methods. Programs are available to identify and classify equilibrium points, plot the direction field, and plot trajectories for multiple initial conditions. In the one-dimensional case, a program is also available to plot the phase portrait. Whilst in the two-dimensional case, additionally programs are available to plot nullclines and the stable/unstable manifolds of saddle points. Many example systems are provided for the user.
@@ -60,16 +64,16 @@ $$ \frac{dy}{dt}=4-y^2, $$
 provided in the package as `example1()`. More information will be provided later on how to utilise the programs in __phaseR__, as well as how to specify your own systems. For now though, simply note the flow field produced below, and the multiple trajectories that follow it:
 
 ```{r, echo = F, fig.dim = c(7, 5)}
-library(phaseR)
-example1_flowField  <- flowField(example1,
-                                 xlim   = c(0, 10), 
-                                 ylim   = c(-5, 5),
-                                 system = "one.dim",
-                                 add    = F)
+example1_flowField    <- flowField(example1,
+                                   xlim   = c(0, 10), 
+                                   ylim   = c(-5, 5),
+                                   system = "one.dim",
+                                  add    = F)
 example1_trajectories <- trajectory(example1,
                                     y0     = c(-4, -1, 1, 4),
                                     tlim   = c(0, 10),
                                     system = "one.dim",
+                                    col    = rep("black", 4),
                                     add    = T)
 ```
 
@@ -90,7 +94,6 @@ So, in phase portrait analysis, we first plot $f(y)$ against $y$. From the defin
 Again, as an example we consider the system $dy/dt=4-y^2$. Plotting $f(y)=4-y^2$ against $y$ and adding arrows as described we acquire the following graph:
 
 ```{r, echo = F, fig.dim = c(7, 5)}
-library(phaseR)
 example1_phasePortrait  <- phasePortrait(example1,
                                          ylim   = c(-5, 5))
 ```
@@ -119,7 +122,7 @@ then to this order of the Taylor Series no conclusion can be drawn about stabili
 
 So, we have now observed all of the key components required to perform a qualitative analysis upon a one-dimensional autonomous ODE. We begin by plotting the flow field, and from this several trajectories. We then identify the equilibrium points and choose a method to determine their stability. All such techniques are available in this package, and we will later discuss how to implement them. First, however, we will discuss how these methods can be generalised to coupled ODEs.
  
-## First order two-dimensional dynamical systemss
+## First order two-dimensional dynamical systems
 
 #### Autonomous two-dimensional ordinary differential equations
 
@@ -137,112 +140,116 @@ In this way, it is actually possible to analyse the behaviour of certain second 
 
 #### The velocity field
 
-We observed earlier that the restriction to autonomous ODEs in the one-dimensional case allowed us to restrict attention to the phase portrait; the plot of $f(y)$ against $y$. In the two-dimensional case, this restriction allows us to restrict attention to the plane produced by the two dependent variables. Using our notation in the two-dimensional autonomous system prescribed above, this is the $x$-$y$ plane, and is often referred to in this context as the phase plane. Representation in this manner proves to be the most convenient way to visualise the system.
+We observed earlier that the restriction to autonomous ODEs in the one-dimensional case allowed us to restrict attention to the phase portrait; the plot of $f(y)$ against $y$. In the two-dimensional case, this restriction allows us to limit our attention to the plane produced by the two dependent variables. Using our notation from the two-dimensional autonomous system prescribed above, this is the $x$-$y$ plane, and is often referred to in this context as the phase plane. Representation in this manner proves to be the most convenient way to visualise the system.
 
-In this plane, we can produce a plot analogous to the flow field discussed earlier for one-dimensional autonomous systems, by at many points $(x,y)$ plotting a small line segment (a vector) in the direction given by the rates of change of $x$ and $y$; provided by $f(x,y)$ and $g(x,y)$. This plot is usually referred to as the velocity field, or sometimes the direction field, and perhaps confusingly, the phase portrait. We can then again for any point trace out the trajectory of a solution by using the fact that it must pass through our line segments in a tangential manner. Repeating this procedure for several points, we can again build up a family of solutions and a good picture of the behaviour of solutions to our system two-dimensional autonomous ODE system. As before however, it is important to understand that using this method is only an approximation to performing numerical integration, and things can here become very ambiguous around certain points (the equilibria).
+In this plane, we can produce a plot analogous to the flow field discussed earlier for one-dimensional autonomous systems: at many points $(x,y)$ we plot a small line segment (a vector) in the direction given by the rates of change of $x$ and $y$, which are provided by $f(x,y)$ and $g(x,y)$. This plot is usually referred to as the velocity field, or sometimes the direction field, and perhaps confusingly, the phase portrait. We can then again for any point trace out the trajectory of a solution by using the fact that it must pass through our line segments in a tangential manner. Repeating this procedure for several starting points, we can again build up a family of solutions and a good picture of the behaviour of solutions to our two-dimensional autonomous ODE system. As before, however, it is important to understand that using this method is only an approximation to performing numerical integration, and things can here become very ambiguous around certain points (the equilibria).
 
-To illustrate the concept of the velocity field, we again turn to an example. This time consider the system given by:
-
+To illustrate the concept of the velocity field, we again turn to an example. This time consider the system given by (this is an example of a Lotka-Volterra model, which will be discussed more later):
 $$ \frac{dx}{dt} = x-xy, \ \frac{dy}{dt} = xy-y. $$
+Using __phaseR__ we can produce the following plot of the velocity field along with several trajectories:
+```{r, echo = F, fig.dim = c(7, 5)}
+lotkaVolterra_flowField    <- flowField(lotkaVolterra,
+                                        xlim       = c(0, 5), 
+                                        ylim       = c(0, 5),
+                                        parameters = c(1, 1, 1, 1),
+                                        add        = F)
+lotkaVolterra_trajectories <- trajectory(lotkaVolterra,
+                                         y0     = rbind(c(2, 2),
+                                                        c(0.5, 0.5),
+                                                        c(0.5, 1.5),
+                                                        c(1.5, 0.5),
+                                                        c(3, 3)),
+                                         parameters = c(1, 1, 1, 1),
+                                         col    = rep("black", 5),
+                                         tlim   = c(0, 100))
+```
 
-Using __phaseR__ we can produce the following plot of the velocity field along with several trajectories
-
-Analogous to the one dimensional analysis performed earlier, we observe how our restriction to continuous partially differentiable $f$ and $g$ ensures that trajectories cannot cross (though they can again converge at equilibria).
+Analogous to the one-dimensional analysis performed earlier, we observe how our restriction to continuous partially differentiable $f$ and $g$ ensures that trajectories cannot cross (though they can again converge at equilibria).
 
 What is more, as before, some texts advise to plot the vectors at lengths reflecting the magnitudes of the rates of change of $x$ and $y$. However, some small arbitrary length usually still remains the best option.
 
-Finally, as was the case in the one dimensional analysis, some texts here again refer to the method of isoclines for tracing out trajectories. Isoclines here are defined as curves in the $x$-$y$ plane of constant gradient, i.e.
-
+Finally, as was the case in the one-dimensional analysis, some texts here again refer to the method of isoclines for tracing out trajectories. Isoclines are now defined as curves of constant gradient in the $x$-$y$ plane, i.e.:
 $$ \frac{dy}{dx} = \frac{g(x,y)}{f(x,y)} = \alpha, $$
-
-for different values of $\alpha$. Once more, trajectories would be produced by using the fact that we know the angle they should cut each isocline. We will make no further reference to isoclines in these notes; hopefully for reasons discussed below it should become clear why certain tricks make the need for plotting isoclines very rare.
+for different values of $\alpha$. Once more, trajectories would be produced by using the fact that we know the angle they should cut each isocline. We will make no further reference to isoclines in these notes; hopefully for reasons discussed below it should become clear why certain tricks make the need for to plot isoclines very unusual.
 
 ### Nullclines
 
-A new important concept in the case of two dimensional systems, is that of nullclines. Here, $x$-nullclines are defined by the locations where $f(x,y)=0$, whilst the $y$-nullclines are defined by the locations where $g(x,y)=0$. Thus, the $x$- and $y$-nullclines define the locations where $x$ and $y$ respectively, do not change with $t$. As a consequence, when plotting a vector field by hand it is usually wise to plot the nullclines first, as the line segments (or vectors) along them move parallel to the $x$- and $y$-axes.
+A new important concept in the case of two-dimensional systems is that of nullclines. Here, $x$-nullclines are defined by the locations where $f(x,y)=0$, whilst the $y$-nullclines are defined by the locations where $g(x,y)=0$. Thus, the $x$- and $y$-nullclines define the locations where $x$ and $y$, respectively, do not change with $t$. As a consequence, when plotting a vector field by hand it is usually wise to plot the nullclines first, as the line segments (or vectors) along them move parallel to the $x$- and $y$-axes.
 
-Returning to our example given by system (6), we can find its nullclines as follows:
-
-$$ \begin{align} x &∶  x-xy = 0 \Rightarrow x(1-y) = 0 \Rightarrow x=0 \text{ or } y=1,\\
-y &∶ xy-y = 0 \Rightarrow y(x-1) = 0 \Rightarrow x=1 \text{ or } y=0. \end{align} $$
-
+Returning to our example given above, we can find its nullclines as follows:
+$$ \begin{align}
+x &∶ x-xy = 0 \Rightarrow x(1-y) = 0 \Rightarrow x=0 \text{ or } y=1,\\
+y &∶ xy-y = 0 \Rightarrow y(x-1) = 0 \Rightarrow x=1 \text{ or } y=0.
+\end{align} $$
 We can then plot these nullclines along with the velocity field:
+```{r, echo = F, fig.dim = c(7, 5)}
+lotkaVolterra_flowField    <- flowField(lotkaVolterra,
+                                        xlim       = c(0, 5), 
+                                        ylim       = c(0, 5),
+                                        parameters = c(1, 1, 1, 1),
+                                        add        = F)
+lotkaVolterra_trajectories <- nullclines(lotkaVolterra,
+                                         xlim      = c(-0.5, 5),
+                                         ylim      = c(-0.5, 5),
+                                         parameters = c(1, 1, 1, 1),
+                                         points = 251)
+```
 
 ### Equilibrium points and stability
 
-Equilibrium points maintain their importance in two dimensions. Here, generalisation defines them to be the locations $(x_*,y_*)$ where
-
+Equilibrium points maintain their importance in two dimensions. Here, generalisation defines them to be the locations $(x_*,y_*)$ where:
 $$ f(x_*,y_*)=g(x_*,y_*)=0. $$
-
 Thus, another utility of nullclines immediately becomes apparent; the locations where $x$- and $y$-nullclines cross are the equilibria. However, it is important to note that locations where $x$-nullclines or $y$-nullclines cross each other, are not equilibria. For this reason it is usually useful to plot $x$- and $y$-nullclines in different colours.
 
-Revisiting the example system (6), it is easy to find either analytically, or from the nullcline plot, that two equilibria are present; the points $(0,0)$ and $(1,1)$.
+Revisiting our example system from earlier, it is easy to find either analytically, or from the nullcline plot, that two equilibria are present; the points $(0,0)$ and $(1,1)$.
 
-We now note a useful fact about equilibria and nullclines from the plot in Section 3.3. On opposite sides of an equilibria, along a nullcline, the orientation of the velocity arrows is reversed. This is a property shared by the majority of systems (with the exception being certain singular cases where the Jacobian that we meet later is zero). Because trajectories must be continuous, the direction vectors must vary continuously from one point to another on the nullclines everywhere else. So in most cases when seeking to plot the velocity field and trajectories, it suffices to determine direction vectors at a few select locations and deduce the rest by preserving continuity and switching orientation when an equilibrium is crossed. It is this trick that makes plotting many isoclines often unnecessary.
+We now note a useful fact about equilibria and nullclines, which can be observed in the plot above. On opposite sides of an equilibria, along a nullcline, the orientation of the velocity arrows is reversed. This is a property shared by the majority of systems (with the exception being certain singular cases where the Jacobian that we meet later is zero). Because trajectories must be continuous, the direction vectors must vary continuously from one point to another everywhere else. So in most cases when seeking to plot the velocity field, it suffices to determine direction vectors at a few select locations and deduce the rest by preserving continuity and switching orientation when an equilibrium point is crossed. It is this trick that makes plotting numerous isoclines often unnecessary.
 	
-Again, we must now turn our attention to the stability of the equilibrium points. In two dimensions the definition of stability remains the same, but as well as determining whether a point is stable or unstable, we can additionally classify the nature in which trajectories move away or towards it. Ultimately, as in the one dimensional case, we aim to identify the long term behaviour of solutions in different regions of the plane.
+Again, we must now turn our attention to the stability of the equilibrium points. In two dimensions the definition of stability remains the same, but as well as determining whether a point is stable or unstable, we can additionally classify the nature in which trajectories move away or towards it. Ultimately, as in the one-dimensional case, we aim to identify the long term behaviour of solutions in different regions of the plane.
 
-In this case, we must make use of a mathematical argument; to gain a full understanding use of a graph is not enough (though it can be useful in certain singular cases). Here, many texts distinguish between the case of linear and non-linear systems, and so we will also make such a distinction, though ultimately we will treat these two types of system the same.
+In this case, we must make use of a mathematical argument; to gain a full understanding use of a graph is not enough (though it can be useful in certain singular cases). Here, many texts distinguish between the case of linear and non-linear systems, and so we will also first make such a distinction, though ultimately we will treat these two types of system equally.
 
-The linear version of system (5) is given by
-
+The linear version of a two-dimensional autonomous ODE system is given by:
 $$ \frac{dx}{dt} = ax+by,\ \frac{dy}{dt} = cx+dy, $$
-
 or in matrix form:
-
 $$ \frac{d}{dt}\begin{pmatrix} x \\ y\end{pmatrix} = \frac{d}{dt}\boldsymbol{x} = \begin{pmatrix} a & b \\ c & d \end{pmatrix} \begin{pmatrix} x \\ y\end{pmatrix} = A \boldsymbol{x}. $$
-
-Now, provided $\text{det}(A)\neq0$, a unique solution exists to this system (we'll return to discussing the case $\text{det}(A)=0$ later), and can be written in the form
-
+Now, provided $\text{det}(A)\neq0$, a unique solution exists to this system (we will return to discuss the case $\text{det}(A)=0$ later), and it can be written in the form:
 $$ \boldsymbol{x}=C_1e^{\lambda_1t}\boldsymbol{e}_1 + C_2e^{\lambda_2t}\boldsymbol{e}_2, $$
-
 where $\lambda_1$ and $\lambda_2$ are the eigenvalues of $A$, $\boldsymbol{e}_1$ and $\boldsymbol{e}_2$ are their corresponding eigenvectors, and $C_1$ and $C_2$ are arbitrary constants. From here we can determine stability based on the values of the eigenvalues. However, the procedure from here on out is the same as that for non-linear systems and so we will move to the analysis required for the more complex case of non-linearity.
 
-So, from the above it should be obvious that provided $\text{det}(A)\neq0$, linear systems have only one equilibrium point; $(0,0)$. Non-linear systems however, are much more complicated; they can have multiple equilibria and even display limit cycle behaviour (as defined later). However, close to an equilibrium point, behaviour can be usually understood by linearising the model about the equilibria.
+So, from the above it should be obvious that provided $\text{det}(A)\neq0$, linear systems have only one equilibrium point; $(0,0)$. Non-linear systems, however, are much more complicated; they can have multiple equilibria and even display limit cycle behaviour (as defined later). However, close to an equilibrium point, behaviour can be usually understood by linearising the model about the equilibria.
 
-To do this we proceed in a similar fashion to the Taylor Series method of Section 2.3. We suppose we have an equilibrium point given by $(x_*,y_*)$ and that our system lies initially slightly away from this point at $(x_*+\delta(0),y_*+\epsilon(0))$, and in general at $(x_*+\delta(t),y_*+\epsilon(t))$. Then using the Taylor expansion for $f$, our differential equation for $\boldsymbol{x}$ becomes
-
-$$ \begin{align} \frac{d\delta}{dt} &= f(x_*+\delta,y_*+\epsilon),\\
-&= f(x_*,y_*) + \delta \frac{\partial f}{\partial x}(x_*,y_*) + \epsilon\frac{\partial f}{\partial y}(x_*,y_*) + o(\delta) + o(\epsilon),\\ &= \delta \frac{\partial f}{\partial x}(x_*,y_*) + \epsilon\frac{\partial f}{\partial y}(x_*,y_*) + o(\delta) + o(\epsilon). \end{align} $$
-
+To do this we proceed in a similar fashion to the Taylor Series method for one-dimensional autonomous ODEs. We suppose we have an equilibrium point given by $(x_*,y_*)$ and that our system lies initially slightly away from this point at $(x_*+\delta(0),y_*+\epsilon(0))$, and in general at $(x_*+\delta(t),y_*+\epsilon(t))$. Then, using the Taylor expansion for $f$, our differential equation for $\boldsymbol{x}$ becomes:
+$$ \begin{align}
+\frac{d\delta}{dt} &= f(x_*+\delta,y_*+\epsilon),\\
+&= f(x_*,y_*) + \delta \frac{\partial f}{\partial x}(x_*,y_*) + \epsilon\frac{\partial f}{\partial y}(x_*,y_*) + o(\delta) + o(\epsilon),\\ &= \delta \frac{\partial f}{\partial x}(x_*,y_*) + \epsilon\frac{\partial f}{\partial y}(x_*,y_*) + o(\delta) + o(\epsilon).
+\end{align} $$
 Similarly, our differential equation for $y$ becomes:
-
 $$ \frac{d\epsilon}{dt} = \delta \frac{\partial g}{\partial x}(x_*,y_*) + \epsilon\frac{\partial g}{\partial y}(x_*,y_*) + o(\delta) + o(\epsilon). $$
-
 Here we have again assumed terms of second order and higher are negligible. 
 
 If we write this system in matrix form we acquire:
-
 $$ \frac{d}{dt}\boldsymbol{\delta} = \left. \begin{pmatrix} \frac{\partial f}{\partial x} & \frac{\partial f}{\partial y} \\ \frac{\partial g}{\partial x} & \frac{\partial g}{\partial y} \end{pmatrix}\right|_{(x_*,y_*)}\boldsymbol{\delta} = \left. \begin{pmatrix} f_x & f_y \\ g_x & g_y \end{pmatrix}\right|_{(x_*,y_*)}\boldsymbol{\delta} =  J\boldsymbol{\delta},$$
 where $J$ is called the Jacobian of the system, and:
-
 $$ \boldsymbol{\delta} = \begin{pmatrix} \delta \\ \epsilon \end{pmatrix}. $$
-If we let the eigenvalues of $J$ be denoted $\lambda_1$ and $\lambda_2$, with corresponding eigenvectors $\boldsymbol{e}_1$ and $\boldsymbol{e}_2$, then the general solution to the above is:
-
+If we let the eigenvalues of $J$ be denoted by $\lambda_1$ and $\lambda_2$, with corresponding eigenvectors $\boldsymbol{e}_1$ and $\boldsymbol{e}_2$, then the general solution to the above is:
 $$ \boldsymbol{\delta} = C_1e^{\lambda_1t}\boldsymbol{e}_1+C_2e^{\lambda_2t}\boldsymbol{e}_2, $$
 where $C_1$ and $C_2$ are arbitrary constants. 
 
-Considering the linear system from earlier we find that $J=A$. Thus stability of $(0,0)$ in the linear case can be determined by the same classification rules as below for the non-linear case. Specifically we have:
+Considering the linear system from earlier we find that $J=A$. Thus, stability of $(0,0)$ in the linear case can be determined by the same classification rules as below for the non-linear case. Specifically, we have:
 
-- If $\lambda_1$ and $\lambda_2$ are both real and positive ($\lambda_1>\lambda_2>0$ say), the solution for $\delta$ moves outwards in both the $\boldsymbol{e}_1$ and $\boldsymbol{e}_2$ directions (to be precise, it moves more quickly in the $\boldsymbol{e}_1$ direction). Thus $|\boldsymbol{\delta}|$ will increase exponentially with $t$ and so trajectories move away from the equilibrium point. This is the definition of an unstable node.
-- If $\lambda_1$ and $\lambda_2$ are both real and negative ($\lambda_1<\lambda_2<0$ say), $|\boldsymbol{\delta}|$ will decrease exponentially and trajectories move towards the equilibrium point. This is the definition of a stable node.
-- If $\lambda_1$ and $\lambda_2$ are both real but have opposite sign ($\lambda_1<0$, $\lambda_2>0$ say), trajectories move outwards along $\boldsymbol{e}_2$, but inwards along $\boldsymbol{e}_1$. Unless $\boldsymbol{\delta}$ initially lies exactly parallel to $\boldsymbol{e}_1$, the solution will eventually move away from the equilibrium point; and thus it is unstable. This is the definition of a saddle point.
-- If $\lambda_1$ and $\lambda_2$ are complex ($a \pm ib$ say), then the solution for $\boldsymbol{\delta}$ can be rewritten as:
-
+- If $\lambda_1$ and $\lambda_2$ are both real and positive, the solution for $\delta$ moves outwards in both the $\boldsymbol{e}_1$ and $\boldsymbol{e}_2$ directions. Thus $|\boldsymbol{\delta}|$ will increase exponentially with $t$ and so trajectories move away from the equilibrium point. This is the definition of an unstable node.
+- If $\lambda_1$ and $\lambda_2$ are both real and negative, $|\boldsymbol{\delta}|$ will decrease exponentially and trajectories move towards the equilibrium point. This is the definition of a stable node.
+- If $\lambda_1$ and $\lambda_2$ are both real but have opposite sign, e.g., $\lambda_1<0$ with $\lambda_2>0$, trajectories move outwards along $\boldsymbol{e}_2$, but inwards along $\boldsymbol{e}_1$. Unless $\boldsymbol{\delta}$ initially lies exactly parallel to $\boldsymbol{e}_1$, the solution will eventually move away from the equilibrium point; and thus it is unstable. This is the definition of a saddle point.
+- If $\lambda_1$ and $\lambda_2$ are complex, e.g., they are $a \pm ib$ for some $a$ and $b$, then the solution for $\boldsymbol{\delta}$ can be rewritten as:
 $$ \begin{align} \boldsymbol{\delta} &= e^{at}[C_1(\cos bt + i\sin bt)\boldsymbol{e}_1 + C_2(\cos bt - i\sin bt)\boldsymbol{e}_2],\\ &= e^{at}(\boldsymbol{A}\cos bt + \boldsymbol{B}\sin bt),  \end{align} $$
+where $\boldsymbol{A}=C_1\boldsymbol{e}_1+C_2\boldsymbol{e}_2$ and $\boldsymbol{B}=i(C_1\boldsymbol{e}_1-C_2\boldsymbol{e}_2)$. Thus, from this form we can see that the solution will spiral around the equilibrium point. If $a>0$ then with each loop $|\boldsymbol{\delta}|$ increases; this is the definition of an unstable focus. If $a<0$ then with each loop $|\boldsymbol{\delta}|$ decreases; this is the definition of a stable focus. If $a=0$ then the solution continues in a closed loop; this is the definition of a centre.
 
-where $\boldsymbol{A}=C_1\boldsymbol{e}_1+C_2\boldsymbol{e}_2$ and $\boldsymbol{B}=i(C_1\boldsymbol{e}_1-C_2\boldsymbol{e}_2)$. Thus, from this form we can see that the solution will spiral around the equilibrium point. If $a>0$ then with each loop $|\boldsymbol{\delta}|$ increases; this is the definition of an unstable focus. If $a<0$ then we have the opposite situation; with each loop $|\boldsymbol{\delta}|$ decreases; this is the definition of a stable focus. If $a=0$ then the solution continues in a closed loop; this is the definition of a centre.
-
-Fortunately for us, it is not actually necessary to find the exact values of the eigenvalues (though computationally this is not a difficult task, by hand it can be time consuming). We only require the signs of the eigenvalues, or of their real parts, to perform the classification. To this end, consider the characteristic equation of $J$:
-
+Fortunately, it is not actually necessary to find the exact values of the eigenvalues (though computationally this is not a difficult task, by hand it can be time consuming). We only require the signs of the eigenvalues, or of their real parts, to perform the classification. To this end, consider the characteristic equation of $J$:
 $$ (f_x-λ)(g_y-λ)-f_y g_x=0. $$
-
-Observing that $\text{tr}(J)=f_x+g_y$ and $\text{det}(J)=\Delta=f_x g_y-f_y g_x$, we can write the characteristic equation of $J$ as:
-
+Observing that $\text{tr}(J)=T=f_x+g_y$ and $\text{det}(J)=\Delta=f_x g_y-f_y g_x$, we can write the characteristic equation of $J$ as:
 $$ \begin{align} \lambda^2 - T\lambda+\Delta &= 0,\\ \Longrightarrow \lambda &= \frac{T \pm \sqrt{T^2-4\Delta}}{2}. \end{align}$$
-
-From this we can draw up the following table that allows us to classify the equilibria using the signs of $T$, $\Delta$ and $T^2-4\Delta$:
-
+From this we can draw up the following table that allows us to classify the equilibria using the signs of $T$, $\Delta$, and $T^2-4\Delta$:
 
 | $\Delta$ | $T^2-4\Delta$ | Eigenvalues of $J$     | $T$  | Classification |
 | --------:| -------------:| ----------------------:| ----:| --------------:|
@@ -257,33 +264,36 @@ From this we can draw up the following table that allows us to classify the equi
 | N/A      | $=0$          | Real, equal            | $>0$ | Unstable node  |
 __Note:__ Focus’ are often referred to as spirals.
 
-From here, we will always refer to $T^2-4\Delta$ as the discriminant.
+From here, we will refer to $T^2-4\Delta$ as the discriminant.
 
 To be more precise, for the case of $\Delta=0$; we would have to consider second-order terms in the Taylor Series approximation made earlier in order to determine stability. Alternatively, in this case, use of the velocity field and traced trajectories can allow us to identify if the point is stable or not.
 
-Returning to our example system from earlier, taking partial derivatives we can compute the Jacobian at any equilibrium point $(x_*,y_*)$ from the general version:
-
+Returning to our example system from earlier, taking partial derivatives we can compute the Jacobian at any equilibrium point $(x_*,y_*)$:
 $$ J = \begin{pmatrix} 1 - y_* & -x_* \\ y_* & x_* - 1\end{pmatrix}.  $$
-
 Thus, at $(0,0)$, we have:
-
 $$ J = \left.\begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}\right|_{(0,0)}. $$
-So $\text{tr}(J)=T=0$ and $\text{det}(J)=\Delta=-1$; which from our table above makes $(0,0)$ a saddle point. For $(1,1)$ however, we have:
-
+So $\text{tr}(J)=T=0$ and $\text{det}(J)=\Delta=-1$; which from our table above makes $(0,0)$ a saddle point. For $(1,1)$, however, we have:
 $$ J = \left.\begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}\right|_{(1,1)}. $$
 Therefore, $\text{tr}(J)=T=0$ and $\text{det}(J)=\Delta=1$; which from our table above makes $(1,1)$ a centre. Indeed, if we look back at our earlier plot, we can observe trajectories diverging away from $(0,0)$, but traversing around $(1,1)$. Again, we will see later how this analysis can be performed for us in __phaseR__.
 
 As a last point of interest, note that it is sometimes interesting to plot $x$ and $y$ trajectories against $t$. For the case of $(x_0,y_0)=(3,4)$ in our example system this results in the following plot where we can witness the oscillating nature of $x$ and $y$:
 
+```{r, echo = F, fig.dim = c(7, 5)}
+lotkaVolterra_numericalSolution <- numericalSolution(lotkaVolterra,
+                                                     y0 = c(3, 4),
+                                                     tlim = c(0, 50),
+                                                     parameters = c(1, 1, 1, 1))
+```
+
 The utility of such plots becomes more apparent in cases where trajectories can be seen to converge upon an equilibrium point; indicating its stability and often whether it is a node or focus.
 
-So, we have now discussed all of the techniques required to a perform phase plane analysis of a two dimensional autonomous ODE system. We begin by locating and plotting nullclines, using these to create the velocity field. From this we can plot numerous trajectories. We then identify any equilibria and classify them according to the earlier table. Before we move to discuss how to use __phaseR__ however, we will give brief attention to two additional considerations of interest in the analysis of two dimensional autonomous ODE systems.
+So, we have now discussed all of the techniques required to a perform phase plane analysis of a two-dimensional autonomous ODE system. We begin by locating and plotting nullclines, using these to create the velocity field. From this we can plot numerous trajectories. We then identify any equilibria and classify them according to the table above. Before we move to discuss how to use __phaseR__ however, we will give brief attention to two additional considerations of interest in the analysis of two-dimensional autonomous ODE systems.
 
 ### Stable and unstable manifolds
 
 The stable and unstable manifolds of an equilibrium point give a formal mathematical definition to the general notions embodied in the idea of a point being an attractor or repellor. Precisely, the stable and unstable manifolds are defined as the set of all points in the plane which tend to the equilibrium point as time goes to positive, and respectively negative, infinity. For example, a system with a single stable node will have the whole plane as its stable manifold and just the node itself as its unstable manifold. 
 
-Things are slightly more interesting for saddle points however. Recall that saddle points have a positive eigenvalue and a negative eigenvalue. The stable (unstable) manifold of a saddle point is the eigenvector corresponding to the positive (negative) eigenvalue. Moreover, the stable and unstable manifolds of saddle points are very important to understanding the global behaviour of the orbits of the whole planar system. They form separatrices; partitioning the plane into invariant regions of differing dynamics. We will see evidence of such separatrices in an example later when we observe how __phaseR__ can be used to plot the stable and unstable manifolds of any saddle point.
+Things are slightly more interesting for saddle points, however. Recall that saddle points have a positive eigenvalue and a negative eigenvalue. The stable (unstable) manifold of a saddle point is the eigenvector corresponding to the positive (negative) eigenvalue. Moreover, the stable and unstable manifolds of saddle points are very important to understanding the global behaviour of the orbits of the whole planar system. They form separatrices; partitioning the plane into invariant regions of differing dynamics. We will see evidence of such separatrices in an example later when we observe how __phaseR__ can be used to plot the stable and unstable manifolds of any saddle point.
 
 ### Limit cycles
 
@@ -291,257 +301,279 @@ Non-linear systems can also exhibit a type of behaviour known as a limit cycle. 
 
 ## phaseR usage
 
-To perform all of the techniques discussed above, the package contains nine key functions. Below is a description of each ones utility, as well as the user specifiable input variables, and the output you can expect. The description of the inputs and outputs is repetitive on purpose to reflect how many are common across programs, and for the most part equal to the descriptions seen in __R__. In addition, we will continue to use $x$, $y$ and $t$ as our variables.
+To perform all of the techniques discussed above, the package contains nine key functions. Below is a description of each ones utility, as well as the user specifiable input variables, and the output you can expect. The description of the inputs and outputs is repetitive on purpose to reflect how many are common across programs. For the most part, they are also equal to the descriptions seen in the function help files in __R__. In addition, we will continue to use $x$, $y$, and $t$ as our variables.
 
 ### `drawManifolds()`
 
 ```{r, eval = F}
-drawManifolds(deriv, y0 = NULL, parameters = NULL,
-              tend = 1000, col = c("green", "red"),
-              add.legend = TRUE, ...)
+drawManifolds(deriv, y0 = NULL, parameters = NULL, tstep = 0.1, tend = 1000,
+              col = c("green", "red"), add.legend = TRUE,
+              state.names = c("x", "y"), ...)
 ```
 
 This function allows the user to plot the stable and unstable manifolds of a saddle point. The following inputs can be set:
 
-- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. More discussion of the required structure of these functions is supplied at the end of this section.
-- `y0`: The initial point from which a saddle will be searched for. This can either be a vector of length two reflecting the location of the two dependent variables initially, or it can be left blank and the user can use `locator()` to specify the initial point on a plot.
-- `parameters`: Parameters of the ODE system, to be passed to `deriv`. Supplied as a vector; the order of the parameters can be found from the `deriv` file. Defaults to `NULL`.
+- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. Discussion of the required structure of these functions can be found at the end of this section, or in the help file for `deSolve::ode()`.
+- `y0`: The initial point from which a saddle will be searched for. This can either be a numeric vector of length two, reflecting the location of the two dependent variables, or alternatively this can be specified as `NULL`, and then `graphics::locator()` can be used to specify the initial point on a plot. Defaults to `NULL`.
+- `parameters`: Parameters of the ODE system, to be passed to `deriv`. Supplied as a numeric vector; the order of the parameters can be found from the `deriv` file. Defaults to `NULL`.
+- `tstep`: The step length of the independent variable, used in numerical integration. Decreasing the absolute magnitude of `tstep` theoretically makes the numerical integration more accurate, but increases computation time. Defaults to `0.01`.
 - `tend`: The final time of the numerical integration performed to identify the manifolds.
-- `col`: Sets the colour of the plotted manifolds. Should be a vector of length two. Will be reset accordingly if it is a vector of the wrong length. Defaults to `col = c("green", "red")`.
+- `col`: Sets the colours used for the stable and unstable manifolds. Should be a character vector of length two. Will be reset accordingly if it is of the wrong length. Defaults to `c("green", "red")`.
+- `state.names`: The state names for `deSolve::ode()` functions that do not use positional states.
 - `add.legend`: Logical. If `TRUE`, a legend is added to the plot. Defaults to `TRUE`.
+- `...`: Additional arguments to be passed to `graphics::plot()`.
 
 Returned by `drawManifolds()` is a list containing all of the input variables as well as following components:
 
-- `stable`: A matrix with three columns; the first containing values of time, the second of values of $x$, and the third values of $y$ corresponding to the identified stable manifold.
-- `unstable`: A matrix with three columns; the first containing values of time, the second of values of $x$, and the third values of $y$ corresponding to the identified unstable manifold.
+- `stable.1`: A numeric matrix whose columns are the numerically computed values of the dependent variables for part of the stable manifold.
+- `stable.2`: A numeric matrix whose columns are the numerically computed values of the dependent variables for part of the stable manifold.
+- `unstable.1`: A numeric matrix whose columns are the numerically computed values of the dependent variables for part of the unstable manifold.
+- `unstable.2`: A numeric matrix whose columns are the numerically computed values of the dependent variables for part of the unstable manifold.
+- `ystar`: Location of the identified equilibrium point.
 
 ### `findEquilibrium()`
 
 ```{r, eval = F}
-findEquilibrium(deriv, y0 = NULL, parameters = NULL,
-                system = "two.dim", tol = 1e-16, max.iter = 50,
-                h = 1e-6, plot.it = FALSE, summary = TRUE)
+findEquilibrium(deriv, y0 = NULL, parameters = NULL, system = "two.dim",
+                tol = 1e-16, max.iter = 50, h = 1e-6, plot.it = FALSE,
+                summary = TRUE,
+                state.names = if (system == "two.dim") c("x", "y") else "y")
 ```
 
 This function allows the user to search for an equilibrium point. The following inputs can be set:
 
-- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. More discussion of the required structure of these functions is supplied at the end of this section.
-- `y0`: The initial point from which a saddle will be searched for. This can either be a vector of length two reflecting the location of the two dependent variables initially, or it can be left blank and the user can use `locator()` to specify the initial point on a plot.
-- `parameters`: Parameters of the ODE system, to be passed to `deriv`. Supplied as a vector; the order of the parameters can be found from the `deriv` file. Defaults to `NULL`.
+- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. Discussion of the required structure of these functions can be found at the end of this section, or in the help file for `deSolve::ode()`.
+- `y0`: The starting point of the search. In the case of a one-dimensional system, this should be a numeric vector of length one indicating the location of the dependent variable initially. In the case of a two-dimensional system, this should be a numeric vector of length two reflecting the location of the two dependent variables initially. Alternatively this can be specified as `NULL`, and then `graphics::locator()` can be used to specify the initial point on a plot. Defaults to `NULL`.
+- `parameters`: Parameters of the ODE system, to be passed to `deriv`. Supplied as a numeric vector; the order of the parameters can be found from the `deriv` file. Defaults to `NULL`.
 - `system`: Set to either `"one.dim"` or `"two.dim"` to indicate the type of system being analysed. Defaults to `"two.dim"`.
-- `tol`:
-- `max.iter`:
-- `plot.it`: 
-- `h`: Step length used to approximate the derivative(s). Defaults to `1e-7`.
+- `tol`: The tolerance for the convergence of the search algorithm. Defaults to `1e-16`.
+- `max.iter`: The maximum allowed number of iterations of the search algorithm. Defaults to `50`.
+- `h`: Step length used to approximate the derivative(s). Defaults to `1e-6`.
+- `plot.it`: Logical. If `TRUE`, a point is plotted at the identified equilibrium point, with shape corresponding to its classification.
 - `summary`: Logical. If `TRUE`, a summary of the classification of the equilibrium point is printed to the console. Defaults to `TRUE`.
 
-Returned by `findEquilibrium()` is a list object containing all of the input variables as well as following components (the exact the exact make up is dependent upon the value of `system`):
+Returned by `findEquilibrium()` is a list object containing all of the input variables as well as following components (the exact make up is dependent on the value of `system`):
 
-- `Delta`: In the two dimensional system case, the value of the Jacobians determinant at ystar.
-- `discriminant`: In the one dimensional system case, the value of the discriminant used in Perturbation Analysis to assess stability. In the two dimensional system case, the value of $T^2  - 4\Delta$.
-- `eigenvalues`: In the two dimensional system case, the value of the Jacobians eigenvalues at `ystar`.
-- `eigenvectors`: In the two dimensional system case, the value of the Jacobians eigenvectors at `ystar`.
-- `jacobian`: In the two dimensional system case, the Jacobian at `ystar`.
-- `tr`: In the two dimensional system case, the value of the Jacobians trace at `ystar`.
+- `Delta`: A function computing the derivative at a point for the ODE system to be analysed. Discussion of the required structure of these functions can be found at the end of this section, or in the help file for `deSolve::ode()`.
+- `discriminant`: In the one-dimensional system case, the value of the discriminant used in perturbation analysis to assess stability. In the two-dimensional system case, the value of `tr^2 - 4*Delta` ($T^2  - 4\Delta$).
+- `eigenvalues`: In the two-dimensional system case, the value of the Jacobian's eigenvalues at `ystar`.
+- `eigenvectors`: In the two-dimensional system case, the value of the Jacobian's eigenvectors at `ystar`.
+- `jacobian`: In the two-dimensional system case, the Jacobian at `ystar`.
+- `tr`: In the two-dimensional system case, the value of the Jacobian's trace at `ystar`.
 
 ### `flowField()`
 
 ```{r, eval = F}
-flowField(deriv, xlim, ylim, parameters = NULL,
-          system = "two.dim", points = 21, col = "gray",
-          arrow.type = "equal", arrow.head = 0.05, frac = 1,
-          add = TRUE, xlab = "x", ylab = "y", ...)
+flowField(deriv, xlim, ylim, parameters = NULL, system = "two.dim", points = 21,
+          col = "gray", arrow.type = "equal", arrow.head = 0.05, frac = 1,
+          add = TRUE,
+          state.names = if (system == "two.dim") c("x", "y") else "y",
+          xlab = if (system == "two.dim") state.names[1] else "t",
+          ylab = if (system == "two.dim") state.names[2] else state.names[1],
+          ...)
 ```
 
-This function allows the user to plot the flow or velocity field for a one or two dimensional autonomous ODE system. The following inputs can be set:
+This function allows the user to plot the flow or velocity field for a one- or two-dimensional autonomous ODE system. The following inputs can be set:
 
-- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. More discussion of the required structure of these functions is supplied at the end of this section.
-- `xlim`: In the case of a two dimensional system, this sets the limits of the first dependent variable in which gradient reflecting line segments should be plotted. In the case of a one dimensional system, this sets the limits of the independent variable in which these line segments should be plotted. Should be a vector of length two.
-- `ylim`: In the case of a two dimensional system this sets the limits of the second dependent variable in which gradient reflecting line segments should be plotted. In the case of a one variable system, this sets the limits of the dependent variable in which these line segments should be plotted. Should be a vector of length two.
-- `parameters`: Parameters of the ODE system, to be passed to `deriv`. Supplied as a vector; the order of the parameters can be found from the `deriv` file. Defaults to `NULL`.
+- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. Discussion of the required structure of these functions can be found at the end of this section, or in the help file for `deSolve::ode()`.
+- `xlim`: In the case of a two-dimensional system, this sets the limits of the first dependent variable in which gradient reflecting line segments should be plotted. In the case of a one-dimensional system, this sets the limits of the independent variable in which these line segments should be plotted. Should be a numeric vector of length two.
+- `ylim`: In the case of a two-dimensional system this sets the limits of the second dependent variable in which gradient reflecting line segments should be plotted. In the case of a one-dimensional system, this sets the limits of the dependent variable in which these line segments should be plotted. Should be a numeric vector of length two.
+- `parameters`: Parameters of the ODE system, to be passed to `deriv`. Supplied as a numeric vector; the order of the parameters can be found from the `deriv` file. Defaults to `NULL`.
+- `points`: Sets the density of the line segments to be plotted; `points` segments will be plotted in the $x$ and $y$ directions. Fine tuning here, by shifting `points` up and down, allows for the creation of more aesthetically pleasing plots. Defaults to `11`.
 - `system`: Set to either `"one.dim"` or `"two.dim"` to indicate the type of system being analysed. Defaults to `"two.dim"`.
-- `points`: Sets the density of the line segments to be plotted. `points` segments will be plotted in the $x$ and $y$ directions. Fine tuning here, by shifting points up and down, allows for the creation of more aesthetically pleasing plots. Defaults to `11`.
-- `col`: Sets the colour of the plotted line segments. Should be a vector of length one. Will be reset accordingly if it is a vector of the wrong length. Defaults to `"gray"`.
+- `col`: Sets the colour of the plotted line segments. Should be a character vector of length one. Will be reset accordingly if it is of the wrong length. Defaults to `"gray"`.
 - `arrow.type`: Sets the type of line segments plotted. If set to `"proportional"` the length of the line segments reflects the magnitude of the derivative. If set to `"equal"` the line segments take equal lengths, simply reflecting the gradient of the derivative(s). Defaults to `"equal"`.
-- `arrow.head`: Sets the length of the arrow heads. Passed to `arrows()`. Defaults to `0.05`.
+- `arrow.head`: Sets the length of the arrow heads. Passed to `graphics::arrows()`. Defaults to `0.05`.
 - `frac`: Sets the fraction of the theoretical maximum length line segments can take without overlapping, that they can actually attain. In practice, `frac` can be set to greater than 1 without line segments overlapping. Fine tuning here assists the creation of aesthetically pleasing plots. Defaults to `1`.
 - `add`: Logical. If `TRUE`, the flow field is added to an existing plot. If `FALSE`, a new plot is created. Defaults to `TRUE`.
-- `xlab`: Label for the $x$-axis of the resulting plot. Defaults to `"x"`.
-- `ylab`: Label for the $y$-axis of the resulting plot. Defaults to `"y"`.
-- `...`: Additional arguments to be passed to either `plot()` or `arrows()`.
+- `state.names`: The state names for `deSolve::ode()` functions that do not use positional states.
+- `xlab` Label for the x-axis of the resulting plot.
+- `ylab` Label for the y-axis of the resulting plot.
+- `...`: Additional arguments to be passed to either `graphics::plot()` or `graphics::arrows()`.
 
-Returned by `flowField()` is a list object containing all of the input variables as well as following components (the exact the exact make up is dependent upon the value of `system`):
+Returned by `flowField()` is a list object containing all of the input variables as well as following components (the exact the exact make up is dependent on the value of `system`):
 
-- `dx`: A matrix. In the case of a two dimensional system, the values of the derivative of the first dependent derivative at all evaluated points.
-- `dy`: A matrix. In the case of a two dimensional system, the values of the derivative of the second dependent variable at all evaluated points. In the case of a one dimensional system, the values of the derivative of the dependent variable at all evaluated points.
-- `x`: A vector. In the case of a two dimensional system, the values of the first dependent variable at which the derivatives were computed. In the case of a one dimensional system, the values of the independent variable at which the derivatives were computed.
-- `y`: A vector. In the case of a two dimensional system, the values of the second dependent variable at which the derivatives were computed. In the case of a one dimensional system, the values of the dependent variable at which the derivatives were computed.
+- `dx`: A numeric matrix. In the case of a two-dimensional system, the values of the derivative of the first dependent derivative at all evaluated points.
+- `dy`: A numeric matrix. In the case of a two-dimensional system, the values of the derivative of the second dependent variable at all evaluated points. In the case of a one-dimensional system, the values of the derivative of the dependent variable at all evaluated points.
+- `x`: A numeric vector. In the case of a two-dimensional system, the values of the first dependent variable at which the derivatives were computed. In the case of a one-dimensional system, the values of the independent variable at which the derivatives were computed.
+- `y`: A numeric vector. In the case of a two-dimensional system, the values of the second dependent variable at which the derivatives were computed. In the case of a one-dimensional system, the values of the dependent variable at which the derivatives were computed.
 
 ### `nullclines()`
 
 ```{r, eval = F}
-nullclines(deriv, xlim, ylim, parameters = NULL,
-           system = "two.dim", points = 101,
-           col = c("blue", "cyan"), add = TRUE,
-           add.legend = TRUE, ...)
+nullclines(deriv, xlim, ylim, parameters = NULL, system = "two.dim",
+           points = 101, col = c("blue", "cyan"), add = TRUE, add.legend = TRUE, 
+           state.names = if(system == "two.dim") c("x", "y") else "y", ...)
 ```
 
-This function allows the user to plot nullclines for two dimensional autonomous ODE systems. Or it can be used to plot horizontal lines at equilibrium points for one dimensional autonomous ODE systems. The following inputs can be set:
+This function allows the user to plot nullclines for two-dimensional autonomous ODE systems. Or it can be used to plot horizontal lines at equilibrium points for one dimensional autonomous ODE systems. The following inputs can be set:
 
-- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. More discussion of the required structure of these functions is supplied at the end of this section.
-- `xlim`: In the case of a two dimensional system, this sets the limits of the first dependent variable in which gradient reflecting line segments should be plotted. In the case of a one dimensional system, this sets the limits of the independent variable in which these line segments should be plotted. Should be a vector of length two.  
-- `ylim`: In the case of a two dimensional system this sets the limits of the second dependent variable in which gradient reflecting line segments should be plotted. In the case of a dimensional system, this sets the limits of the dependent variable in which these line segments should be plotted. Should be a vector of length two.
-- `parameters`: Parameters of the ODE system, to be passed to `deriv`. Supplied as a vector; the order of the parameters can be found from the `deriv` file. Defaults to `NULL`.
+- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. Discussion of the required structure of these functions can be found at the end of this section, or in the help file for `deSolve::ode()`.
+- `xlim`: In the case of a two-dimensional system, this sets the limits of the first dependent variable in which gradient reflecting line segments should be plotted. In the case of a one-dimensional system, this sets the limits of the independent variable in which these line segments should be plotted. Should be a numeric vector
+length two.
+- `ylim`: In the case of a two-dimensional system this sets the limits of the second dependent variable in which gradient reflecting line segments should be plotted. In the case of a one-dimensional system, this sets the limits of the dependent variable in which these line segments should be plotted. Should be a numeric vector of length two.
+- `parameters`: Parameters of the ODE system, to be passed to `deriv`. Supplied as a numeric vector; the order of the parameters can be found from the `deriv` file. Defaults to `NULL`.
+- `points`: Sets the density at which derivatives are computed; `points` \times `points` derivatives will be computed. Levels of zero gradient are identified using these computations and the function `graphics::contour()`. Increasing the value of points improves identification of nullclines, but increases computation time. Defaults to `101`.
 - `system`: Set to either `"one.dim"` or `"two.dim"` to indicate the type of system being analysed. Defaults to `"two.dim"`.
-- `points`: Sets the density at which derivatives are computed. `points` $\times$ `points` derivatives will be computed. Levels of zero gradient are identified using these computations and the function contour. Increasing the value of points improves identification of nullclines, but increases computation time. Defaults to `101`.
-- `col`: In the case of a two dimensional system, sets the colours used for the $x$- and $y$-nullclines. In the case of a one dimensional system, sets the colour of the lines plotted horizontally along the equilibria. Will be reset accordingly if it is a vector of the wrong length. Defaults to `c("red", "blue")`.
+- `col`: In the case of a two-dimensional system, sets the colours used for the $x$- and $y$-nullclines. In the case of a one-dimensional system, sets the colour of the lines plotted horizontally along the equilibria. Should be character vector of length two. Will be reset accordingly if it is of the length. Defaults to `c("blue", "cyan")`.
 - `add`: Logical. If `TRUE`, the nullclines are added to an existing plot. If `FALSE`, a new plot is created. Defaults to `TRUE`.
-- `add.legend`: Logical. If `TRUE`, a legend is added to the plot. Defaults to `TRUE`.
-- `...`: Additional arguments to be passed to either `plot()` or `contour()`.
+- `add.legend`: Logical. If `TRUE`, a `graphics::legend()` is added to the plots. Defaults to `TRUE`.
+- `...`: Additional arguments to be passed to either `graphics::plot()` or `graphics::contour()`.
+- `state.names`: The state names for `deSolve::ode()` functions that do not use positional states.
 
-Returned by nullclines is a list object containing all of the input variables as well as following components (the exact the exact make up is dependent upon the value of system):
+Returned by `nullclines()` is a list object containing all of the input variables as well as following components (the exact the exact make up is dependent upon the value of system):
 
-- `dx`: A matrix. In the case of a two dimensional system, the values of the derivative of the first dependent derivative at all evaluated points.
-- `dy`: A matrix. In the case of a two dimensional system, the values of the derivative of the second dependent variable at all evaluated points. In the case of a one dimensional system, the values of the derivative of the dependent variable at all evaluated points.
-- `x`: A vector. In the case of a two dimensional system, the values of the first dependent variable at which the derivatives were computed. In the case of a one dimensional system, the values of the independent variable at which the derivatives were computed.
-- `y`: A vector. In the case of a two dimensional system, the values of the second dependent variable at which the derivatives were computed. In the case of a one dimensional system, the values of the dependent variable at which the derivatives were computed.
+- `dx`: A numeric matrix. In the case of a two-dimensional system, the values of the derivative of the first dependent derivative at all evaluated points.
+- `dy`: A numeric matrix. In the case of a two dimensional system, the values of the derivative of the second dependent variable at all evaluated points. In the case of a one dimensional system, the values of the derivative of the dependent variable at all evaluated points.
+- `x`: A numeric vector. In the case of a two dimensional system, the values of the first dependent variable at which the derivatives were computed. In the case of a one dimensional system, the values of the independent variable at which the derivatives were computed.
+- `y`: A numeric vector. In the case of a two dimensional system, the values of the second dependent variable at which the derivatives were computed. In the case of a one dimensional system, the values of the dependent variable at which the derivatives were computed.
 
 ### `numericalSolution()`
 
 ```{r, eval = F}
-numericalSolution(deriv, y0 = NULL, tlim, tstep = 0.01,
-                  parameters = NULL, type = "two",
-                  col = c("red", "blue"), add.grid = TRUE,
-                  add.legend = TRUE, ...)
+numericalSolution(deriv, y0 = NULL, tlim, tstep = 0.01, parameters = NULL,
+                  type = "one", col = c("red", "blue"), add.grid = TRUE, 
+                  add.legend = TRUE, state.names = c("x", "y"), xlab = "t",
+                  ylab = state.names)
 ```
 
-Used for two dimensional systems, this function numerically solves the autonomous ODE system for a given initial condition. It then plots the dependent variables against the independent variable. The following inputs can be set:
+Used for two-dimensional systems, this function numerically solves the autonomous ODE system for a given initial condition. It then plots the dependent variables against the independent variable. The following inputs can be set:
 
-- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. More discussion of the required structure of these functions is supplied at the end of this section.
-- `y0`: The initial condition. Should be a vector of length two reflecting the location of the two dependent variables initially.
-- `tlim`: A vector of length 2 containing the values of the independent variable to begin and end the numerical integration at.
-- `tstep`: The step length of the independent variable, used in numerical integration. Decreasing `tstep` theoretically makes the numerical integration more accurate, but increases computation time. Defaults to `0.01`.
-- `parameters`: Parameters of the ODE system, to be passed to `deriv`. Supplied as a vector; the order of the parameters can be found from the `deriv` file. Defaults to `NULL`.
-- `type`: If set to `"one"` the trajectories are plotted on the same graph. If set to `"two"` they are plotted on separate graphs. Defaults to `"two"`.
-- `col`: Sets the colours of the trajectories of the two dependent variables. Will be reset accordingly if it is not a vector of length two. Defaults to `rep("black", 2)`.
-- `add.grid`: Logical. If `TRUE`, a grid is added to the plot. Defaults to `TRUE`.
-- `add.legend`: Logical. If `TRUE`, a legend is added to the plot. Defaults to `TRUE`.
-- `...`: Additional arguments to be passed to `plot()`.
+- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. Discussion of the required structure of these functions can be found at the end of this section, or in the help file for `deSolve::ode()`.
+- `y0`: The initial condition. Should be a numeric vector of length two reflecting the location of the two dependent variables initially.
+- `tlim`: Sets the limits of the independent variable for which the solution should be plotted. Should be a numeric vector of length two. If `tlim[2] > tlim[1]`, then `tstep` should be negative to indicate a backwards trajectory.
+- `tstep`: The step length of the independent variable, used in numerical integration. Decreasing the absolute magnitude of `tstep` theoretically makes the numerical integration more accurate, but increases computation time. Defaults to `0.01`.
+- `parameters`: Parameters of the ODE system, to be passed to `deriv`. Supplied as a numeric vector; the order of the parameters can be found from the `deriv` file. Defaults to `NULL`.
+- `type`: If set to `"one"` the trajectories are plotted on the same graph. If set to `"two"` they are plotted on separate graphs. Defaults to `"one"`.
+- `col`: Sets the colours of the trajectories of the two dependent variables. Should be a character vector of length two. Will be reset accordingly if it is of the wrong length. Defaults to `c("red", "blue")`.
+- `add.grid`: Logical. If `TRUE`, grids are added to the plots. Defaults to `TRUE`.
+- `add.legend`: Logical. If `TRUE`, a `graphics::legend()` is added to the plots. Defaults to `TRUE`.
+- `state.names`: The state names for `deSolve::ode()` functions that do not use positional states.
+- `xlab`: Label for the x-axis of the resulting plot.
+- `ylab`: Label for the y-axis of the resulting plot.
+- `...`: Additional arguments to be passed to `graphics::plot()`.
 
-Here, the numerical integration is performed by the function `ode()` from the __deSolve__ package.
+Here, the numerical integration is performed by the function `deSolve::ode()`.
 
-Returned by numericalSolution is a list object containing all of the input variables as well as following:
+Returned by `numericalSolution()` is a list object containing all of the input variables as well as following:
 
-- `t`: A vector containing the values of the independent variable at each integration step.
-- `x`: A vector containing the numerically computed values of the first dependent variable at each integration step.
-- `y`: A vector containing the numerically computed values of the second dependent variable at each integration step.
+- `t`: A numeric vector containing the values of the independent variable at each integration step.
+- `x`: A numeric vector containing the numerically computed values of the first dependent variable at each integration step.
+- `y`: A numeric vector containing the numerically computed values of the second dependent variable at each integration step.
 
 ### `phasePlaneAnalysis()`
 
 ```{r, eval = F}
-phasePlaneAnalysis(deriv, xlim, ylim, tend = 100,
-                   parameters = NULL, system = "two.dim",
-                   add = FALSE)
+phasePlaneAnalysis(deriv, xlim, ylim, tend = 100, parameters = NULL,
+                   system = "two.dim", add = FALSE,
+                   state.names = if (system == "two.dim") c("x", "y") else "y")
 ```
 
 This function allows the user to perform a basic phase plane analysis and produce a simple plot without the need to use the other functions directly. Specifically, a list is provided and the user inputs a value to the console to decide what is added to the plot. The following inputs can be set:
 
-- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. More discussion of the required structure of these functions is supplied at the end of this section.
-- `xlim`: In the case of a two dimensional system, this sets the limits of the first dependent variable in which gradient reflecting line segments should be plotted. In the case of a one dimensional system, this sets the limits of the independent variable in which these line segments should be plotted. Should be a vector of length two.  
-- `ylim`: In the case of a two dimensional system this sets the limits of the second dependent variable in which gradient reflecting line segments should be plotted. In the case of a dimensional system, this sets the limits of the dependent variable in which these line segments should be plotted. Should be a vector of length two.
-- `tend`: The final time of the numerical integration performed to identify the manifolds.
-- `parameters`: Parameters of the ODE system, to be passed to `deriv`. Supplied as a vector; the order of the parameters can be found from the `deriv` file. Defaults to `NULL`.
+- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. Discussion of the required structure of these functions can be found at the end of this section, or in the help file for `deSolve::ode()`.
+- `xlim`: In the case of a two-dimensional system, this sets the limits of the first dependent variable in any subsequent plot. In the case of a one-dimensional system, this sets the limits of the independent variable. Should be a numeric vector of length two.
+- `ylim`: In the case of a two-dimensional system this sets the limits of the second dependent variable in any subsequent plot. In the case of a one-dimensional system, this sets the limits of the dependent variable. Should be a numeric vector of length two.
+- `tend`: The value of the independent variable to end any subsequent numerical integrations at.
+- `parameters`: Parameters of the ODE system, to be passed to `deriv`. Supplied as a numeric vector; the order of the parameters can be found from the `deriv` file. Defaults to `NULL`.
 - `system`: Set to either `"one.dim"` or `"two.dim"` to indicate the type of system being analysed. Defaults to `"two.dim"`.
-- `add`: Logical. If `TRUE`, the nullclines are added to an existing plot. If `FALSE`, a new plot is created. Defaults to `TRUE`.
+- `add`: Logical. If `TRUE`, the chosen features are added to an existing plot. If `FALSE`, a new plot is created. Defaults to `FALSE`.
+- `state.names`: The state names for `deSolve::ode()` functions that do not use positional states.
 
 ### `phasePortrait()`
 
 ```{r, eval = F}
-phasePortrait(deriv, ylim, ystep = 0.01, parameters = NULL,
-              points = 10, frac = 0.75, arrow.head = 0.075,
-              col = "black", xlab = "y", ylab = "f(y)",
-              add.grid = TRUE, ...)
+phasePortrait(deriv, ylim, ystep = 0.01, parameters = NULL, points = 10,
+              frac = 0.75, arrow.head = 0.075, col = "black", add.grid = TRUE, 
+              state.names = "y", xlab = state.names,
+              ylab = paste0("d", state.names), ...)
 ```
 
-For a one dimensional autonomous ODE, it plots the phase portrait, i.e., the derivative against the dependent variable. In addition, along the dependent variable axis it plots arrows pointing in the direction of dependent variable change with increasing value of the independent variable. From this stability of equilibrium points (i.e., locations where the horizontal axis is crossed) can be determined:
+For a one-dimensional autonomous ODE, it plots the phase portrait, i.e., the derivative against the dependent variable. In addition, along the dependent variable axis it plots arrows pointing in the direction of dependent variable change with increasing value of the independent variable. From this stability of equilibrium points (i.e., locations where the horizontal axis is crossed) can be determined:
 
-- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. More discussion of the required structure of these functions is supplied at the end of this section.
-- `ylim`: Sets the limits of the dependent variable for which the derivative should be computed and plotted. Should be a vector of length two.
+- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. Discussion of the required structure of these functions can be found at the end of this section, or in the help file for `deSolve::ode()`.
+- `ylim`: Sets the limits of the dependent variable for which the derivative should be computed and plotted. Should be a numeric vector of length two.
 - `ystep`: Sets the step length of the dependent variable vector for which derivatives are computed and plotted. Decreasing `ystep` makes the resulting plot more accurate, but comes at a small cost to computation time. Defaults to `0.01`.
-- `parameters`: Parameters of the ODE system, to be passed to `deriv`. Supplied as a vector; the order of the parameters can be found from the `deriv` file. Defaults to `NULL`.
-- `points`: Sets the density at which arrows are plotted along the horizontal axis. points arrows will be plotted. Fine tuning here, by shifting points up and down, allows for the creation of more aesthetically pleasing plots. Defaults to `10`.
-- `frac`: Sets the fraction of the theoretical maximum length line segments can take without overlapping, that they actually attain. Fine tuning here assists the creation of aesthetically pleasing plots. Defaults to `0.5`.
-- `arrow.head`: Sets the length of the arrow heads. Passed to `arrows()`. Defaults to `0.075`.
-- `col`: Sets the colour of the line in the plot, as well as the arrows. Will be reset accordingly if it is not a vector of length one. Defaults to `"black"`.
-- `xlab`: Label for the $x$-axis of the resulting plot. Defaults to `"y"`.
-- `ylab`: Label for the $y$-axis of the resulting plot. Defaults to `"f(y)"`.
+- `parameters`: Parameters of the ODE system, to be passed to `deriv`. Supplied as a numeric vector; the order of the parameters can be found from the `deriv` file. Defaults to `NULL`.
+- `points`: Sets the density at which arrows are plotted along the horizontal axis; `points` arrows will be plotted. Fine tuning here, by shifting `points` up and down, allows for the creation of more  aesthetically pleasing plots. Defaults to `10`.
+- `frac`: Sets the fraction of the theoretical maximum length line segments can take without overlapping, that they actually attain. Fine tuning here assists the creation of aesthetically pleasing plots. Defaults to `0.75`.
+- `arrow.head`: Sets the length of the arrow heads. Passed to `graphics::arrows()`. Defaults to `0.075`.
+- `col`: Sets the colour of the line in the plot, as well as the arrows. Should be a character vector of length one. Will be reset accordingly if it is of the wrong length. Defaults to `"black"`.
 - `add.grid`: Logical. If `TRUE`, a grid is added to the plot. Defaults to `TRUE`.
-- `...`: Additional arguments to be passed to either `plot()` or `arrows()`.
+- `state.names`: The state names for `deSolve::ode()` functions that do not use positional states.
+- `xlab`: Label for the x-axis of the resulting plot.
+- `ylab`: Label for the y-axis of the resulting plot.
+- `...`: Additional arguments to be passed to either `graphics::plot()` or `graphics::arrows()`.
 
 Returned by `phasePortrait()` is a list object containing all of the input variables as well as the following:
 
-- `dy`: A vector containing the value of the derivative at each evaluated point.
-- `y`: A vector containing the values of the dependent variable for which the derivative was evaluated.
+- `dy`: A numeric vector containing the value of the derivative at each evaluated point.
+- `y`: A numeric vector containing the values of the dependent variable for which the derivative was evaluated.
 
 ### `stability()`
 
 ```{r, eval = F}
-stability(deriv, ystar = NULL, parameters = NULL,
-          system = "two.dim", h = 1e-07, summary = TRUE)
+stability(deriv, ystar = NULL, parameters = NULL, system = "two.dim", h = 1e-07, 
+          summary = TRUE,
+          state.names = if (system == "two.dim") c("x", "y") else "y")
 ```
 
 Uses stability analysis to classify equilibrium points. Uses the Taylor Series approach (also known as Perturbation Analysis) to classify equilibrium points of a one dimensional autonomous ODE system, or the Jacobian approach to classify equilibrium points of a two dimensional autonomous ODE system. The following inputs can be set:
 
-- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. More discussion of the required structure of these functions is supplied at the end of this section.
-- `ystar`: The point at which to perform stability analysis. For a one variable system this should be a single number, for a two variable system this should be a vector of length two (i.e. presently only one equilibrium points stability can be evaluated at a time). Alternatively this can be left blank and the user can use locator to choose a point to perform the analysis. However, given you are unlikely to locate exactly the equilibrium point, if possible enter `ystar` yourself. Defaults to `NULL`.
-- `parameters`: Parameters of the ODE system, to be passed to `deriv`. Supplied as a vector; the order of the parameters can be found from the `deriv` file. Defaults to `NULL`.
+- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. Discussion of the required structure of these functions can be found at the end of this section, or in the help file for `deSolve::ode()`.
+- `ystar`: The point at which to perform stability analysis. For a one-dimensional system this should be a numeric vector of length one, for a two-dimensional system this should be a numeric vector of length two (i.e., presently only one equilibrium point's stability can be evaluated at a time). Alternatively this can be specified as `NULL`, and then `graphics::locator()` can be used to choose a point to perform the analysis for. However, given you are unlikely to locate exactly the equilibrium point, if possible enter `ystar` yourself. Defaults to `NULL`.
+- `parameters`: Parameters of the ODE system, to be passed to `deriv`. Supplied as a numeric vector; the order of the parameters can be found from the `deriv` file. Defaults to `NULL`.
 - `system`: Set to either `"one.dim"` or `"two.dim"` to indicate the type of system being analysed. Defaults to `"two.dim"`.
 - `h`: Step length used to approximate the derivative(s). Defaults to `1e-7`.
-- `summary`: Logical. If `TRUE`, a summary of the classification of the equilibrium point is printed to the console. Defaults to `TRUE`.
+- `summary`: Set to either `TRUE` or `FALSE` to determine whether a summary of the stability analysis is returned. Defaults to `TRUE`.
+- `state.names`: The state names for `deSolve::ode()` functions that do not use positional states.
 
 Returned by `stability()` is a list object containing all of the input variables as well as following components (the exact the exact make up is dependent upon the value of system):
 
-- `Delta`: In the two dimensional system case, Value of the Jacobians determinant at `ystar`.
-- `discriminant`: In the one dimensional system case, the value of the discriminant used in Perturbation Analysis to assess stability. In the two dimensional system case, the value of $T^2  - 4\Delta$.
-- `eigenvalues`: In the two dimensional system case, the value of the Jacobians eigenvalues at `ystar`.
-- `eigenvectors`: In the two dimensional system case, the value of the Jacobians eigenvectors at `ystar`.
-- `Jacobian`: In the two dimensional system case, the Jacobian at `ystar`.
-- `tr`: In the two dimensional system case, the value of the Jacobians trace at `ystar`.
+- `Delta`: In the two-dimensional system case, the value of the Jacobian's determinant at `ystar`.
+- `discriminant`: In the one-dimensional system case, the value of the discriminant used in perturbation analysis to assess stability. In the two-dimensional system case, the value of `tr^2 - 4*Delta` ($T^2  - 4\Delta$).
+- `eigenvalues`: In the two-dimensional system case, the value of the Jacobian's eigenvalues at `ystar`.
+- `eigenvectors`: In the two-dimensional system case, the value of the Jacobians eigenvectors at `ystar`.
+- `Jacobian`: In the two-dimensional system case, the Jacobian at `ystar`.
+- `tr`: In the two-dimensional system case, the value of the Jacobian's trace at `ystar`.
 
 ### `trajectory()`
 
 ```{r, eval = F}
-trajectory(deriv, y0 = NULL, n = NULL, tlim, tstep = 0.01,
-           parameters = NULL, system = "two.dim", col = "black",
-           add = TRUE, ...)
+trajectory(deriv, y0 = NULL, n = NULL, tlim, tstep = 0.01, parameters = NULL,
+           system = "two.dim", col = "black", add = TRUE,
+           state.names = if (system == "two.dim") c("x", "y") else "y", ...)
 ```
 
 This function allows the user to plot trajectories by performing numerical integration of the chosen ODE system, for a user specifiable range of initial conditions. The following inputs can be set:
 
-- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. More discussion of the required structure of these functions is supplied at the end of this section.
-- `y0`: The initial condition(s). In the case of a one dimensional system, this can either be a single number indicating the location of the dependent variable initially, or a vector indicating multiple initial locations of the independent variable. In the case of a two dimensional system, this can either be a vector of length two reflecting the location of the two dependent variables initially. Or it can be matrix where each row reflects a different initial condition. Alternatively this can be left blank and the user can use `locator()` to specify initial condition(s) on a plot. In this case, for one dimensional systems, all initial conditions are taken at the first value of the vector `tlim`, even if not selected so on the graph. Defaults to `NULL`.
-- `n`: If `y0` is left `NULL` so initial conditions can be specified using `locator()`, `n` sets the number of initial conditions to be chosen. Defaults to `NULL`.
-- `tlim`: A vector of length 2 containing the values of the independent variable to begin and end the numerical integration at.
-- `tstep`: The value of the independent variable to end numerical integration at. Decreasing `tstep` theoretically makes the numerical integration more accurate, but increases computation time. Defaults to `0.01`.
-- `parameters`: Parameters of the ODE system, to be passed to `deriv`. Supplied as a vector; the order of the parameters can be found from the `deriv` file. Defaults to `NULL`.
+- `deriv`: A function computing the derivative at a point for the ODE system to be analysed. Discussion of the required structure of these functions can be found at the end of this section, or in the help file for `deSolve::ode()`.
+- `y0`: The initial condition(s). In the case of a one-dimensional system, this can either be a numeric vector of length one, indicating the location of the dependent variable initially, or a numeric vector indicating multiple initial locations of the independent variable. In the case of a two-dimensional system, this can either be a numeric vector of length two, reflecting the location of the two dependent variables initially, or it can be numeric matrix where each row reflects a different initial condition. Alternatively this can be left blank and the user can use `graphics::locator()` to specify initial condition(s) on a plot. In this case, for one-dimensional systems, all initial conditions are taken at `tlim[1]`, even if not selected so on the graph. Defaults to `NULL`.
+- `n`: If `y0` is left `NULL`, such initial conditions can be specified using `graphics::locator()`, `n` sets the number of initial conditions to be chosen. Defaults to `NULL`.
+- `tlim`: Sets the limits of the independent variable for which the solution should be plotted. Should be a numeric vector of length two. If `tlim[2] > tlim[1]`, then `tstep` should be negative to indicate a backwards trajectory.
+- `tstep`: The step length of the independent variable, used in numerical integration. Decreasing the absolute magnitude of `tstep` theoretically makes the numerical integration more accurate, but increases computation time. Defaults to `0.01`.
+- `parameters`: Parameters of the ODE system, to be passed to `deriv`. Supplied as a numeric vector; the order of the parameters can be found from the `deriv` file. Defaults to `NULL`.
 - `system`: Set to either `"one.dim"` or `"two.dim"` to indicate the type of system being analysed. Defaults to `"two.dim"`.
-- `col`: The colour(s) to plot the trajectories in. Will be reset accordingly if it is a vector not of the length of the number of initial conditions. Defaults to `"black"`.
+- `col`: The colour(s) to plot the trajectories in. Should be a character vector. Will be reset accordingly if it is not of the length of the number of initial conditions. Defaults to `"black"`.
 - `add`: Logical. If `TRUE`, the trajectories added to an existing plot. If `FALSE`, a new plot is created. Defaults to `TRUE`.
-- `...`: Additional arguments to be passed to `plot()`.
+- `state.names`: The state names for `deSolve::ode()` functions that do not use positional states.
+- `...`: Additional arguments to be passed to `graphics::plot()`.
 
-Here, the numerical integration is performed by the function ode from the __deSolve__ package.
+Here, the numerical integration is performed by the function `deSolve::ode()`.
 
-Returned by `trajectory()` is a list object containing all of the input variables as well as following components (the exact the exact make up is dependent upon the value of `system`):
+Returned by `trajectory()` is a list object containing all of the input variables as well as following components (the exact the exact make up is dependent on the value of `system`):
 
-- `t`: A vector containing the values of the independent variable at each integration step.
-- `x`: A vector containing the numerically computed values of the first dependent variable at each integration step.
-- `y`: A vector containing the numerically computed values of the second dependent variable at each integration step.
+- `t`: A numeric vector containing the values of the independent variable at each integration step.
+- `x`: In the two-dimensional system case, a numeric matrix whose columns are the numerically computed values of the first dependent variable for each initial condition.
+- `y`: In the two-dimensional system case, a numeric matrix whose columns are the numerically computed values of the second dependent variable for each initial condition. In the one-dimensional system case, a numeric matrix whose columns are the numerically computed values of the dependent variable for each initial condition.
 
-### Derivative Specification
+### Derivative specification
 
-In addition to the above functions, __phaseR__ contains multiple example one and two dimensional autonomous ODE systems; these are the focus of the later sections. Here, however, we discuss how the user can create their own system.
+In addition to the above functions, __phaseR__ contains multiple example one- and two-dimensional autonomous ODE systems; these are the focus of later sections. Here, we discuss how the user can create their own system.
 
-In order to be compatible with __phaseR__, systems need to be coded as a list returning function, taking three inputs; `t`, `y`, and `parameters`. Thus the basic skeleton for a one or two dimensional system (with the function named `derivative`) is as follows:
+In order to be compatible with __phaseR__, system functions need to be compatible with `deSolve::ode()`, which is used internally to perform numerical integration. Thus, detailed guidance on how to write such functions is available in the __deSolve__ documentation. A brief overview is provided here. 
+
+Functions that detail a system need to be coded to return a list, and must take three inputs: `t`, `y`, and `parameters`. Thus the basic skeleton for a one- or two-dimensional system (with the function named `derivative`) is as follows:
 
 ```{r, eval = F}
 derivative <- function(t, y, parameters) {
@@ -550,50 +582,36 @@ derivative <- function(t, y, parameters) {
 }
 ```
 
-All that needs to be done is to set the named parameters, and the value of `dy`, with initialisation made where required. However, the approach must change slightly depending upon whether you are setting up a one or two dimensional system. The packages key programs require for points of a two variable system to be presentable as a vector of length 2 (because there are two dependent variables).
+All that needs to be done is to set the value of `dy`, using `t`, `y`, and `parameters` (note here that `t` should not generally be used explicitly as we work only with autonomous systems). The approach should change slightly depending on whether you are setting up a one- or two-dimensional system, as `dy` should be a vector that has length equal to the number of dimensions.
 
 Thus, for a system such as:
-
 $$ \frac{dx}{dt}=3y,\qquad \frac{dy}{dt}=2x, $$
-
-we would use the following code:
-
+we could use the following code:
 ```{r, eval = F}
 derivative <- function(t, y, parameters) {
-  x     <- y[1]
-  y     <- y[2]
-  dy    <- numeric(2)
-  dy[1] <- 3*y
-  dy[2] <- 2*x
+  x  <- y[1]
+  y  <- y[2]
+  dy <- c(3*y, 2*x)
   list(dy)
 }
 ```
 
 As a more complex example, consider instead changing the system above to:
-
 $$ \frac{dx}{dt} = \alpha y,\qquad \frac{dy}{dt}=\beta x, $$
-
 with $\alpha$ and $\beta$ parameters. The code would then proceed as follows:
-
 ```{r, eval = F}
 derivative <- function(t, y, parameters) {
   alpha <- parameters[1]
   beta  <- parameters[2]
   x     <- y[1]
   y     <- y[2]
-  dy    <- numeric(2)
-  dy[1] <- alpha*y
-  dy[2] <- beta*x
+  dy    <- c(alpha*y, beta*x)
   list(dy)
 }
 ```
-
-Things are slightly simpler for one-dimensional systems, where no such vector considerations need to be made. We would for example create a derivative function for the system:
-
+Things are slightly simpler for one-dimensional systems. We could for example create a derivative function for the system:
 $$ \frac{dy}{dt}=a(b-3-y)^2, $$
-
 using the following code:
-
 ```{r, eval = F}
 derivative <- function(t, y, parameters) {
   a  <- parameters[1]
@@ -605,236 +623,216 @@ derivative <- function(t, y, parameters) {
 
 ## Examples
 
-Within __phaseR__ numerous example systems are available. Here we will analyse some of them, as an indication of how to perform phase plane analysis by hand, and with the help of phaseR. The language is again at times deliberatively repetitive; here to indicate how a general procedure can be used when performing analysis. It is not a useful exercise for me to provide inferior hand drawn plots, only ones produced by phaseR are shown. It is in addition useful to note that the small circles on the trajectory plots indicate initial conditions specified by the user.
+Within __phaseR__, numerous example systems are available. Here we will analyse some of them in order to indicate how to perform phase plane analyses by hand or with the help of __phaseR__. The language is again at times deliberatively repetitive; here to indicate how a general procedure can be used when performing analyses. It is not a useful exercise for me to provide inferior hand drawn plots, only ones produced by __phaseR__ are shown. It is in addition useful to note that the small circles on the trajectory plots indicate initial conditions specified by the user.
 
 ### `example2()`
 
-We begin with the one dimensional autonomous ODE:
-
+We begin with the one-dimensional autonomous ODE:
 $$ \frac{dy}{dt}=y(1-y)(2-y), $$
-
 provided in the package as `example2()`. We begin by plotting the flow field and several trajectories using the following code, adding horizontal lines at any equilibrium points to indicate their presence as well:
-
-```{r, eval = F}
-example2.flowField  <- flowField(example2, xlim = c(0, 4),
-                                 ylim = c(-1, 3),
-                                 system = "one.dim",
-                                 add = FALSE, xlab = "t")
+```{r, echo = T, fig.dim = c(7, 5)}
+example2_flowField  <- flowField(example2,
+                                 xlim    = c(0, 4),
+                                 ylim    = c(-1, 3),
+                                 system  = "one.dim",
+                                 add     = FALSE)
 grid()
-example2.nullclines <- nullclines(example2, xlim = c(0, 4),
-                                  ylim = c(-1, 3),
+example2_nullclines <- nullclines(example2,
+                                  xlim   = c(0, 4),
+                                  ylim   = c(-1, 3),
                                   system = "one.dim")
-example2.trajectory <- trajectory(example2,
-                                  y0 = c(-0.5, 0.5, 1.5, 2.5),
-                                  tlim = c(0, 4),
+example2_trajectory <- trajectory(example2,
+                                  y0     = c(-0.5, 0.5, 1.5, 2.5),
+                                  tlim   = c(0, 4),
                                   system = "one.dim")
 ```
-
-The plot produced is as appears on the following page:
-
-Thus three equilibrium points have been identified; appearing to be y_*=0, 1 and 2. Indeed if we set the RHS of our ODE to zero we can identify these three points as the equilibrium points analytically:
-
+Thus, three equilibrium points have been identified; appearing to be $y_*=0,1,2$ Indeed if we set the RHS of our ODE to zero we can identify these three points as the equilibrium points analytically:
 $$ y_* (1-y_* )(2-y_* )=0 \Longrightarrow y_*=0,1,2. $$
-
-Plotting the phase portrait we find that $y_*=0$ and $y_*=2$ are unstable, whilst $y_*=1$ is stable; as is also apparent from the flow field and trajectories above:
-
-```{r, eval = F}
-example2.phasePortrait <- phasePortrait(example2,
+Plotting the phase portrait, we find that $y_*=0$ and $y_*=2$ are unstable, whilst $y_*=1$ is stable (as is also apparent from the flow field and trajectories above):
+```{r, echo = T, fig.dim = c(7, 5)}
+example2_phasePortrait <- phasePortrait(example2,
                                         ylim = c(-0.5, 2.5))
 ```
-
-Alternatively, using the Taylor Series approach to determine stability we have:
-
+Alternatively, using the Taylor Series approach we have:
 $$ \frac{d}{dy}\left.\left(\frac{dy}{dt}\right)\right|_{y=y_*} = 3y_*^2 - 6y_* + 2 = \begin{cases} 2 &: \ y_*=0,\\ -1 &: \ y_*=1,\\ 2 &: \ y_*=2.  \end{cases} $$
 Thus we draw the same conclusion as from the phase portrait. 
 
-Finally, we can confirm our Taylor analysis using stability and the following code:
+Finally, we can confirm our Taylor analysis using `stability()` and the following code:
 
-```{r, eval = F}
-example2.stability.1 <- stability(example2, ystar = 0,
+```{r, echo = T}
+example2_stability_1 <- stability(example2,
+                                  ystar  = 0,
                                   system = "one.dim")
-example2.stability.2 <- stability(example2, ystar = 1,
+example2_stability_2 <- stability(example2,
+                                  ystar  = 1,
                                   system = "one.dim")
-example2.stability.3 <- stability(example2, ystar = 2,
+example2_stability_3 <- stability(example2,
+                                  ystar  = 2,
                                   system = "one.dim")
 ```
 
 ### `logistic()`
 
-The logistic growth model is frequently used in Biology to model the growth of a population under density dependence. It is given by:
-
+The logistic growth model is frequently used in biology to model the growth of a population under density dependence. It is given by:
 $$ \frac{dy}{dt} = \beta y\left(1-\frac{y}{K}\right). $$
-
 With the following code, we can plot the flow field and several trajectories (for the case $\beta=1$ and $K=2$), as well as adding horizontal lines at any equilibrium points to indicate their presence:
 
-```{r, eval = F}
-logistic.flowField  <- flowField(logistic, xlim = c(0, 5),
-                                 ylim = c(-1, 3),
+```{r, echo = T, fig.dim = c(7, 5)}
+logistic_flowField  <- flowField(logistic,
+                                 xlim       = c(0, 5),
+                                 ylim       = c(-1, 3),
                                  parameters = c(1, 2),
-                                 system = "one.dim",
-                                 add = FALSE, xlab = "t")
+                                 system     = "one.dim",
+                                 add        = FALSE)
 grid()
-logistic.nullclines <- nullclines(logistic, xlim = c(0, 5),
-                                  ylim = c(-1, 3),
+logistic_nullclines <- nullclines(logistic,
+                                  xlim       = c(0, 5),
+                                  ylim       = c(-1, 3),
                                   parameters = c(1, 2),
-                                  system = "one.dim")
-logistic.trajectory <- trajectory(logistic,
-                                  y0 = c(-0.5, 0.5, 1.5, 2.5),
-                                  tlim = c(0, 5),
+                                  system     = "one.dim")
+logistic_trajectory <- trajectory(logistic,
+                                  y0         = c(-0.5, 0.5, 1.5, 2.5),
+                                  tlim       = c(0, 5),
                                   parameters = c(1, 2),
-                                  system = "one.dim")
+                                  system     = "one.dim")
 ```
-
 Again, two equilibrium points have been identified. We can confirm their location in the general case analytically by setting the RHS of the ODE to zero:
-
 $$ \beta y_* \left(1-\frac{y_*}{K}\right)=0 \Longrightarrow y_*=0,K. $$
-
 Plotting the phase portrait we can observe that $y_*=0$ is unstable and $y_*=K$ stable, for the case $\beta=1$ and $K=2$:
-
-```{r, eval = F}
-logistic.phasePortrait <- phasePortrait(logistic,
-                                        ylim = c(-0.5, 2.5),
+```{r, echo = T, fig.dim = c(7, 5)}
+logistic_phasePortrait <- phasePortrait(logistic,
+                                        ylim       = c(-0.5, 2.5),
                                         parameters = c(1, 2))
 ```
-
 Finally, if we use our Taylor Series method we can draw this same conclusion:
-
 $$ \frac{d}{dy}\left.\left(\frac{dy}{dt}\right)\right|_{y=y_*} = \beta - \frac{2\beta y_*}{K} = \begin{cases} \beta &: \ y_*=0,\\ -\beta &: \ y_*=K.  \end{cases} $$
-
 So for $\beta=1$ and $K=2$, we have a stable point at $y=2$. Moreover, from this we can see that the point $y=K$ will in general be stable provided $\beta>0$.
 
 The following code verifies our findings for the specific case studied above:
-
-```{r, eval = F}
-logistic.stability.1 <- stability(logistic, ystar = 0,
+```{r, echo = T}
+logistic_stability_1 <- stability(logistic,
+                                  ystar      = 0,
                                   parameters = c(1, 2),
-                                  system = "one.dim")
-logistic.stability.2 <- stability(logistic, ystar = 2,
+                                  system     = "one.dim")
+logistic_stability_2 <- stability(logistic,
+                                  ystar      = 2,
                                   parameters = c(1, 2),
-                                  system = "one.dim")
+                                  system     = "one.dim")
 ```
 
 ### `example4()`
 
-We now turn our attention to linear two dimensional autonomous ODE systems. Here we consider the coupled system given by:
-
+We now turn our attention to linear two-dimensional autonomous ODE systems. Here we consider the coupled system given by:
 $$ \frac{dx}{dt}=-x,\qquad \frac{dy}{dt}=4x. $$
-
 This is provided in the package as `example4()`. We can find the $x$- and $y$-nullclines by setting the derivatives to zero as follows:
-
-$$ \begin{align} x &∶ -x=0 \Longrightarrow x=0,\\ y &∶ 4x=0 \Longrightarrow x=0.\end{align}$$
-
+$$ \begin{align}
+x &∶ -x=0 \Longrightarrow x=0,\\
+y &∶ 4x=0 \Longrightarrow x=0.
+\end{align}$$
 Thus the nullclines are the same. This means we have a line of equilibrium points given by $x=0$. To see why this is the case, and there is no unique solution, we examine the Jacobian of our system:
-
 $$ J = \begin{pmatrix} -1 & 0 \\ 4 & 0 \end{pmatrix}. $$
-Thus the determinant of $J$ is zero, and we have a singular case of the general linear two dimensional system; the Taylor approach cannot be used to classify $(0,0)$.
+Thus the determinant of $J$ is zero, and we have a singular case of the general linear two-dimensional system; the Taylor approach cannot be used to classify $(0,0)$.
 
-Thus here, in order to determine whether the points along the line $x=0$ are stable or not, we plot the nullclines, the velocity field, and add several trajectories:
+Thus, here, in order to determine whether the points along the line $x=0$ are stable or not, we plot the nullclines, the velocity field, and add several trajectories:
 
-```{r, eval = F}
-example4.flowField  <- flowField(example4, xlim = c(-3, 3),
-                                 ylim = c(-5, 5), add = FALSE)
+```{r, echo = T, fig.dim = c(7, 5)}
+example4_flowField  <- flowField(example4,
+                                 xlim = c(-3, 3),
+                                 ylim = c(-5, 5),
+                                 add  = FALSE)
 grid()
-example4.nullclines <- nullclines(example4, xlim = c(-3, 3),
+example4_nullclines <- nullclines(example4,
+                                  xlim = c(-3, 3),
                                   ylim = c(-5, 5))
-y0                  <- matrix(c(1, 0, -1, 0, 2, 2, -2, 2, 3,
-                                -3, -3, -4), nrow = 6,
-                              ncol = 2, byrow = TRUE)
-example4.trajectory <- trajectory(example4, y0 = y0,
+y0                  <- matrix(c(1, 0, -1, 0, 2, 2, -2, 2, 3, -3, -3, -4),
+                              6, 2, byrow = TRUE)
+example4_trajectory <- trajectory(example4,
+                                  y0   = y0,
                                   tlim = c(0, 10))
 ```
-
-Thus we observe the trajectories moving towards the line x=0; indicative of stability. This example illustrates that plotting trajectories can be useful when the Taylor approach fails.
+Thus we observe the trajectories moving towards the line $x=0$; indicative of stability. This example illustrates that plotting trajectories can be useful when the Taylor approach fails.
 
 ### `example5()`
 
-We will now examine a further example of a linear two dimensional system, given by:
-
+We will now examine a further example of a linear two-dimensional system, given by:
 $$ \frac{dx}{dt}=2x+y,\qquad \frac{dy}{dt}=2x-y. $$
-
 It is provided in the package as `example5()`. Again we begin by setting the derivatives to zero to identify the nullclines:
+$$ \begin{align}
+x &∶ 2x+y=0 \Longrightarrow y=-2x,\\
+y &∶ 2x-y=0\Longrightarrow y=2x.
+\end{align} $$
+From these two equations it is easy to see that the only equilibrium point is at $(0,0)$. We begin by plotting the nullclines, velocity field, and several trajectories (along with the stable and unstable manifolds of the saddle, we discuss below):
 
-$$ \begin{align} x &∶ 2x+y=0 \Longrightarrow y=-2x,\\
-y &∶ 2x-y=0\Longrightarrow y=2x.  \end{align} $$
-
-From these two equations it is easy to see that the only equilibrium point is at $(0,0)$. We begin by plotting the nullclines, velocity field and several trajectories:
-
-```{r, eval = F}
-example5.flowField  <- flowField(example5, xlim = c(-3, 3), 
-                                 ylim = c(-3, 3), add = FALSE)
+```{r, echo = T, fig.dim = c(7, 5)}
+example5_flowField  <- flowField(example5,
+                                 xlim = c(-3, 3), 
+                                 ylim = c(-3, 3),
+                                 add  = FALSE)
 grid()
-example5.nullclines <- nullclines(example5, xlim = c(-3, 3), 
+example5_nullclines <- nullclines(example5,
+                                  xlim = c(-3, 3), 
                                   ylim = c(-3, 3))
-y0                  <- matrix(c(1, 0, -1, 0, 2, 2, -2, 2, 0, 3,                    
-                                0, -3), nrow = 6, ncol = 2, 
-                              byrow = TRUE)
-example5.trajectory <- trajectory(example5, y0 = y0, tlim = c(0, 10))
-example5.manifolds  <- drawManifolds(example5, y0 = c(0, 0))
+y0                  <- matrix(c(1, 0, -1, 0, 2, 2, -2, 2, 0, 3, 0, -3),
+                              6, 2, byrow = TRUE)
+example5_trajectory <- trajectory(example5,
+                                  y0   = y0,
+                                  tlim = c(0, 10))
+example5_manifolds  <- drawManifolds(example5,
+                                     y0 = c(0, 0))
 ```
-
 From the trajectories it appears that $(0,0)$ is a saddle point. To verify this we compute the Jacobian of the system:
-
 $$ J = \begin{pmatrix} 2 & 1 \\ 2 & -1 \end{pmatrix}.  $$
 Thus we have $T=1$, $\Delta=-4$ and $T^2-4\Delta=17$. From our classification rules this confirms that $(0,0)$ is indeed a saddle. Finally, we verify this analysis using stability and the following code:
-
-```{r, eval = F}
-example5.stability <- stability(example5, ystar = c(0, 0))
+```{r, echo = T}
+example5_stability <- stability(example5,
+                                ystar = c(0, 0))
 ```
 
 ### `example8()`
 
-As a final example of a linear two dimensional system, we will examine:
-
+As a final example of a linear two-dimensional system, we will examine:
 $$ \frac{dx}{dt}=y,\qquad \frac{dy}{dt}=-x-y, $$
-
 available in the package as `example8()`. Setting the derivatives to zero, we first locate the nullclines:
-
-$$ \begin{align} x &∶ y = 0,\\ y &∶ -x-y=0\Longrightarrow y=-x.\end{align} $$
-
+$$ \begin{align}
+x &∶ y = 0,\\
+y &∶ -x-y=0\Longrightarrow y=-x.
+\end{align} $$
 From this, again we can identify the one equilibrium is at $(0,0)$. We now plot the nullclines and velocity field, along with several trajectories:
-
-```{r, eval = F}
-example8.flowField  <- flowField(example8, xlim = c(-3, 3),
-                                 ylim = c(-3, 3), add = FALSE)
+```{r, echo = T, fig.dim = c(7, 5)}
+example8_flowField  <- flowField(example8,
+                                 xlim = c(-3, 3),
+                                 ylim = c(-3, 3),
+                                 add  = FALSE)
 grid()
-example8.nullclines <- nullclines(example8, xlim = c(-3, 3), 
+example8_nullclines <- nullclines(example8,
+                                  xlim = c(-3, 3), 
                                   ylim = c(-3, 3))
 y0                  <- matrix(c(1, 0, 0, 0.5, 2, -2, -2, -2),  
-                              nrow = 4, ncol = 2, byrow = TRUE)
-example8.trajectory <- trajectory(example8, y0 = y0,
+                              4, 2, byrow = TRUE)
+example8_trajectory <- trajectory(example8,
+                                  y0   = y0,
                                   tlim = c(0, 10))
 ```
-
 It appears from the plot that $(0,0)$ is a stable focus, but we can verify that this is the case using the Jacobian:
-
 $$ J = \begin{pmatrix} 0 & 1 \\ -1 & -1 \end{pmatrix}. $$
 Thus we have $T=-1$, $\Delta=1$ and $T^2-4\Delta=-3$; indeed $(0,0)$ is a stable focus. Finally, we confirm our stability analysis using __phaseR__:
-
-```{r, eval = F}
-> example8.stability <- stability(example8, ystar = c(0, 0))
+```{r, echo = T}
+example8_stability <- stability(example8,
+                                ystar = c(0, 0))
 ```
 
 ### `example11()`
 
-We now advance to a non-linear example of a two dimensional system, given by:
-
+We now advance to a non-linear example of a two-dimensional system, given by:
 $$ \frac{dx}{dt}=x(3-x-2y),\qquad \frac{dy}{dt}=y(2-x-y),$$
-
 and provided in the package as `example11()`. As always, we begin by setting the derivatives to zero to locate the nullclines. First, for $x$:
-
 $$ x(3-x-2y)=0\Longrightarrow x=0 \text{ or } y=\frac{1}{2}(3-x). $$
 Then for $y$:
-
 $$ y(2-x-y)=0\Longrightarrow x=0 \text{ or } y=2-x. $$
-
-Here, is often the case for non-linear systems, there are here multiple equilibria, which we find via the intersections of the above nullclines. Easily, we can identify $(0,0)$ and $(0,2)$ and $(3,0)$. The final equilibrium point comes from the intersection of the two more complex nullclines:
-
+Here, as is often the case for non-linear systems, there are here multiple equilibria, which we find via the intersections of the above nullclines. Easily, we can identify several as $(0,0)$, $(0,2)$, and $(3,0)$. The final equilibrium point comes from the intersection of the two more complex nullclines:
 $$ \frac{1}{2}(3-x_*)=2-x_*\Longrightarrow x_*=1\Longrightarrow y_*=1,$$
-
-i.e., the point $(1,1)$. We will determine the stability of these four equilibria from the general case Jacobian of the system:
-
+i.e., the point $(1,1)$. We can determine the stability of these four equilibria from the general case Jacobian of the system:
 $$ J = \begin{pmatrix} 3 - 2x_* - 2y_* & -2x_* \\ -y_* & 2 - x_* - 2y_*  \end{pmatrix}. $$
-
 In the case of multiple equilibria, it is then often a good idea to present the classification in a table:
 
 | Equilibrium Point | $\Delta$ | $T^2-4\Delta$ | $T$  | Classification |
@@ -844,67 +842,67 @@ In the case of multiple equilibria, it is then often a good idea to present the 
 | $(1,1)$           | $-1$     | $8$           | $-2$ | Saddle         |
 | $(3,0)$           | $3$      | $4$           | $-4$ | Stable node    |
 
-To summarise all of the above analysis we produce a plot of the nullclines, velocity field and trajectories using __phaseR__:
+To summarise all of the above analysis we produce a plot of the nullclines, velocity field, and several trajectories using __phaseR__:
 
-```{r, eval = F}
-example11.flowField  <- flowField(example11, xlim = c(-5, 5), 
-                                  ylim = c(-5, 5), add = FALSE)
+```{r, echo = T, fig.dim = c(7, 5)}
+example11_flowField  <- flowField(example11,
+                                  xlim = c(-5, 5), 
+                                  ylim = c(-5, 5),
+                                  add  = FALSE)
 grid()
-example11.nullclines <- nullclines(example11, xlim = c(-5, 5),                                                            ylim = c(-5, 5), points = 500)
+example11_nullclines <- nullclines(example11,
+                                   xlim   = c(-5, 5),
+                                   ylim   = c(-5, 5),
+                                   points = 500)
 y0                   <- matrix(c(4, 4, -1, -1, -2, 1, 1, -1), 
-                               nrow = 4, ncol = 2, byrow = TRUE)
-example11.trajectory <- trajectory(example11, y0 = y0,
+                               4, 2, byrow = TRUE)
+example11_trajectory <- trajectory(example11,
+                                   y0   = y0,
                                    tlim = c(0, 10))
 ```
-
 In addition, we verify the stability results using stability:
-
-```{r, eval = F}
-example11.stability.1 <- stability(example11, ystar = c(0, 0))
-example11.stability.2 <- stability(example11, ystar = c(0, 2))
-example11.stability.3 <- stability(example11, ystar = c(1, 1),
-                                   h = 1e-8)
-example11.stability.4 <- stability(example11, ystar = c(3, 0))
-```
-
-```{r, eval = F}
-example11.manifolds  <- drawManifolds(example11, y0 = c(1, 1))
+```{r, echo = T}
+example11_stability_1 <- stability(example11,
+                                   ystar = c(0, 0))
+example11_stability_2 <- stability(example11,
+                                   ystar = c(0, 2))
+example11_stability_3 <- stability(example11,
+                                   ystar = c(1, 1),
+                                   h     = 1e-8)
+example11_stability_4 <- stability(example11,
+                                   ystar = c(3, 0))
 ```
 
 ### `example12()`
 
-Moving on, we now consider a further non-linear example of a two dimensional system:
-
+Moving on, we now consider a further example of a non-linear two-dimensional system:
 $$ \frac{dx}{dt}=x-y,\qquad \frac{dy}{dt}=x^2+y^2-2. $$
 Provided in __phaseR__ as `example12()`. As usual, we first locate the nullclines:
-
 $$ \begin{align} x &∶ x-y=0\Longrightarrow y=x,\\ y &∶ x^2+y^2-2=0\Longrightarrow x^2+y^2=2. \end{align} $$
-From this, we substitute one condition into another to locate the equilibria:
-
+From this, we substitute one condition into the other to locate the equilibria:
 $$ x_*^2+x_*^2=2 \Longrightarrow x_*^2=1\Longrightarrow x_*=±1=y_*, $$
-
 therefore we have equilibria at $(1,1)$ and $(-1,-1)$.
 
-Continue by plotting the nullclines, velocity field and several trajectories:
+We continue by plotting the nullclines, velocity field, and several trajectories:
 
-```{r, eval = F}
-example12.flowField  <- flowField(example12, xlim = c(-4, 4),
-                                  ylim = c(-4, 4), add = FALSE)
+```{r, echo = T, fig.dim = c(7, 5)}
+example12_flowField  <- flowField(example12,
+                                  xlim = c(-4, 4),
+                                  ylim = c(-4, 4),
+                                  add  = FALSE)
 grid()
-example12.nullclines <- nullclines(example12, xlim = c(-4, 4), 
-                                   ylim = c(-4, 4),
+example12_nullclines <- nullclines(example12,
+                                   xlim   = c(-4, 4), 
+                                   ylim   = c(-4, 4),
                                    points = 500)
 y0                   <- matrix(c(2, 2, -3, 0, 0, 2, 0, -3), 
-                               nrow = 4, ncol = 2,
-                               byrow = TRUE)
-example12.trajectory <- trajectory(example12, y0 = y0,
+                               4, 2, byrow = TRUE)
+example12_trajectory <- trajectory(example12,
+                                   y0   = y0,
                                    tlim = c(0, 10))
 ```
-
 It appears that both of the equilibria are unstable, but to classify them accurately we will use the Jacobian:
-
 $$ J = \begin{pmatrix} 1 & -1 \\ 2x_* & 2y_* \end{pmatrix}. $$
-
 Therefore, we have:
 
 | Equilibrium Point | $\Delta$ | $T^2-4\Delta$ | $T$  | Classification |
@@ -914,103 +912,91 @@ Therefore, we have:
 
 Indeed it was the case that both points were unstable. Finally, we verify this analysis using stability:
 
-```{r, eval = F}
-example12.stability.1 <- stability(example12, ystar = c(1, 1))
-example12.stability.2 <- stability(example12,
-                                   ystar = c(-1, -1), h = 1e-8)
+```{r, echo = T}
+example12_stability_1 <- stability(example12,
+                                   ystar = c(1, 1))
+example12_stability_2 <- stability(example12,
+                                   ystar = c(-1, -1),
+                                   h     = 1e-8)
 ```
 
 ### `simplePendulum()`
 
-This next example comes from a real life modelling scenario; the equation for a simple pendulum (i.e. no damping force) acting under gravity can be written in the form:
-
+This next example comes from a real life modelling scenario; the equation for a simple pendulum (i.e., no damping force) acting under gravity can be written in the form:
 $$ \frac{dx}{dt}=y,\qquad \frac{dy}{dt}=-\frac{g}{l}\sin x. $$
 It is provided in the model as `simplePendulum()`. We first set the gradients to zero to locate the nullclines:
-
 $$ \begin{align} x &∶ y=0,\\ y &∶ -\frac{g}{l}\sin x = 0 \Longrightarrow x=n\pi, \ \forall n\in\mathbb{N} .\end{align}$$
 From this we can identify that equilibria will be present at all points $(0,n\pi)$, where $n$ is an integer. Using this we produce our familiar plot, choosing the case $l=5$:
 
-```{r, eval = F}
-simplePendulum.flowField  <- flowField(simplePendulum,
-                                       xlim = c(-7, 7),
-                                       ylim = c(-7, 7),
+```{r, echo = T, fig.dim = c(7, 5)}
+simplePendulum_flowField  <- flowField(simplePendulum,
+                                       xlim       = c(-7, 7),
+                                       ylim       = c(-7, 7),
                                        parameters = 5,
-                                       add = FALSE)
+                                       add        = FALSE)
 grid()
-simplePendulum.nullclines <- nullclines(simplePendulum,
-                                        xlim = c(-7, 7),
-                                        ylim = c(-7, 7),
+simplePendulum_nullclines <- nullclines(simplePendulum,
+                                        xlim       = c(-7, 7),
+                                        ylim       = c(-7, 7),
                                         parameters = 5,
-                                        points = 500)
-y0                        <- matrix(c(0, 1, 0, 4, -6, 1, 5,
-                                      0.5, 0, -3), nrow = 5, 
-                                    ncol = 2, byrow = TRUE)
-simplePendulum.trajectory <- trajectory(simplePendulum,
-                                        y0 = y0,
-                                        tlim = c(0, 10),
+                                        points     = 500)
+y0                        <- matrix(c(0, 1, 0, 4, -6, 1, 5, 0.5, 0, -3),
+                                    5, 2, byrow = TRUE)
+simplePendulum_trajectory <- trajectory(simplePendulum,
+                                        y0         = y0,
+                                        tlim       = c(0, 10),
                                         parameters = 5)
 ```
-
 We then turn to the Jacobian in order to determine the stability of the equilibria:
-
 $$ \begin{align} J &= \begin{pmatrix} 0 & 1 \\ -\frac{g}{l}\cos x_* & 0 \end{pmatrix},\\ \Longrightarrow T &= 0, \Delta=\frac{g}{l}\cos x_*, T^2-4\Delta=-\frac{4g}{l}\cos x_*.\end{align} $$
-
-Therefore, for $x_*=2n\pi$, $\Delta$ is positive and the equilibria is a centre. However, for $x_*=(2n+1)\pi$, $\Delta$ is negative and the equilibria is a saddle. We can confirm this for the points $(0,0)$ and $(\pi,0)$ using __phaseR__:
-
-```{r, eval = F}
-simplePendulum.stability.1 <- stability(simplePendulum,
-                                        ystar = c(0, 0),
+Therefore, for $x_*=2n\pi$, $\Delta>0$ and the equilibria is a centre. However, for $x_*=(2n+1)\pi$, $\Delta<0$ and the equilibria is a saddle. We can confirm this for the points $(0,0)$ and $(\pi,0)$ using __phaseR__:
+```{r, echo = T, fig.dim = c(7, 5)}
+simplePendulum_stability_1 <- stability(simplePendulum,
+                                        ystar      = c(0, 0),
                                         parameters = 5)
-simplePendulum.stability.2 <- stability(simplePendulum,
-                                        ystar = c(pi, 0),
+simplePendulum_stability_2 <- stability(simplePendulum,
+                                        ystar      = c(pi, 0),
                                         parameters = 5)
-simplePendulum.manifolds   <- drawManifolds(simplePendulum,
-                                            y0 = c(pi, 0),
-                                            parameters = 5)
 ```
 
 ### `vanDerPol()`
 
 As a final example, we again turn to a real physical system. The van Der Pol oscillator is a classic example in physics, describing a non-conservative oscillator with non-linear damping. It can be written in the form:
-
 $$ \frac{dx}{dt}=y,\qquad \frac{dy}{dt}=\mu(1-x^2)y-x. $$
-
 It is provided in the package as `vanDerPol()`. We consider only the case of $\mu>0$, i.e., when the oscillator is damped. The nullclines can then be computed as:
-
 $$ \begin{align} x &∶ y=0,\\ y &∶ \mu(1-x^2)y-x=0\Longrightarrow y = \frac{x}{μ(1-x^2)}. \end{align}$$
 The form of these nullclines indicates that the only equilibrium point is $(0,0)$. The stability of this, we again find from the Jacobian:
-
-$$ \begin{align} J &= \begin{pmatrix} 0 & 1 \\ -2\mu x_*y_* - 1 & \mu(1 - x_*^2) \end{pmatrix} = \left.\begin{pmatrix} 0 & 1 \\ -1 & \mu \end{pmatrix}\right|_{(0,0)},\\ \Longrightarrow T &= \mu,\ \Delta = 1,\ T^2 - 4\Delta=\mu^2 - 4.\end{align}  $$
-
+$$ \begin{align} J &= \begin{pmatrix} 0 & 1 \\ -2\mu x_*y_* - 1 & \mu(1 - x_*^2) \end{pmatrix} = \left.\begin{pmatrix} 0 & 1 \\ -1 & \mu \end{pmatrix}\right|_{(0,0)},\\
+\Longrightarrow T &= \mu,\ \Delta = 1,\ T^2 - 4\Delta=\mu^2 - 4.
+\end{align} $$
 Thus if $\mu>2$ then we will have an unstable node, whereas for $\mu<2$ we will have an unstable focus. We take the cases $\mu=1$ and $\mu=3$ as examples to indicate this using __phaseR__:
-
-```{r, eval = F}
-vanDerPol.stability.1 <- stability(vanDerPol, ystar = c(0, + 0),
+```{r, echo = T}
+vanDerPol_stability_1 <- stability(vanDerPol, ystar = c(0, 0),
                                    parameters = 3)
-vanDerPol.stability.2 <- stability(vanDerPol, ystar = c(0, + 0),
+vanDerPol_stability_2 <- stability(vanDerPol, ystar = c(0, 0),
                                    parameters = 1)
 ```
-
 However, when we plot trajectories along with the nullclines and velocity field we find:
-
-```{r, eval = F}
-vanDerPol.flowField  <- flowField(vanDerPol, xlim = c(-5, 5), 
-                                  ylim = c(-5, 5),
-                                  parameters = 3, add = FALSE)
+```{r, echo = T, fig.dim = c(7, 5)}
+vanDerPol_flowField  <- flowField(vanDerPol,
+                                  xlim       = c(-5, 5), 
+                                  ylim       = c(-5, 5),
+                                  parameters = 3,
+                                  add        = FALSE)
 grid()
-vanDerPol.nullclines <- nullclines(vanDerPol, xlim = c(-5, 5), 
-                                   ylim = c(-5, 5),
+vanDerPol_nullclines <- nullclines(vanDerPol,
+                                   xlim       = c(-5, 5), 
+                                   ylim       = c(-5, 5),
                                    parameters = 3,
-                                   points = 500)
+                                   points     = 500)
 y0                   <- matrix(c(2, 0, 0, 2, 0.5, 0.5),
-                               nrow = 3, ncol = 2,
-                               byrow = TRUE)
-vanDerPol.trajectory <- trajectory(vanDerPol, y0 = y0,
-                                   tlim = c(0, 10),
+                               3, 2, byrow = TRUE)
+vanDerPol_trajectory <- trajectory(vanDerPol,
+                                   y0         = y0,
+                                   tlim       = c(0, 10),
                                    parameters = 3)
 ```
-
-It appears that the solutions are bounded, and indeed oscillate as the name suggestions. This oscillating behaviour is an example of a limit cycle. This characterisation; where trajectories are pushed away near the equilibria (hence the classification as unstable), but move towards it far away, is typical of limit cycles. 
+It appears that the solutions are bounded, and indeed oscillate as the name suggests. This oscillating behaviour is an example of a limit cycle. This characterisation; where trajectories are pushed away near the equilibria (hence the classification as unstable), but move towards it far away, is typical of limit cycles. 
 
 ## Additional available systems
 
