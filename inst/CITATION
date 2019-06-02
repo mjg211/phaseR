@@ -1,0 +1,14 @@
+citHeader("To cite phaseR in publications please use")
+
+citEntry(entry = "Article",
+         key = "grayling2014",
+         author = as.person("Michael J. Grayling"),
+         year = "2014",
+         title = "{phaseR: An R Package for Phase Plane Analysis of Autonomous ODE Systems}",
+         journal = "The R Journal",
+         volume = "6",
+         number = "2",
+         pages = "43--51",
+         doi = "10.32614/RJ-2014-023",
+         url = "https://doi.org/10.32614/RJ-2014-023",
+         textVersion = paste("Grayling MJ (2014) phaseR: An R Package for Phase Plane Analysis of Autonomous ODE Systems. The R Journal 6(2):43-51. URL: https://doi.org/10.32614/RJ-2014-023."))
