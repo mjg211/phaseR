@@ -41,8 +41,8 @@ the type of system being analysed. Defaults to \code{"two.dim"}.}
 existing plot. If \code{FALSE}, a new plot is created. Defaults to
 \code{FALSE}.}
 
-\item{state.names}{State names for ode functions that do not use positional
-states}
+\item{state.names}{The state names for \code{\link[deSolve]{ode}} functions
+that do not use positional states.}
 }
 \description{
 Allows the user to perform a basic phase plane analysis and produce a simple

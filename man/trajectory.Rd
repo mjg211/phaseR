@@ -16,7 +16,7 @@ function \code{\link[deSolve]{ode}}.}
 
 \item{y0}{The initial condition(s). In the case of a one-dimensional system,
 this can either be a \code{\link[base]{numeric}} \code{\link[base]{vector}}
-of \code{\link[base]{length}} one ,indicating the location of the dependent
+of \code{\link[base]{length}} one, indicating the location of the dependent
 variable initially, or a \code{\link[base]{numeric}}
 \code{\link[base]{vector}} indicating multiple initial locations of the
 independent variable. In the case of a two-dimensional system, this can
@@ -24,10 +24,11 @@ either be a \code{\link[base]{numeric}} \code{\link[base]{vector}} of
 \code{\link[base]{length}} two, reflecting the location of the two
 dependent variables initially, or it can be \code{\link[base]{numeric}}
 \code{\link[base]{matrix}} where each row reflects a different initial
-condition. Alternatively this can be left blank and the
-user can use \code{\link[graphics]{locator}} to specify initial condition(s)
-on a plot. In this case, for one-dimensional systems, all initial conditions
-are taken at tlim[1], even if not selected so on the graph. Defaults to NULL.}
+condition. Alternatively this can be specified as \code{\link[base]{NULL}},
+and then \code{\link[graphics]{locator}} can be used to specify initial
+condition(s) on a plot. In this case, for one-dimensional systems, all
+initial conditions are taken at tlim[1], even if not selected so on the
+graph. Defaults to \code{\link[base]{NULL}}.}
 
 \item{n}{If \code{y0} is left \code{NULL}, such initial conditions can be
 specified using \code{\link[graphics]{locator}}, \code{n} sets the number of
@@ -60,8 +61,8 @@ initial conditions. Defaults to \code{"black"}.}
 \item{add}{Logical. If \code{TRUE}, the trajectories added to an existing
 plot. If \code{FALSE}, a new plot is created. Defaults to \code{TRUE}.}
 
-\item{state.names}{State names for ode functions that do not use positional
-states}
+\item{state.names}{The state names for \code{\link[deSolve]{ode}} functions
+that do not use positional states.}
 
 \item{\dots}{Additional arguments to be passed to plot.}
 }

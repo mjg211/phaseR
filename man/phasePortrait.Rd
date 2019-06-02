@@ -6,7 +6,7 @@
 \usage{
 phasePortrait(deriv, ylim, ystep = 0.01, parameters = NULL,
   points = 10, frac = 0.75, arrow.head = 0.075, col = "black",
-  add.grid = TRUE, state.names = c("y"), xlab = state.names,
+  add.grid = TRUE, state.names = "y", xlab = state.names,
   ylab = paste0("d", state.names), ...)
 }
 \arguments{
@@ -52,8 +52,8 @@ accordingly if it is of the wrong \code{\link[base]{length}}. Defaults to
 \item{add.grid}{Logical. If \code{TRUE}, a grid is added to the plot.
 Defaults to \code{TRUE}.}
 
-\item{state.names}{State names for ode functions that do not use positional
-states}
+\item{state.names}{The state names for \code{\link[deSolve]{ode}} functions
+that do not use positional states.}
 
 \item{xlab}{Label for the x-axis of the resulting plot.}
 
@@ -69,8 +69,8 @@ Returns a list with the following components:
 \code{\link[base]{character}} \code{\link[base]{vector}} of the wrong
 \code{\link[base]{length}} was supplied.}
 \item{deriv}{As per input.}
-\item{dy}{A vector containing the value of the derivative at each evaluated
-point.}
+\item{dy}{A \code{\link[base]{numeric}} \code{\link[base]{vector}} containing
+the value of the derivative at each evaluated point.}
 \item{frac}{As per input.}
 \item{parameters}{As per input.}
 \item{points}{As per input.}

@@ -1,20 +1,24 @@
 #' Stable and unstable manifolds
-#' 
+#'
 #' Plots the stable and unstable manifolds of a saddle point. A search
 #' procedure is utilised to identify an equilibrium point, and if it is a saddle
 #' then its manifolds are added to the plot.
-#' 
+#'
 #' @param deriv A function computing the derivative at a point for the ODE
 #' system to be analysed. Discussion of the required structure of these
 #' functions can be found in the package vignette, or in the help file for the
 #' function \code{\link[deSolve]{ode}}.
 #' @param y0 The initial point from which a saddle will be searched for. This
-#' can either be a vector of length two reflecting the location of the two
-#' dependent variables, or it can be left blank and the user can use
-#' \code{\link[graphics]{locator}} to specify the initial point on a plot.
+#' can either be a \code{\link[base]{numeric}} \code{\link[base]{vector}} of
+#' \code{\link[base]{length}} two, reflecting the location of the two
+#' dependent variables, or alternatively this can be specified as
+#' \code{\link[base]{NULL}}, and then \code{\link[graphics]{locator}} can be
+#' used to specify the initial point on a plot. Defaults to
+#' \code{\link[base]{NULL}}.
 #' @param parameters Parameters of the ODE system, to be passed to \code{deriv}.
-#' Supplied as a vector; the order of the parameters can be found from the
-#' \code{deriv} file. Defaults to \code{\link[base]{NULL}}.
+#' Supplied as a \code{\link[base]{numeric}} \code{\link[base]{vector}}; the
+#' order of the parameters can be found from the \code{deriv} file. Defaults to
+#' \code{\link[base]{NULL}}.
 #' @param tstep The step length of the independent variable, used in numerical
 #' integration. Decreasing the absolute magnitude of \code{tstep} theoretically
 #' makes the numerical integration more accurate, but increases computation
@@ -29,33 +33,32 @@
 #' Defaults to \code{TRUE}.
 #' @inheritParams .paramDummy
 #' @param ... Additional arguments to be passed to plot.
-#' @return Returns a \code{\link[base]{list}} with the following components (the
-#' exact make up is dependent on the value of \code{system}):
+#' @return Returns a \code{\link[base]{list}} with the following components:
 #' \item{add.legend}{As per input.}
 #' \item{col}{As per input, but with possible editing if a
 #' \code{\link[base]{character}} \code{\link[base]{vector}} of the wrong
 #' \code{\link[base]{length}} was supplied.}
 #' \item{deriv}{As per input.}
 #' \item{parameters}{As per input.}
-#' \item{stable.1}{A \code{\link[base]{matrix}} whose columns are the
-#' numerically computed values of the dependent variables for part of the stable
-#' manifold.}
-#' \item{stable.2}{A \code{\link[base]{matrix}} whose columns are the
-#' numerically computed values of the dependent variables for part of the stable
-#' manifold.}
+#' \item{stable.1}{A \code{\link[base]{numeric}} \code{\link[base]{matrix}}
+#' whose columns are the numerically computed values of the dependent variables
+#' for part of the stable manifold.}
+#' \item{stable.2}{A \code{\link[base]{numeric}} \code{\link[base]{matrix}}
+#' whose columns are the numerically computed values of the dependent variables
+#' for part of the stable manifold.}
 #' \item{tend}{As per input.}
-#' \item{unstable.1}{A \code{\link[base]{matrix}} whose columns are the
-#' numerically computed values of the dependent variables for part of the
-#' unstable manifold.}
-#' \item{unstable.2}{A \code{\link[base]{matrix}} whose columns are the
-#' numerically computed values of the dependent variables for part of the
-#' unstable manifold.}
+#' \item{unstable.1}{A \code{\link[base]{numeric}} \code{\link[base]{matrix}}
+#' whose columns are the numerically computed values of the dependent variables
+#' for part of the unstable manifold.}
+#' \item{unstable.2}{A \code{\link[base]{numeric}} \code{\link[base]{matrix}}
+#' whose columns are the numerically computed values of the dependent variables
+#' for part of the unstable manifold.}
 #' \item{y0}{As per input.}
 #' \item{ystar}{Location of the identified equilibrium point.}
 #' @author Michael J Grayling, Stephen P Ellner, John M Guckenheimer
 #' @export
 drawManifolds <- function(deriv, y0 = NULL, parameters = NULL, tstep = 0.1,
-                          tend = 1000, col = c("green", "red"),
+                          tend = 100, col = c("green", "red"),
                           add.legend = TRUE, state.names = c("x", "y"), ...) {
   if (is.null(y0)) {
     y0         <- locator(n = 1)
@@ -104,7 +107,7 @@ drawManifolds <- function(deriv, y0 = NULL, parameters = NULL, tstep = 0.1,
     v1         <- eigenvectors[, i1]
     v2         <- eigenvectors[, i2]
     eps        <- 1e-2
-    ymax       <- 0.5 + max(abs(ystar)) 
+    ymax       <- 0.5 + max(abs(ystar))
     maxtime.1  <- max(tend, log(2500*ymax)/abs(eigenvalues[i1]))
     out.1      <- deSolve::ode(times = seq(0, maxtime.1, tstep),
                                y     = setNames(ystar + eps*v1, state.names),

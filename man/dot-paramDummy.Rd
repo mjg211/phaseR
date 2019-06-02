@@ -7,8 +7,8 @@
 .paramDummy(state.names)
 }
 \arguments{
-\item{state.names}{State names for ode functions that do not use positional
-states}
+\item{state.names}{The state names for \code{\link[deSolve]{ode}} functions
+that do not use positional states.}
 }
 \description{
 A function such that we can apply DRY in param documentation

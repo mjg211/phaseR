@@ -67,8 +67,8 @@ plots. Defaults to \code{1}.}
 \item{add}{Logical. If \code{TRUE}, the flow field is added to an existing
 plot. If \code{FALSE}, a new plot is created. Defaults to \code{TRUE}.}
 
-\item{state.names}{State names for ode functions that do not use positional
-states.}
+\item{state.names}{The state names for \code{\link[deSolve]{ode}} functions
+that do not use positional states.}
 
 \item{xlab}{Label for the x-axis of the resulting plot.}
 
@@ -87,13 +87,14 @@ exact make up is dependent on the value of \code{system}):
 \code{\link[base]{character}} \code{\link[base]{vector}} of the wrong
 \code{\link[base]{length}} was supplied.}
 \item{deriv}{As per input.}
-\item{dx}{A \code{\link[base]{matrix}}. In the case of a two-dimensional
-system, the values of the derivative of the first dependent derivative at all
+\item{dx}{A \code{\link[base]{numeric}} \code{\link[base]{matrix}}. In the
+case of a two-dimensional system, the values of the derivative of the first
+dependent derivative at all evaluated points.}
+\item{dy}{A \code{\link[base]{numeric}} \code{\link[base]{matrix}}. In the
+case of a two-dimensional system, the values of the derivative of the second
+dependent variable at all evaluated points. In the case of a one-dimensional
+system, the values of the derivative of the dependent variable at all
 evaluated points.}
-\item{dy}{A \code{\link[base]{matrix}}. In the case of a two-dimensional
-system, the values of the derivative of the second dependent variable at all
-evaluated points. In the case of a one-dimensional system, the values of the
-derivative of the dependent variable at all evaluated points.}
 \item{frac}{As per input.}
 \item{parameters}{As per
 input.}

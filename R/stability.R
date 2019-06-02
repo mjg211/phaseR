@@ -17,9 +17,9 @@
 #' two-dimensional system this should be a \code{\link[base]{numeric}}
 #' \code{\link[base]{vector}} of \code{\link[base]{length}} two (i.e., presently
 #' only one equilibrium point's stability can be evaluated at a time).
-#' Alternatively this can be left blank and the user can use
-#' \code{\link[graphics]{locator}} to choose a point to perform the analysis.
-#' However, given you are unlikely to locate exactly the equilibrium
+#' Alternatively this can be specified as \code{\link[base]{NULL}}, and then
+#' \code{\link[graphics]{locator}} can be used to choose a point to perform the
+#' analysis for. However, given you are unlikely to locate exactly the equilibrium
 #' point, if possible enter \code{ystar} yourself. Defaults to \code{NULL}.
 #' @param parameters Parameters of the ODE system, to be passed to \code{deriv}.
 #' Supplied as a \code{\link[base]{numeric}} \code{\link[base]{vector}}; the
@@ -35,7 +35,7 @@
 #' @return Returns a \code{\link[base]{list}} with the following components (the
 #' exact make up is dependent upon the value of system):
 #' \item{classification}{The classification of \code{ystar}.}
-#' \item{Delta}{In the two-dimensional system case, value of the Jacobian's
+#' \item{Delta}{In the two-dimensional system case, the value of the Jacobian's
 #' determinant at \code{ystar}.}
 #' \item{deriv}{As per input.}
 #' \item{discriminant}{In the one-dimensional system case, the value of the

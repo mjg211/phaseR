@@ -1,12 +1,12 @@
 #' Phase portrait plot
-#' 
+#'
 #' For a one-dimensional autonomous ODE, it plots the phase portrait, i.e., the
 #' derivative against the dependent variable. In addition, along the dependent
 #' variable axis it plots arrows pointing in the direction of dependent
 #' variable change with increasing value of the independent variable. From this
 #' stability of equilibrium points (i.e., locations where the horizontal axis is
 #' crossed) can be determined.
-#' 
+#'
 #' @param deriv A function computing the derivative at a point for the ODE
 #' system to be analysed. Discussion of the required structure of these
 #' functions can be found in the package vignette, or in the help file for the
@@ -44,7 +44,6 @@
 #' Defaults to \code{TRUE}.
 #' @param \dots Additional arguments to be passed to either plot or arrows.
 #' @inheritParams .paramDummy
-#' 
 #' @return Returns a list with the following components:
 #' \item{add.grid}{As per input.}
 #' \item{arrow.head}{As per input.}
@@ -52,8 +51,8 @@
 #' \code{\link[base]{character}} \code{\link[base]{vector}} of the wrong
 #' \code{\link[base]{length}} was supplied.}
 #' \item{deriv}{As per input.}
-#' \item{dy}{A vector containing the value of the derivative at each evaluated
-#' point.}
+#' \item{dy}{A \code{\link[base]{numeric}} \code{\link[base]{vector}} containing
+#' the value of the derivative at each evaluated point.}
 #' \item{frac}{As per input.}
 #' \item{parameters}{As per input.}
 #' \item{points}{As per input.}
@@ -74,9 +73,9 @@
 #'                                         frac   = 0.5)
 phasePortrait <- function(deriv, ylim, ystep = 0.01, parameters = NULL,
                           points = 10, frac = 0.75, arrow.head = 0.075,
-                          col = "black", add.grid = TRUE, state.names = c("y"), 
+                          col = "black", add.grid = TRUE, state.names = "y",
                           xlab = state.names, ylab = paste0("d", state.names),
-                          ...){
+                          ...) {
     if (any(!is.vector(ylim), length(ylim) != 2)) {
         stop("ylim is not a vector of length 2, as is required")
     }
@@ -114,12 +113,12 @@ phasePortrait <- function(deriv, ylim, ystep = 0.01, parameters = NULL,
                             parameters)[[1]]
     }
     pos            <- which(dy.arrows > 0)
-    graphics::arrows(y.arrows[pos] - y.shift, numeric(length(y.arrows[pos])), 
-                     y.arrows[pos] + y.shift, numeric(length(y.arrows[pos])), 
+    graphics::arrows(y.arrows[pos] - y.shift, numeric(length(y.arrows[pos])),
+                     y.arrows[pos] + y.shift, numeric(length(y.arrows[pos])),
                      length = arrow.head, col = col, ...)
     neg            <- which(dy.arrows < 0)
-    graphics::arrows(y.arrows[neg] + y.shift, numeric(length(y.arrows[neg])), 
-                     y.arrows[neg] - y.shift, numeric(length(y.arrows[neg])), 
+    graphics::arrows(y.arrows[neg] + y.shift, numeric(length(y.arrows[neg])),
+                     y.arrows[neg] - y.shift, numeric(length(y.arrows[neg])),
                      length = arrow.head, col = col, ...)
     return(list(add.grid   = add.grid,
                 arrow.head = arrow.head,

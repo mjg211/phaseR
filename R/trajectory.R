@@ -1,16 +1,16 @@
 #' Phase plane trajectory plotting
-#' 
+#'
 #' Performs numerical integration of the chosen ODE system, for a user specified
 #' set of initial conditions. Plots the resulting solution(s) in the phase
 #' plane.
-#' 
+#'
 #' @param deriv A function computing the derivative at a point for the ODE
 #' system to be analysed. Discussion of the required structure of these
 #' functions can be found in the package vignette, or in the help file for the
 #' function \code{\link[deSolve]{ode}}.
 #' @param y0 The initial condition(s). In the case of a one-dimensional system,
 #' this can either be a \code{\link[base]{numeric}} \code{\link[base]{vector}}
-#' of \code{\link[base]{length}} one ,indicating the location of the dependent
+#' of \code{\link[base]{length}} one, indicating the location of the dependent
 #' variable initially, or a \code{\link[base]{numeric}}
 #' \code{\link[base]{vector}} indicating multiple initial locations of the
 #' independent variable. In the case of a two-dimensional system, this can
@@ -18,10 +18,11 @@
 #' \code{\link[base]{length}} two, reflecting the location of the two
 #' dependent variables initially, or it can be \code{\link[base]{numeric}}
 #' \code{\link[base]{matrix}} where each row reflects a different initial
-#' condition. Alternatively this can be left blank and the
-#' user can use \code{\link[graphics]{locator}} to specify initial condition(s)
-#' on a plot. In this case, for one-dimensional systems, all initial conditions
-#' are taken at tlim[1], even if not selected so on the graph. Defaults to NULL.
+#' condition. Alternatively this can be specified as \code{\link[base]{NULL}},
+#' and then \code{\link[graphics]{locator}} can be used to specify initial
+#' condition(s) on a plot. In this case, for one-dimensional systems, all
+#' initial conditions are taken at tlim[1], even if not selected so on the
+#' graph. Defaults to \code{\link[base]{NULL}}.
 #' @param n If \code{y0} is left \code{NULL}, such initial conditions can be
 #' specified using \code{\link[graphics]{locator}}, \code{n} sets the number of
 #' initial conditions to be chosen. Defaults to \code{NULL}.
@@ -96,7 +97,7 @@
 #'                                   tlim       = c(0, 5),
 #'                                   parameters = c(1, 2),
 #'                                   system     = "one.dim")
-#' 
+#'
 #' # Plot the velocity field, nullclines and several trajectories for the
 #' # two-dimensional autonomous ODE system simplePendulum
 #' simplePendulum_flowField  <- flowField(simplePendulum,
@@ -116,7 +117,7 @@
 #'                                         y0         = y0,
 #'                                         tlim       = c(0, 10),
 #'                                         parameters = 5)
-trajectory <- function(deriv, y0 = NULL, n = NULL, tlim, tstep = 0.01, 
+trajectory <- function(deriv, y0 = NULL, n = NULL, tlim, tstep = 0.01,
                        parameters = NULL, system = "two.dim", col = "black",
                        add = TRUE,
                        state.names =
@@ -207,7 +208,7 @@ trajectory <- function(deriv, y0 = NULL, n = NULL, tlim, tstep = 0.01,
   for (i in 1:nrow(y0)) {
     phase.trajectory <- deSolve::ode(times  = t,
                                      y      = stats::setNames(c(y0[i, ]),
-                                                              state.names), 
+                                                              state.names),
                                      func   = deriv,
                                      parms  = parameters,
                                      method = method)

@@ -57,8 +57,8 @@ plot. If \code{FALSE}, a new plot is created. Defaults to \code{TRUE}.}
 \item{add.legend}{Logical. If \code{TRUE}, a \code{\link[graphics]{legend}}
 is added to the plots. Defaults to \code{TRUE}.}
 
-\item{state.names}{State names for ode functions that do not use positional
-states}
+\item{state.names}{The state names for \code{\link[deSolve]{ode}} functions
+that do not use positional states.}
 
 \item{\dots}{Additional arguments to be passed to either
 \code{\link[graphics]{plot}} or \code{\link[graphics]{contour}}.}
@@ -72,25 +72,28 @@ exact make up is dependent on the value of \code{system}):
 \code{\link[base]{character}} \code{\link[base]{vector}} of the wrong
 \code{\link[base]{length}} was supplied.}
 \item{deriv}{As per input.}
-\item{dx}{A \code{\link[base]{matrix}}. In the case of a two-dimensional
-system, the values of the derivative of the first dependent derivative at all
+\item{dx}{A \code{\link[base]{numeric}} \code{\link[base]{matrix}}. In the
+case of a two-dimensional system, the values of the derivative of the first
+dependent derivative at all evaluated points.}
+\item{dy}{A \code{\link[base]{numeric}} \code{\link[base]{matrix}}. In the
+case of a two-dimensional system, the values of the derivative of the second
+dependent variable at all evaluated points. In the case of a one-dimensional
+system, the values of the derivative of the dependent variable at all
 evaluated points.}
-\item{dy}{A \code{\link[base]{matrix}}. In the case of a two-dimensional
-system, the values of the derivative of the second dependent variable at all
-evaluated points. In the case of a one-dimensional system, the values of the
-derivative of the dependent variable at all evaluated points.}
 \item{parameters}{As per input.}
 \item{points}{As per input.}
 \item{system}{As per input.}
-\item{x}{A \code{\link[base]{vector}}. In the case of a two-dimensional
-system, the values of the first dependent variable at which the derivatives
-were computed. In the case of a one-dimensional system, the values of the
-independent variable at which the derivatives were computed.}
+\item{x}{A \code{\link[base]{numeric}} \code{\link[base]{vector}}. In the
+case of a two-dimensional system, the values of the first dependent variable
+at which the derivatives were computed. In the case of a one-dimensional
+system, the values of the independent variable at which the derivatives were
+computed.}
 \item{xlim}{As per input.}
-\item{y}{A \code{\link[base]{vector}}. In the case of a two-dimensional
-system, the of values of the second dependent variable at which the
-derivatives were computed. In the case of a one-dimensional system, the
-values of the dependent variable at which the derivatives were computed.}
+\item{y}{A \code{\link[base]{numeric}} \code{\link[base]{vector}}. In the
+case of a two-dimensional system, the of values of the second dependent
+variable at which the derivatives were computed. In the case of a
+one-dimensional system, the values of the dependent variable at which the
+derivatives were computed.}
 \item{ylim}{As per input.}
 }
 \description{

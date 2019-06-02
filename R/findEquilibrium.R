@@ -16,8 +16,9 @@
 #' two-dimensional system, this should be a \code{\link[base]{numeric}}
 #' \code{\link[base]{vector}} of \code{\link[base]{length}} two reflecting the
 #' location of the two dependent variables initially. Alternatively this can be
-#' left blank and the user can use \code{\link[graphics]{locator}} to specify
-#' initial condition on a plot. Defaults to \code{NULL}.
+#' specified as \code{\link[base]{NULL}}, and then
+#' \code{\link[graphics]{locator}} can be used to specify the initial point on a
+#' plot. Defaults to \code{\link[base]{NULL}}.
 #' @param parameters Parameters of the ODE system, to be passed to \code{deriv}.
 #' Supplied as a \code{\link[base]{numeric}} \code{\link[base]{vector}}; the
 #' order of the parameters can be found from the \code{deriv} file. Defaults to
@@ -43,7 +44,7 @@
 #' \item{Delta}{In the two-dimensional system case, value of the Jacobian's
 #' determinant at the equilibrium point.}
 #' \item{deriv}{As per input.}
-#' \item{discriminant}{In the one-dimensional-system case, the value of the
+#' \item{discriminant}{In the one-dimensional system case, the value of the
 #' discriminant used in perturbation analysis to assess stability. In the
 #' two-dimensional system case, the value of \code{tr^2 - 4*Delta}.}
 #' \item{eigenvalues}{In the two-dimensional system case, the value of the

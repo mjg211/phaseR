@@ -1,10 +1,10 @@
 #' Numerical solution and plotting
-#' 
+#'
 #' Numerically solves a two-dimensional autonomous ODE system for a given
 #' initial condition, using \code{\link[deSolve]{ode}} from the package
 #' \code{\link[deSolve]{deSolve}}. It then plots the dependent variables against
 #' the independent variable.
-#' 
+#'
 #' @param deriv A function computing the derivative at a point for the ODE
 #' system to be analysed. Discussion of the required structure of these
 #' functions can be found in the package vignette, or in the help file for the
@@ -37,10 +37,11 @@
 #' Defaults to \code{TRUE}.
 #' @param add.legend Logical. If \code{TRUE}, a \code{\link[graphics]{legend}}
 #' is added to the plots. Defaults to \code{TRUE}.
+#' @inheritParams .paramDummy
 #' @param xlab Label for the x-axis of the resulting plot.
 #' @param ylab Label for the y-axis of the resulting plot.
-#' @param \dots Additional arguments to be passed to plot.
-#' @inheritParams .paramDummy
+#' @param \dots Additional arguments to be passed to
+#' \code{\link[graphics]{plot}}.
 #' @return Returns a \code{\link[base]{list}} with the following components:
 #' \item{add.grid}{As per input.}
 #' \item{add.legend}{As per input.}
@@ -69,12 +70,12 @@
 #'                                                  y0         = c(4, 2),
 #'                                                  tlim       = c(0, 100),
 #'                                                  parameters = 3)
-#' 
+#'
 numericalSolution <- function(deriv, y0 = NULL, tlim, tstep = 0.01,
                               parameters = NULL, type = "one",
-                              col = c("red", "blue"), add.grid = TRUE, 
-                              add.legend = TRUE, state.names = c("x", "y"), 
-                              xlab = 't', ylab = state.names, ...) {
+                              col = c("red", "blue"), add.grid = TRUE,
+                              add.legend = TRUE, state.names = c("x", "y"),
+                              xlab = "t", ylab = state.names, ...) {
   if (any(tlim < 0)) {
     stop("tlim contains negative values")
   }
@@ -129,7 +130,7 @@ numericalSolution <- function(deriv, y0 = NULL, tlim, tstep = 0.01,
   }
   t                <- seq(tlim[1], tlim[2], tstep)
   phase.trajectory <- deSolve::ode(times  = t,
-                                   y      = stats::setNames(y0, state.names), 
+                                   y      = stats::setNames(y0, state.names),
                                    func   = deriv,
                                    parms  = parameters,
                                    method = "ode45")

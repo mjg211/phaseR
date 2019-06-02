@@ -1,9 +1,9 @@
 #' Nullclines
-#' 
+#'
 #' Plots nullclines for two-dimensional autonomous ODE systems. Can also be used
 #' to plot horizontal lines at equilibrium points for one-dimensional autonomous
 #' ODE systems.
-#' 
+#'
 #' @param deriv A function computing the derivative at a point for the ODE
 #' system to be analysed. Discussion of the required structure of these
 #' functions can be found in the package vignette, or in the help file for the
@@ -53,25 +53,28 @@
 #' \code{\link[base]{character}} \code{\link[base]{vector}} of the wrong
 #' \code{\link[base]{length}} was supplied.}
 #' \item{deriv}{As per input.}
-#' \item{dx}{A \code{\link[base]{matrix}}. In the case of a two-dimensional
-#' system, the values of the derivative of the first dependent derivative at all
+#' \item{dx}{A \code{\link[base]{numeric}} \code{\link[base]{matrix}}. In the
+#' case of a two-dimensional system, the values of the derivative of the first
+#' dependent derivative at all evaluated points.}
+#' \item{dy}{A \code{\link[base]{numeric}} \code{\link[base]{matrix}}. In the
+#' case of a two-dimensional system, the values of the derivative of the second
+#' dependent variable at all evaluated points. In the case of a one-dimensional
+#' system, the values of the derivative of the dependent variable at all
 #' evaluated points.}
-#' \item{dy}{A \code{\link[base]{matrix}}. In the case of a two-dimensional
-#' system, the values of the derivative of the second dependent variable at all
-#' evaluated points. In the case of a one-dimensional system, the values of the
-#' derivative of the dependent variable at all evaluated points.}
 #' \item{parameters}{As per input.}
 #' \item{points}{As per input.}
 #' \item{system}{As per input.}
-#' \item{x}{A \code{\link[base]{vector}}. In the case of a two-dimensional
-#' system, the values of the first dependent variable at which the derivatives
-#' were computed. In the case of a one-dimensional system, the values of the
-#' independent variable at which the derivatives were computed.}
+#' \item{x}{A \code{\link[base]{numeric}} \code{\link[base]{vector}}. In the
+#' case of a two-dimensional system, the values of the first dependent variable
+#' at which the derivatives were computed. In the case of a one-dimensional
+#' system, the values of the independent variable at which the derivatives were
+#' computed.}
 #' \item{xlim}{As per input.}
-#' \item{y}{A \code{\link[base]{vector}}. In the case of a two-dimensional
-#' system, the of values of the second dependent variable at which the
-#' derivatives were computed. In the case of a one-dimensional system, the
-#' values of the dependent variable at which the derivatives were computed.}
+#' \item{y}{A \code{\link[base]{numeric}} \code{\link[base]{vector}}. In the
+#' case of a two-dimensional system, the of values of the second dependent
+#' variable at which the derivatives were computed. In the case of a
+#' one-dimensional system, the values of the dependent variable at which the
+#' derivatives were computed.}
 #' \item{ylim}{As per input.}
 #' @note In order to ensure a nullcline is plotted, set \code{xlim} and
 #' \code{ylim} strictly enclosing its location. For example, to ensure a
@@ -99,7 +102,7 @@
 #'                                   tlim       = c(0, 5),
 #'                                   parameters = c(1, 2),
 #'                                   system     = "one.dim")
-#' 
+#'
 #' # Plot the velocity field, nullclines and several trajectories for the
 #' # two-dimensional autonomous ODE system simplePendulum.
 #' simplePendulum_flowField  <- flowField(simplePendulum,
@@ -121,9 +124,9 @@
 #'                                         parameters = 5)
 nullclines <- function(deriv, xlim, ylim, parameters = NULL,
                        system = "two.dim", points = 101,
-                       col = c("blue", "cyan"), add = TRUE, add.legend = TRUE, 
+                       col = c("blue", "cyan"), add = TRUE, add.legend = TRUE,
                        state.names =
-                         if(system == "two.dim") c("x", "y") else "y", ...) {
+                         if (system == "two.dim") c("x", "y") else "y", ...) {
   if (any(!is.vector(xlim), length(xlim) != 2)) {
     stop("xlim is not a vector of length 2, as is required")
   }
@@ -198,7 +201,7 @@ nullclines <- function(deriv, xlim, ylim, parameters = NULL,
         dy[i, j] <- df[[1]][2]
       }
     }
-    graphics::contour(x, y, dx, levels = 0, add = add, col = col[1], 
+    graphics::contour(x, y, dx, levels = 0, add = add, col = col[1],
                       drawlabels = F, ...)
     graphics::contour(x, y, dy, levels = 0, add = T, col = col[2],
                       drawlabels = F, ...)

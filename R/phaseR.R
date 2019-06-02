@@ -1,5 +1,5 @@
 #' Phase plane analysis of one- and two-dimensional autonomous ODE systems
-#' 
+#'
 #' phaseR is an R package for the qualitative analysis of one- and
 #' two-dimensional autonomous ODE systems, using phase plane methods. Programs
 #' are available to identify and classify equilibrium points, plot the direction
@@ -8,7 +8,7 @@
 #' Whilst in the two-dimensional case, additionally programs are available to
 #' plot nullclines and stable/unstable manifolds of saddle points. Many example
 #' systems are provided for the user.
-#' 
+#'
 #' \tabular{ll}{Package: \tab phaseR\cr Type: \tab Package\cr Version: \tab
 #' 2.1\cr Date: \tab 2019-31-05\cr License: \tab GNU GPLv3\cr}
 #' The package contains nine main functions for performing phase plane analyses:
@@ -32,33 +32,33 @@
 #' in order to classify equilibria.
 #' \item \code{\link{trajectory}}: Numerically solves a one- or two-dimensional
 #' ODE system to plot trajectories in the phase plane.}
-#' 
+#'
 #' In addition, the package contains over 25 derivative functions for example
 #' systems. Links to these can be found in the package index.
-#' 
+#'
 #' An accompanying vignette containing further information, examples, and
 #' exercises, can also be accessed with \code{vignette("phaseR")}.
-#' 
+#'
 #' This package makes use of the \code{\link[deSolve]{ode}} function in the
 #' package \code{\link[deSolve]{deSolve}}.
-#' 
+#'
 #' @name phaseR-package
 #' @aliases phaseR-package phaseR
 #' @docType package
 #' @author Michael J Grayling (michael.grayling@@ncl.ac.uk)
-#' 
+#'
 #' Contributor(s): Gerhard Burger
-#' 
-#' @import graphics 
+#'
+#' @import graphics
 #' @importFrom stats setNames
 #' @importFrom deSolve ode
 NULL
 
 #' A function such that we can apply DRY in param documentation
-#' @param state.names State names for ode functions that do not use positional
-#' states
+#' @param state.names The state names for \code{\link[deSolve]{ode}} functions
+#' that do not use positional states.
 .paramDummy <- function(state.names) {}
-  
+
 
 
 
