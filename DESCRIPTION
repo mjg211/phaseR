@@ -2,14 +2,16 @@ Package: phaseR
 Type: Package
 Title: Phase plane analysis of one- and two-dimensional autonomous ODE systems
 Version: 2.1
-Authors@R: c(person(given  = "Michael J",
-                    family = "Grayling",
-                    email  = "michael.grayling@ncl.ac.uk",
-                    role   = c("aut", "cre")),
-             person(given  = "Gerhard",
-                    family = "Burger",
-                    email  = "burger.ga@gmail.com",
-                    role = "ctb"))
+Authors@R: c(person(given   = "Michael J",
+                    family  = "Grayling",
+                    email   = "michael.grayling@ncl.ac.uk",
+                    role    = c("aut", "cre"),
+                    comment = c(ORCID = "0000-0002-0680-6668")),
+             person(given   = "Gerhard",
+                    family  = "Burger",
+                    email   = "burger.ga@gmail.com",
+                    role    = "ctb",
+                    comment = c(ORCID = "0000-0003-1062-5576")))
 Imports:
     deSolve,
     graphics,
