@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# phaseR
+# phaseR <img src='man/figures/phaseR.png' align="right" height="139" />
 
 *Phase plane analysis of one- and two-dimensional autonomous ODE
 systems*

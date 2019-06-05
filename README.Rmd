@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 suppressPackageStartupMessages(library(phaseR))
 ```
 
-# phaseR
+# phaseR <img src='man/figures/phaseR.png' align="right" height="139" />
 
 *Phase plane analysis of one- and two-dimensional autonomous ODE systems*
 
