@@ -25,7 +25,7 @@ Description: Performs a qualitative analysis of one- and two-dimensional
    two-dimensional case, programs are additionally available to plot nullclines
    and stable/unstable manifolds of saddle points. Many example systems are
    provided for the user.
-License: MIT
+License: MIT + file LICENSE
 LazyData: TRUE
 Suggests:
     knitr,
