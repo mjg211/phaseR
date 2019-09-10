@@ -1,6 +1,6 @@
 ---
 title: "phaseR: v2.1"
-author: "Michael J Grayling (michael.grayling@ncl.ac.uk)"
+author: "Michael J Grayling (michael.grayling@newcastle.ac.uk)"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
