@@ -109,10 +109,9 @@ stability <- function(deriv, ystar = NULL, parameters = NULL,
   }
   if (system == "one.dim"){
     discriminant         <- as.numeric(
-      (deriv(0, stats::setNames(ystar + h, state.names),
-             parameters = parameters)[[1]] -
+      (deriv(0, stats::setNames(ystar + h, state.names), parameters)[[1]] -
          deriv(0, stats::setNames(ystar - h, state.names),
-               parameters = parameters)[[1]])/(2*h))
+               parameters)[[1]])/(2*h))
     if (discriminant > 0) {
       classification     <- "Unstable"
     } else if (discriminant < 0) {
