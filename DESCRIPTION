@@ -1,7 +1,7 @@
 Package: phaseR
 Type: Package
 Title: Phase plane analysis of one- and two-dimensional autonomous ODE systems
-Version: 2.1
+Version: 2.1.1
 Authors@R: c(person(given   = "Michael J",
                     family  = "Grayling",
                     email   = "michael.grayling@ncl.ac.uk",
