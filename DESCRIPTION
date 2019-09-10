@@ -1,6 +1,6 @@
 Package: phaseR
 Type: Package
-Title: Phase plane analysis of one- and two-dimensional autonomous ODE systems
+Title: Phase Plane Analysis of One- And Two-Dimensional Autonomous ODE Systems
 Version: 2.1.1
 Authors@R: c(person(given   = "Michael J",
                     family  = "Grayling",
@@ -31,7 +31,7 @@ Suggests:
     knitr,
     rmarkdown,
     testthat
-Date: 2019-05-31
+Date: 2019-09-10
 URL: https://github.com/mjg211/phaseR
 BugReports: https://github.com/mjg211/phaseR/issues
 RoxygenNote: 6.1.1
