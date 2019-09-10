@@ -10,7 +10,7 @@ systems*
 [![](http://cranlogs.r-pkg.org/badges/grand-total/phaseR?color=green)](https://cran.r-project.org/package=phaseR)
 [![](http://cranlogs.r-pkg.org/badges/last-month/phaseR?color=green)](https://cran.r-project.org/package=phaseR)
 [![](https://img.shields.io/badge/doi-10.32614/RJ--2014--023-green.svg)](https://doi.org/10.32614/RJ-2014-023)
-[![](https://img.shields.io/badge/devel%20version-2.1-blue.svg)](https://github.com/mjg211/phaseR)
+[![](https://img.shields.io/badge/devel%20version-2.1.1-blue.svg)](https://github.com/mjg211/phaseR)
 [![](https://img.shields.io/github/languages/code-size/mjg211/phaseR.svg)](https://github.com/mjg211/phaseR)
 ![](https://img.shields.io/badge/contributions-welcome-blue.svg)
 
@@ -57,24 +57,24 @@ points. Following this, we produce a plot from which trajectories can be
 sketched. This can all be seamlessly carried out in **phaseR** with:
 
 ``` r
-example12_flowField  <- flowField(example12,
-                                  xlim = c(-4, 4),
-                                  ylim = c(-4, 4),
-                                  add  = FALSE)
-example12_nullclines <- nullclines(example12,
-                                   xlim   = c(-4, 4), 
-                                   ylim   = c(-4, 4),
-                                   points = 500)
-y0                   <- matrix(c( 2,  2,
-                                 -3,  0,
-                                  0,  2,
-                                  0, -3), 
-                               nrow  = 4,
-                               ncol  = 2,
-                               byrow = TRUE)
-example12_trajectory <- trajectory(example12,
-                                   y0   = y0,
-                                   tlim = c(0, 10))
+example12_flowField   <- flowField(example12,
+                                   xlim = c(-4, 4),
+                                   ylim = c(-4, 4),
+                                   add  = FALSE)
+example12_nullclines  <- nullclines(example12,
+                                    xlim   = c(-4, 4), 
+                                    ylim   = c(-4, 4),
+                                    points = 500)
+y0                    <- matrix(c( 2,  2,
+                                  -3,  0,
+                                   0,  2,
+                                   0, -3), 
+                                nrow  = 4,
+                                ncol  = 2,
+                                byrow = TRUE)
+example12_trajectory  <- trajectory(example12,
+                                    y0   = y0,
+                                    tlim = c(0, 10))
 #> Note: col has been reset as required
 ```
 
