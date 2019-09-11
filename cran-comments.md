@@ -2,8 +2,10 @@
 This is a resubmission. In this version I have:
 
 * Modified the help file examples to wrap calls to drawManifolds() in
-  \dontrun{}, as execution of this function on certain systems appears to cause
-  an error.
+  \dontrun{}; this function was causing an error on Linux for one example (as
+  opposed to a warning on Mac/Win). I can remove this example if desired, but
+  would prefer to highlight this potential problem for certain user inputs in
+  the help files
 
 ## Test environments
 * local OS X install, R 3.6.1
