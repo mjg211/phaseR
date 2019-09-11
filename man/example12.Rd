@@ -12,7 +12,7 @@ variable, to evaluate the derivative at. Should be a
 \code{\link[base]{numeric}} \code{\link[base]{vector}} of
 \code{\link[base]{length}} one.}
 
-\item{y}{The values of \ifelse{html}{\out{<i>x</i>}}{\eqn{x}} and 
+\item{y}{The values of \ifelse{html}{\out{<i>x</i>}}{\eqn{x}} and
 \ifelse{html}{\out{<i>y</i>}}{\eqn{y}}, the dependent variables, to evaluate
 the derivative at. Should be a \code{\link[base]{numeric}}
 \code{\link[base]{vector}} of \code{\link[base]{length}} two.}
@@ -56,11 +56,15 @@ example12_nullclines  <- nullclines(example12,
 example12_trajectory  <- trajectory(example12,
                                     y0   = y0,
                                     tlim = c(0, 10))
+# Add the stable/unstable manifold. Note: Can cause numerical integration
+# issues in certain instances.
+\dontrun{
 example12_manifolds   <- drawManifolds(example12,
                                        y0         = c(-1, -1),
                                        tend       = 1000,
                                        col        = c("green", "red"),
                                        add.legend = TRUE)
+}
 # Determine the stability of the equilibrium points
 example12_stability_1 <- stability(example12,
                                    ystar = c(1, 1))

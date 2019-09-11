@@ -109,13 +109,13 @@ nullcline is plotted along x = 0, set \code{ylim} to, e.g., begin at -1.
 \examples{
 # Plot the flow field, nullclines and several trajectories for the
 # one-dimensional autonomous ODE system logistic.
-logistic_flowField <- flowField(logistic,
-                                xlim       = c(0, 5),
-                                ylim       = c(-1, 3),
-                                parameters = c(1, 2),
-                                points     = 21,
-                                system     = "one.dim",
-								                 add        = FALSE)
+logistic_flowField  <- flowField(logistic,
+                                 xlim       = c(0, 5),
+                                 ylim       = c(-1, 3),
+                                 parameters = c(1, 2),
+                                 points     = 21,
+                                 system     = "one.dim",
+                                 add        = FALSE)
 logistic_nullclines <- nullclines(logistic,
                                   xlim       = c(0, 5),
                                   ylim       = c(-1, 3),

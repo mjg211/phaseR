@@ -4,7 +4,7 @@ Title: Phase Plane Analysis of One- And Two-Dimensional Autonomous ODE Systems
 Version: 2.1.1
 Authors@R: c(person(given   = "Michael J",
                     family  = "Grayling",
-                    email   = "michael.grayling@ncl.ac.uk",
+                    email   = "michael.grayling@newcastle.ac.uk",
                     role    = c("aut", "cre"),
                     comment = c(ORCID = "0000-0002-0680-6668")),
              person(given   = "Gerhard",

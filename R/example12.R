@@ -1,23 +1,23 @@
 #' Example ODE system 12
-#' 
+#'
 #' The derivative function of an example two-dimensional autonomous ODE system.
-#' 
+#'
 #' \code{example12} evaluates the derivatives of the following coupled ODE
 #' system at the point \ifelse{html}{\out{(<i>t</i>, <i>x</i>, <i>y</i>)}}{
 #' \eqn{(t, x, y)}}:
-#' 
+#'
 #' \ifelse{html}{\out{<center><i>dx</i>/<i>dt</i> = <i>x</i> - <i>y</i>,
 #' <i>dy</i>/<i>dt</i> = <i>x</i><sup>2</sup> + <i>y</i><sup>2</sup> -
 #' 2.</center>}}{\deqn{\frac{dx}{dt} = x - y, \frac{dy}{dt} = x^2 + y^2 - 2.}}
-#' 
+#'
 #' Its format is designed to be compatible with \code{\link[deSolve]{ode}} from
 #' the \code{\link[deSolve]{deSolve}} package.
-#' 
+#'
 #' @param t The value of \ifelse{html}{\out{<i>t</i>}}{\eqn{t}}, the independent
 #' variable, to evaluate the derivative at. Should be a
 #' \code{\link[base]{numeric}} \code{\link[base]{vector}} of
 #' \code{\link[base]{length}} one.
-#' @param y The values of \ifelse{html}{\out{<i>x</i>}}{\eqn{x}} and 
+#' @param y The values of \ifelse{html}{\out{<i>x</i>}}{\eqn{x}} and
 #' \ifelse{html}{\out{<i>y</i>}}{\eqn{y}}, the dependent variables, to evaluate
 #' the derivative at. Should be a \code{\link[base]{numeric}}
 #' \code{\link[base]{vector}} of \code{\link[base]{length}} two.
@@ -44,11 +44,15 @@
 #' example12_trajectory  <- trajectory(example12,
 #'                                     y0   = y0,
 #'                                     tlim = c(0, 10))
+#' # Add the stable/unstable manifold. Note: Can cause numerical integration
+#' # issues in certain instances.
+#' \dontrun{
 #' example12_manifolds   <- drawManifolds(example12,
 #'                                        y0         = c(-1, -1),
 #'                                        tend       = 1000,
 #'                                        col        = c("green", "red"),
 #'                                        add.legend = TRUE)
+#' }
 #' # Determine the stability of the equilibrium points
 #' example12_stability_1 <- stability(example12,
 #'                                    ystar = c(1, 1))
