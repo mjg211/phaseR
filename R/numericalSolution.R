@@ -150,6 +150,7 @@ numericalSolution <- function(deriv, y0 = NULL, tlim, tstep = 0.01,
   }
   if (type == "two") {
     old.par        <- graphics::par(no.readonly = T)
+    on.exit(graphics::par(old.par))
     par(mfcol = c(2, 1))
     plot(t, x, col = col[1], type = "l", xlab = xlab, ylab = ylab[1], ...)
     if (add.grid) {

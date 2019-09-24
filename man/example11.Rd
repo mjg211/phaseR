@@ -57,15 +57,6 @@ example11_nullclines  <- nullclines(example11,
 example11_trajectory  <- trajectory(example11,
                                     y0   = y0,
                                     tlim = c(0, 10))
-# Add the stable/unstable manifold. Note: Can cause numerical integration
-# issues in certain instances.
-\dontrun{
-example11_manifolds   <- drawManifolds(example11,
-                                       y0         = c(1, 1),
-                                       tend       = 1000,
-                                       col        = c("green", "red"),
-                                       add.legend = TRUE)
-}
 # Determine the stability of the equilibrium points
 example11_stability_1 <- stability(example11, ystar = c(0, 0))
 example11_stability_2 <- stability(example11, ystar = c(0, 2))

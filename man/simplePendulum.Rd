@@ -42,7 +42,6 @@ Its format is designed to be compatible with \code{\link[deSolve]{ode}} from
 the \code{\link[deSolve]{deSolve}} package.
 }
 \examples{
-\dontrun{
 # Plot the velocity field, nullclines and several trajectories
 simplePendulum_flowField   <- flowField(simplePendulum,
                                         xlim       = c(-7, 7),
@@ -62,16 +61,6 @@ simplePendulum_trajectory  <- trajectory(simplePendulum,
                                          y0         = y0,
                                          tlim       = c(0, 10),
                                          parameters = 5)
-# Add the stable/unstable manifold. Note: Can cause numerical integration
-# issues in certain instances.
-\dontrun{
-simplePendulum_manifolds   <- drawManifolds(simplePendulum,
-                                            y0         = c(pi, 0),
-                                            parameters = 5,
-                                            tend       = 1000,
-                                            col        = c("green", "red"),
-                                            add.legend = TRUE)
-}
 # Determine the stability of two equilibrium points
 simplePendulum_stability_1 <- stability(simplePendulum,
                                         ystar      = c(0, 0),
@@ -79,7 +68,6 @@ simplePendulum_stability_1 <- stability(simplePendulum,
 simplePendulum_stability_2 <- stability(simplePendulum,
                                         ystar      = c(pi, 0),
                                         parameters = 5)
-}
 }
 \seealso{
 \code{\link[deSolve]{ode}}

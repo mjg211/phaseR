@@ -181,6 +181,8 @@ findEquilibrium <- function(deriv, y0 = NULL, parameters = NULL,
         pchs                 <- matrix(c(17, 5, 2, 16, 1, 1), 2, 3, byrow = T)
         pch1                 <- 1 + as.numeric(Im(eigenvalues[1]) != 0)
         pch2                 <- 1 + sum(Re(eigenvalues) > 0)
+        old.par              <- graphics::par(no.readonly = T)
+        on.exit(graphics::par(old.par))
         graphics::par(xpd = T)
         if (system == "one.dim") {
           graphics::points(0, y[1], type = "p", pch = pchs[pch1, pch2],
@@ -189,7 +191,6 @@ findEquilibrium <- function(deriv, y0 = NULL, parameters = NULL,
           graphics::points(y[1], y[2], type = "p", pch = pchs[pch1, pch2],
                            cex = 1.5, lwd = 2)
         }
-        graphics::par(xpd = F)
       }
       if (summary) {
         if (system == "one.dim") {

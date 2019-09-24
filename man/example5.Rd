@@ -55,15 +55,6 @@ example5_nullclines        <- nullclines(example5,
 example5_trajectory        <- trajectory(example5,
                                          y0   = y0,
                                          tlim = c(0,10))
-# Add the stable/unstable manifold. Note: Can cause numerical integration
-# issues in certain instances.
-\dontrun{
-example5_manifolds         <- drawManifolds(example5,
-                                            y0         = c(0, 0),
-                                            tend       = 100,
-                                            col        = c("green", "red"),
-                                            add.legend = TRUE)
-}
 # Plot x and y against t
 example5_numericalSolution <- numericalSolution(example5,
                                                 y0   = c(0, 3),
