@@ -6,7 +6,8 @@
 \usage{
 trajectory(deriv, y0 = NULL, n = NULL, tlim, tstep = 0.01,
   parameters = NULL, system = "two.dim", col = "black", add = TRUE,
-  state.names = if (system == "two.dim") c("x", "y") else "y", ...)
+  state.names = if (system == "two.dim") c("x", "y") else "y",
+  method = "ode45", ...)
 }
 \arguments{
 \item{deriv}{A function computing the derivative at a point for the ODE
@@ -64,6 +65,9 @@ plot. If \code{FALSE}, a new plot is created. Defaults to \code{TRUE}.}
 \item{state.names}{The state names for \code{\link[deSolve]{ode}} functions
 that do not use positional states.}
 
+\item{method}{Passed to \code{\link[deSolve]{ode}}. See there for further
+details. Defaults to \code{"ode45"}.}
+
 \item{\dots}{Additional arguments to be passed to plot.}
 }
 \value{
@@ -75,6 +79,7 @@ dependent on the value of \code{system}):
 \code{\link[base]{length}} was supplied.}
 \item{deriv}{As per input.}
 \item{n}{As per input.}
+\item{method}{As per input.}
 \item{parameters}{As per input.}
 \item{system}{As per input.}
 \item{tlim}{As per input.}
