@@ -210,7 +210,6 @@ trajectory <- function(deriv, y0 = NULL, n = NULL, tlim, tstep = 0.01,
   if (system == "two.dim") {
     y                <- x
   }
-  method             <- ifelse(tstep > 0, "ode45", "lsoda")
   for (i in 1:nrow(y0)) {
     phase.trajectory <- deSolve::ode(times  = t,
                                      y      = stats::setNames(c(y0[i, ]),
