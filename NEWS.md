@@ -1,5 +1,9 @@
 # News: phaseR
 
+## Version 2.2
+
+- Added method as an option where relevant.
+
 ## Version 2.1
 
 - Vignette updated to remove numerous errors/missing figures.

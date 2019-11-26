@@ -10,7 +10,7 @@ systems*
 [![](http://cranlogs.r-pkg.org/badges/grand-total/phaseR?color=green)](https://cran.r-project.org/package=phaseR)
 [![](http://cranlogs.r-pkg.org/badges/last-month/phaseR?color=green)](https://cran.r-project.org/package=phaseR)
 [![](https://img.shields.io/badge/doi-10.32614/RJ--2014--023-green.svg)](https://doi.org/10.32614/RJ-2014-023)
-[![](https://img.shields.io/badge/devel%20version-2.1.1-blue.svg)](https://github.com/mjg211/phaseR)
+[![](https://img.shields.io/badge/devel%20version-2.2-blue.svg)](https://github.com/mjg211/phaseR)
 [![](https://img.shields.io/github/languages/code-size/mjg211/phaseR.svg)](https://github.com/mjg211/phaseR)
 ![](https://img.shields.io/badge/contributions-welcome-blue.svg)
 

@@ -47,7 +47,7 @@ Alternatively, the latest development version available from [GitHub](https://gi
 devtools::install_github("mjg211/phaseR")
 ```
 
-An introductory example of how to make use of the package’s core functionality can be found below. More detailed support is available in the package vignette, which can be accessed with `vignette("phaseR")`. For further help, please contact Michael Grayling at michael.grayling@newcastle.ac.uk.
+An introductory example of how to make use of the package's core functionality can be found below. More detailed support is available in the package vignette, which can be accessed with `vignette("phaseR")`. For further help, please contact Michael Grayling at michael.grayling@newcastle.ac.uk.
 
 ## Example
 
