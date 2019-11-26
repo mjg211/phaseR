@@ -52,11 +52,13 @@ simplePendulum_flowField   <- flowField(simplePendulum,
 y0                         <- matrix(c(0, 1, 0, 4, -6,
                                        1, 5, 0.5, 0, -3), 5, 2,
                                      byrow = TRUE)
+\donttest{
 simplePendulum_nullclines  <- nullclines(simplePendulum,
                                          xlim       = c(-7, 7),
                                          ylim       = c(-7, 7),
                                          parameters = 5,
                                          points     = 500)
+}
 simplePendulum_trajectory  <- trajectory(simplePendulum,
                                          y0         = y0,
                                          tlim       = c(0, 10),

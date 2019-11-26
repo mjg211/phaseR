@@ -32,6 +32,8 @@
 #' @param add.legend Logical. If \code{TRUE}, a legend is added to the plots.
 #' Defaults to \code{TRUE}.
 #' @inheritParams .paramDummy
+#' @param method Passed to \code{\link[deSolve]{ode}}. See there for further
+#' details. Defaults to \code{"lsoda"}.
 #' @param ... Additional arguments to be passed to plot.
 #' @return Returns a \code{\link[base]{list}} with the following components:
 #' \item{add.legend}{As per input.}
@@ -39,6 +41,7 @@
 #' \code{\link[base]{character}} \code{\link[base]{vector}} of the wrong
 #' \code{\link[base]{length}} was supplied.}
 #' \item{deriv}{As per input.}
+#' \item{method}{As per input.}
 #' \item{parameters}{As per input.}
 #' \item{stable.1}{A \code{\link[base]{numeric}} \code{\link[base]{matrix}}
 #' whose columns are the numerically computed values of the dependent variables
@@ -59,7 +62,8 @@
 #' @export
 drawManifolds <- function(deriv, y0 = NULL, parameters = NULL, tstep = 0.1,
                           tend = 100, col = c("green", "red"),
-                          add.legend = TRUE, state.names = c("x", "y"), ...) {
+                          add.legend = TRUE, state.names = c("x", "y"),
+                          method = "lsoda", ...) {
   if (is.null(y0)) {
     y0         <- locator(n = 1)
     y0         <- c(y0$x, y0$y)
@@ -109,29 +113,33 @@ drawManifolds <- function(deriv, y0 = NULL, parameters = NULL, tstep = 0.1,
     eps        <- 1e-2
     ymax       <- 0.5 + max(abs(ystar))
     maxtime.1  <- max(tend, log(2500*ymax)/abs(eigenvalues[i1]))
-    out.1      <- deSolve::ode(times = seq(0, maxtime.1, tstep),
-                               y     = setNames(ystar + eps*v1, state.names),
-                               func  = deriv,
-                               parms = parameters)
+    out.1      <- deSolve::ode(times  = seq(0, maxtime.1, tstep),
+                               y      = setNames(ystar + eps*v1, state.names),
+                               func   = deriv,
+                               parms  = parameters,
+                               method = method)
     graphics::lines(out.1[, 2], out.1[, 3], type = "l", col = col[2], ...)
     unstable.1 <- out.1[, 1:3]
-    out.2      <- deSolve::ode(times = seq(0, maxtime.1, tstep),
-                               y     = setNames(ystar - eps*v1, state.names),
-                               func  = deriv,
-                               parms = parameters)
+    out.2      <- deSolve::ode(times  = seq(0, maxtime.1, tstep),
+                               y      = setNames(ystar - eps*v1, state.names),
+                               func   = deriv,
+                               parms  = parameters,
+                               method = method)
     graphics::lines(out.2[, 2], out.2[, 3], type = "l", col = col[2], ...)
     unstable.2 <- out.2[, 1:3]
     maxtime.2  <- max(tend, log(2500*ymax)/abs(eigenvalues[i2]))
-    out.3      <- deSolve::ode(times = -seq(0, maxtime.2, tstep),
-                               y     = setNames(ystar + eps*v2, state.names),
-                               func  = deriv,
-                               parms = parameters)
+    out.3      <- deSolve::ode(times  = -seq(0, maxtime.2, tstep),
+                               y      = setNames(ystar + eps*v2, state.names),
+                               func   = deriv,
+                               parms  = parameters,
+                               method = method)
     graphics::lines(out.3[, 2], out.3[, 3], type = "l", col = col[1], ...)
     stable.1   <- out.3[, 1:3]
-    out.4      <- deSolve::ode(times = -seq(0, maxtime.2, tstep),
-                               y     = setNames(ystar - eps*v2, state.names),
-                               func  = deriv,
-                               parms = parameters)
+    out.4      <- deSolve::ode(times  = -seq(0, maxtime.2, tstep),
+                               y      = setNames(ystar - eps*v2, state.names),
+                               func   = deriv,
+                               parms  = parameters,
+                               method = method)
     graphics::lines(out.4[, 2], out.4[, 3], type = "l", col = col[1], ...)
     stable.2   <- out.4[, 1:3]
     if (add.legend) {
@@ -141,6 +149,7 @@ drawManifolds <- function(deriv, y0 = NULL, parameters = NULL, tstep = 0.1,
     return(list(add.legend = add.legend,
                 col        = col,
                 deriv      = deriv,
+                method     = method,
                 parameters = parameters,
                 stable.1   = stable.1,
                 stable.2   = stable.2,

@@ -12,7 +12,7 @@ variable, to evaluate the derivative at. Should be a
 \code{\link[base]{numeric}} \code{\link[base]{vector}} of
 \code{\link[base]{length}} one.}
 
-\item{y}{The values of \ifelse{html}{\out{<i>x</i>}}{\eqn{x}} and 
+\item{y}{The values of \ifelse{html}{\out{<i>x</i>}}{\eqn{x}} and
 \ifelse{html}{\out{<i>y</i>}}{\eqn{y}}, the dependent variables, to evaluate
 the derivative at. Should be a \code{\link[base]{numeric}}
 \code{\link[base]{vector}} of \code{\link[base]{length}} two.}
@@ -52,11 +52,13 @@ vanDerPol_flowField         <- flowField(vanDerPol,
                                          add        = FALSE)
 y0                          <- matrix(c(2, 0, 0, 2, 0.5, 0.5), 3, 2,
                                       byrow = TRUE)
+\donttest{
 vanDerPol_nullclines        <- nullclines(vanDerPol,
                                           xlim       = c(-5, 5),
                                           ylim       = c(-5, 5),
                                           parameters = 3,
                                           points     = 500)
+}
 vanDerPol_trajectory        <- trajectory(vanDerPol,
                                           y0         = y0,
                                           tlim       = c(0, 10),

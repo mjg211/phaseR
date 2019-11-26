@@ -40,6 +40,8 @@
 #' @inheritParams .paramDummy
 #' @param xlab Label for the x-axis of the resulting plot.
 #' @param ylab Label for the y-axis of the resulting plot.
+#' @param method Passed to \code{\link[deSolve]{ode}}. See there for further
+#' details. Defaults to \code{"ode45"}.
 #' @param \dots Additional arguments to be passed to
 #' \code{\link[graphics]{plot}}.
 #' @return Returns a \code{\link[base]{list}} with the following components:
@@ -49,6 +51,7 @@
 #' \code{\link[base]{character}} \code{\link[base]{vector}} of the wrong
 #' \code{\link[base]{length}} was supplied.}
 #' \item{deriv}{As per input.}
+#' \item{method}{As per input.}
 #' \item{parameters}{As per input.}
 #' \item{t}{A \code{\link[base]{numeric}} \code{\link[base]{vector}} containing
 #' the values of the independent variable at each integration step.}
@@ -75,7 +78,8 @@ numericalSolution <- function(deriv, y0 = NULL, tlim, tstep = 0.01,
                               parameters = NULL, type = "one",
                               col = c("red", "blue"), add.grid = TRUE,
                               add.legend = TRUE, state.names = c("x", "y"),
-                              xlab = "t", ylab = state.names, ...) {
+                              xlab = "t", ylab = state.names, method = "ode45",
+                              ...) {
   if (any(tlim < 0)) {
     stop("tlim contains negative values")
   }
@@ -133,7 +137,7 @@ numericalSolution <- function(deriv, y0 = NULL, tlim, tstep = 0.01,
                                    y      = stats::setNames(y0, state.names),
                                    func   = deriv,
                                    parms  = parameters,
-                                   method = "ode45")
+                                   method = method)
   x                <- phase.trajectory[, 2]
   y                <- phase.trajectory[, 3]
   if (type == "one") {
@@ -167,6 +171,7 @@ numericalSolution <- function(deriv, y0 = NULL, tlim, tstep = 0.01,
               add.legend = add.legend,
               col        = col,
               deriv      = deriv,
+              method     = method,
               parameters = parameters,
               t          = t,
               tlim       = tlim,

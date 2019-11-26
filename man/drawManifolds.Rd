@@ -6,7 +6,7 @@
 \usage{
 drawManifolds(deriv, y0 = NULL, parameters = NULL, tstep = 0.1,
   tend = 100, col = c("green", "red"), add.legend = TRUE,
-  state.names = c("x", "y"), ...)
+  state.names = c("x", "y"), method = "lsoda", ...)
 }
 \arguments{
 \item{deriv}{A function computing the derivative at a point for the ODE
@@ -46,6 +46,9 @@ Defaults to \code{TRUE}.}
 \item{state.names}{The state names for \code{\link[deSolve]{ode}} functions
 that do not use positional states.}
 
+\item{method}{Passed to \code{\link[deSolve]{ode}}. See there for further
+details. Defaults to \code{"lsoda"}.}
+
 \item{...}{Additional arguments to be passed to plot.}
 }
 \value{
@@ -55,6 +58,7 @@ Returns a \code{\link[base]{list}} with the following components:
 \code{\link[base]{character}} \code{\link[base]{vector}} of the wrong
 \code{\link[base]{length}} was supplied.}
 \item{deriv}{As per input.}
+\item{method}{As per input.}
 \item{parameters}{As per input.}
 \item{stable.1}{A \code{\link[base]{numeric}} \code{\link[base]{matrix}}
 whose columns are the numerically computed values of the dependent variables
