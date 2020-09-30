@@ -179,11 +179,11 @@ flowField <- function(deriv, xlim, ylim, parameters = NULL, system = "two.dim",
   if (!is.logical(add)) {
     stop("add must be logical")
   }
-  x                   <- seq(from = xlim[1], to = xlim[2], length = points)
-  y                   <- seq(from = ylim[1], to = ylim[2], length = points)
-  dx                  <- dy <- matrix(0, ncol = points, nrow = points)
-  xmax.length         <- x[2] - x[1]
-  ymax.length         <- y[2] - y[1]
+  x <- seq(from = xlim[1], to = xlim[2], length = points)
+  y <- seq(from = ylim[1], to = ylim[2], length = points)
+  dx <- dy <- matrix(0, ncol = points, nrow = points)
+  xmax.length <- x[2] - x[1]
+  ymax.length <- y[2] - y[1]
   if (!add) {
     graphics::plot(1, xlim = c(xlim[1] - xmax.length, xlim[2] + xmax.length),
 	                 ylim = c(ylim[1] - ymax.length, ylim[2] + ymax.length),
@@ -191,19 +191,20 @@ flowField <- function(deriv, xlim, ylim, parameters = NULL, system = "two.dim",
   }
   if (system == "one.dim") {
     for (i in 1:points) {
-      dy[1, i]        <- deriv(0, stats::setNames(c(y[i]), state.names),
-                               parameters)[[1]]
+      dy[1, i] <- deriv(0, stats::setNames(c(y[i]), state.names), parameters)[[1]]
     }
     for (i in 2:points) {
-      dy[i, ]         <- dy[1, ]
+      dy[i, ] <- dy[1, ]
     }
-    abs.dy            <- abs(dy)
-    abs.dy.non        <- abs.dy[which(abs.dy != 0)]
-    max.abs.dy        <- max(abs(dy))
-    coefficient       <-
-      frac*min(xmax.length, ymax.length)/
-        (2*sqrt(2)*max(sqrt(2*abs.dy.non/(abs.dy.non + (1/abs.dy.non))),
-					             sqrt(2*(1/abs.dy.non)/(abs.dy.non + (1/abs.dy.non)))))
+    abs.dy <- abs(dy)
+    abs.dy.non <- abs.dy[which(abs.dy != 0)]
+    max.abs.dy <- max(abs(dy))
+    coefficient <- frac * min(xmax.length, ymax.length) /
+        (2 * sqrt(2) * max(
+          sqrt(2 * abs.dy.non / (abs.dy.non + (1 / abs.dy.non))),
+					sqrt(2 * (1 / abs.dy.non) / (abs.dy.non + (1 / abs.dy.non)))
+					))
+
     for (i in 1:points) {
       for (j in 1:points) {
         if (dy[i, j] != 0) {
@@ -325,4 +326,301 @@ flowField <- function(deriv, xlim, ylim, parameters = NULL, system = "two.dim",
               y          = y,
               ylab       = ylab,
               ylim       = ylim))
+}
+
+
+hypot <- function(x, y) {
+  abs_x <- abs(x)
+  abs_y <- abs(y)
+  m <- pmin(abs_x, abs_y)
+  M <- pmax(abs_x, abs_y)
+  ifelse(M == 0, 0, M * sqrt(1 + (m / M) ^ 2))
+}
+
+flowField2 <- function(deriv, xlim, ylim, parameters = NULL, system = "two.dim",
+                       points = 21, col = "#7f8c8d", arrow.type = "equal",
+                       arrow.head = 0.05, frac = 1, add = TRUE,
+                       state.names = "default", xlab = "default", ylab = "default",
+                       ...) {
+  # Checks
+  if (any(!is.vector(xlim), length(xlim) != 2)) {
+    stop("xlim is not a vector of length 2, as is required")
+  }
+  if (xlim[2] <= xlim[1]) {
+    stop("xlim[2] is less than or equal to xlim[1]")
+  }
+  if (any(!is.vector(ylim), length(ylim) != 2)) {
+    stop("ylim is not a vector of length 2, as is required")
+  }
+  if (ylim[2] <= ylim[1]) {
+    stop("ylim[2] is less than or equal to ylim[1]")
+  }
+  if (points <= 0) {
+    stop("points is less than or equal to zero")
+  }
+  if (!(system %in% c("one.dim", "two.dim"))) {
+    stop("system must be set to either \"one.dim\" or \"two.dim\"")
+  }
+  if (!is.vector(col)) {
+    stop("col is not a vector as required")
+  }
+  if (length(col) > 1) {
+    col <- col[1]
+    message("Note: col has been reset as required")
+  }
+  if (!(arrow.type %in% c("proportional", "equal"))) {
+    stop("arrow.type must be set to either \"proportional\" or \"equal\"")
+  }
+  if (arrow.head <= 0) {
+    stop("arrow.head is less than or equal to zero")
+  }
+  if (frac <= 0) {
+    stop("frac is less than or equal to zero")
+  }
+  if (!is.logical(add)) {
+    stop("add must be logical")
+  }
+
+  if (state.names == "default") {
+    state.names <- if (system == "two.dim") c("x", "y") else "y"
+  }
+
+  if (system == "one.dim") {
+    stopifnot(length(state.names) == 1)
+  } else if (system == "two.dim") {
+    stopifnot(length(state.names) == 2)
+  }
+
+  if (xlab == "default") {
+    xlab <- if (system == "two.dim") state.names[1] else "t"
+  } else {
+    stopifnot(length(xlab) == 1 && is.character(xlab))
+  }
+
+  if (ylab == "default") {
+    ylab <- if (system == "two.dim") state.names[2] else state.names[1]
+  } else {
+    stopifnot(length(ylab) == 1 && is.character(ylab))
+  }
+
+  # Create grids
+  x <- rep(seq(xlim[1], xlim[2], length.out = points), each = points)
+  y <- rep(seq(ylim[1], ylim[2], length.out = points), times = points)
+
+  x_width <- (xlim[2] - xlim[1]) / (points - 1)
+  y_width <- (ylim[2] - ylim[1]) / (points - 1)
+
+  if (system == "one.dim") {
+    # Evaluate the differential equation on the grid
+    dy <- vector("numeric", points ^ 2)
+    for (idx in seq_along(dy)) {
+      state <- y[idx]
+      names(state) <- state.names
+      dy[idx] <- unlist(deriv(0, state, parameters))
+    }
+
+    # Compute normalization coefficient
+    coeff <- hypot(dy, 1)
+    coeff[coeff == 0] <- 1
+    coeff <- frac * (min(x_width, y_width) / (2 * sqrt(2))) / coeff
+
+    # Get shifts by scaling the derivative
+    x_shift <- coeff
+    y_shift <- dy * coeff
+
+  } else {
+    # Evaluate differential equations on the grid
+    dx <- dy <- vector("numeric", points ^ 2)
+    for (idx in seq_along(dx)) {
+      state <- c(x[idx], y[idx])
+      names(state) <- state.names
+      dxdy = deriv(0, state, parameters)
+      dx[idx] = dxdy[[1]][1]
+      dy[idx] = dxdy[[1]][2]
+    }
+
+    # Drop points where both differential equations are zero
+    keep = dx != 0 | dy != 0
+    x = x[keep]
+    y = y[keep]
+    dx = dx[keep]
+    dy = dy[keep]
+
+    # Compute normalization coefficient and avoid zero division errors
+    coeff = hypot(dx, dy)
+    coeff[coeff == 0] <- 1
+    coeff <- frac * (min(x_width, y_width) / (2 * sqrt(2))) / coeff
+
+    # Get shifts by scaling the derivative
+    x_shift <- dx * coeff
+    y_shift <- dy * coeff
+  }
+
+  x_from <- x - x_shift
+  y_from <- y - y_shift
+  x_to <- x + x_shift
+  y_to <- y + y_shift
+
+  if (!add) {
+    graphics::plot(1, type = "n",
+                   xlim = c(xlim[1] - x_width, xlim[2] + x_width),
+                   ylim = c(ylim[1] - y_width, ylim[2] + y_width), ...)
+  }
+
+  graphics::arrows(x_from, y_from, x_to, y_to, length = arrow.head, col = col, ...)
+
+  if (system == "one.dim") {
+    return(list(add = add, arrow.head = arrow.head, arrow.type = arrow.type,
+                col = col, deriv = deriv, dy = dy, frac = frac,
+                parameters = parameters, points = points, system = system,
+                x = x, xlab = xlab,  xlim = xlim, y = y, ylab = ylab, ylim = ylim))
+  } else {
+    return(list(add = add, arrow.head = arrow.head, arrow.type = arrow.type,
+                col = col, deriv = deriv, dx = dx, dy = dy, frac = frac,
+                parameters = parameters, points = points, system = system,
+                x = x, xlab = xlab,  xlim = xlim, y = y, ylab = ylab, ylim = ylim))
+  }
+}
+
+
+flowField3 <- function(deriv, xlim, ylim, parameters = NULL, system = "two.dim",
+                       points = 21, col = "#7f8c8d", arrow.type = "equal",
+                       arrow.head = 0.05, frac = 1, plot = FALSE,
+                       state.names = "default", xlab = "default", ylab = "default",
+                       ...) {
+  # Checks
+  if (any(!is.vector(xlim), length(xlim) != 2)) {
+    stop("xlim is not a vector of length 2, as is required")
+  }
+  if (xlim[2] <= xlim[1]) {
+    stop("xlim[2] is less than or equal to xlim[1]")
+  }
+  if (any(!is.vector(ylim), length(ylim) != 2)) {
+    stop("ylim is not a vector of length 2, as is required")
+  }
+  if (ylim[2] <= ylim[1]) {
+    stop("ylim[2] is less than or equal to ylim[1]")
+  }
+  if (points <= 0) {
+    stop("points is less than or equal to zero")
+  }
+  if (!(system %in% c("one.dim", "two.dim"))) {
+    stop("system must be set to either \"one.dim\" or \"two.dim\"")
+  }
+  if (!is.vector(col)) {
+    stop("col is not a vector as required")
+  }
+  if (length(col) > 1) {
+    col <- col[1]
+    message("Note: col has been reset as required")
+  }
+  if (!(arrow.type %in% c("proportional", "equal"))) {
+    stop("arrow.type must be set to either \"proportional\" or \"equal\"")
+  }
+  if (arrow.head <= 0) {
+    stop("arrow.head is less than or equal to zero")
+  }
+  if (frac <= 0) {
+    stop("frac is less than or equal to zero")
+  }
+  if (!is.logical(plot)) {
+    stop("plot must be logical")
+  }
+
+  if (state.names == "default") {
+    state.names <- if (system == "two.dim") c("x", "y") else "y"
+  }
+
+  if (system == "one.dim") {
+    stopifnot(length(state.names) == 1)
+  } else if (system == "two.dim") {
+    stopifnot(length(state.names) == 2)
+  }
+
+  if (xlab == "default") {
+    xlab <- if (system == "two.dim") state.names[1] else "t"
+  } else {
+    stopifnot(length(xlab) == 1 && is.character(xlab))
+  }
+
+  if (ylab == "default") {
+    ylab <- if (system == "two.dim") state.names[2] else state.names[1]
+  } else {
+    stopifnot(length(ylab) == 1 && is.character(ylab))
+  }
+
+  # Create grids
+  x <- rep(seq(xlim[1], xlim[2], length.out = points), each = points)
+  y <- rep(seq(ylim[1], ylim[2], length.out = points), times = points)
+
+  x_width <- (xlim[2] - xlim[1]) / (points - 1)
+  y_width <- (ylim[2] - ylim[1]) / (points - 1)
+
+  if (system == "one.dim") {
+    # Evaluate the differential equation on the grid
+    dy <- vector("numeric", points ^ 2)
+    for (idx in seq_along(dy)) {
+      state <- y[idx]
+      names(state) <- state.names
+      dy[idx] <- unlist(deriv(0, state, parameters))
+    }
+
+    # Compute normalization coefficient
+    coeff <- hypot(dy, 1)
+    coeff[coeff == 0] <- 1
+    coeff <- frac * (min(x_width, y_width) / (2 * sqrt(2))) / coeff
+
+    # Get shifts by scaling the derivative
+    x_shift <- coeff
+    y_shift <- dy * coeff
+
+  } else {
+    # Evaluate differential equations on the grid
+    dx <- dy <- vector("numeric", points ^ 2)
+    for (idx in seq_along(dx)) {
+      state <- c(x[idx], y[idx])
+      names(state) <- state.names
+      dxdy = deriv(0, state, parameters)
+      dx[idx] = dxdy[[1]][1]
+      dy[idx] = dxdy[[1]][2]
+    }
+
+    # Drop points where both differential equations are zero
+    keep = dx != 0 | dy != 0
+    x = x[keep]
+    y = y[keep]
+    dx = dx[keep]
+    dy = dy[keep]
+
+    # Compute normalization coefficient and avoid zero division errors
+    coeff = hypot(dx, dy)
+    coeff[coeff == 0] <- 1
+    coeff <- frac * (min(x_width, y_width) / (2 * sqrt(2))) / coeff
+
+    # Get shifts by scaling the derivative
+    x_shift <- dx * coeff
+    y_shift <- dy * coeff
+  }
+
+  x_from <- x - x_shift
+  y_from <- y - y_shift
+  x_to <- x + x_shift
+  y_to <- y + y_shift
+
+  # Generate plot via ggplot2. It requires creating a data.frame
+  # This data.frame can be reused to generate the plot again with different
+  # settings.
+  df <- data.frame(x_from = x_from, y_from = y_from, x_to = x_to, y_to = y_to)
+  plt <- ggplot2::ggplot(df) +
+    ggplot2::geom_segment(
+      ggplot2::aes(x = x_from, y = y_from, xend = x_to, yend = y_to),
+      lineend = "round", linejoin = "round", color = col,
+      arrow = ggplot2::arrow(length = ggplot2::unit(arrow.head, "inches"))
+    ) +
+    ggplot2::theme_light() +
+    ggplot2::theme(panel.grid.major = ggplot2::element_blank(),
+                   panel.grid.minor = ggplot2::element_blank())
+
+  if (plot) print(plt)
+  return(invisible(list("data" = df, "plot" = plt)))
 }
