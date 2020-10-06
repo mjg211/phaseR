@@ -4,10 +4,22 @@
 \alias{numericalSolution}
 \title{Numerical solution and plotting}
 \usage{
-numericalSolution(deriv, y0 = NULL, tlim, tstep = 0.01,
-  parameters = NULL, type = "one", col = c("red", "blue"),
-  add.grid = TRUE, add.legend = TRUE, state.names = c("x", "y"),
-  xlab = "t", ylab = state.names, method = "ode45", ...)
+numericalSolution(
+  deriv,
+  y0 = NULL,
+  tlim,
+  tstep = 0.01,
+  parameters = NULL,
+  type = "one",
+  col = c("red", "blue"),
+  add.grid = TRUE,
+  add.legend = TRUE,
+  state.names = c("x", "y"),
+  xlab = "t",
+  ylab = state.names,
+  method = "ode45",
+  ...
+)
 }
 \arguments{
 \item{deriv}{A function computing the derivative at a point for the ODE

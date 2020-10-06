@@ -4,12 +4,23 @@
 \alias{flowField}
 \title{Flow field}
 \usage{
-flowField(deriv, xlim, ylim, parameters = NULL, system = "two.dim",
-  points = 21, col = "gray", arrow.type = "equal",
-  arrow.head = 0.05, frac = 1, add = TRUE, state.names = if (system
-  == "two.dim") c("x", "y") else "y", xlab = if (system == "two.dim")
-  state.names[1] else "t", ylab = if (system == "two.dim") state.names[2]
-  else state.names[1], ...)
+flowField(
+  deriv,
+  xlim,
+  ylim,
+  parameters = NULL,
+  system = "two.dim",
+  points = 21,
+  col = "gray",
+  arrow.type = "equal",
+  arrow.head = 0.05,
+  frac = 1,
+  add = TRUE,
+  state.names = if (system == "two.dim") c("x", "y") else "y",
+  xlab = if (system == "two.dim") state.names[1] else "t",
+  ylab = if (system == "two.dim") state.names[2] else state.names[1],
+  ...
+)
 }
 \arguments{
 \item{deriv}{A function computing the derivative at a point for the ODE

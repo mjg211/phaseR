@@ -4,9 +4,18 @@
 \alias{drawManifolds}
 \title{Stable and unstable manifolds}
 \usage{
-drawManifolds(deriv, y0 = NULL, parameters = NULL, tstep = 0.1,
-  tend = 100, col = c("green", "red"), add.legend = TRUE,
-  state.names = c("x", "y"), method = "lsoda", ...)
+drawManifolds(
+  deriv,
+  y0 = NULL,
+  parameters = NULL,
+  tstep = 0.1,
+  tend = 100,
+  col = c("green", "red"),
+  add.legend = TRUE,
+  state.names = c("x", "y"),
+  method = "lsoda",
+  ...
+)
 }
 \arguments{
 \item{deriv}{A function computing the derivative at a point for the ODE

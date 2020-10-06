@@ -4,10 +4,20 @@
 \alias{trajectory}
 \title{Phase plane trajectory plotting}
 \usage{
-trajectory(deriv, y0 = NULL, n = NULL, tlim, tstep = 0.01,
-  parameters = NULL, system = "two.dim", col = "black", add = TRUE,
+trajectory(
+  deriv,
+  y0 = NULL,
+  n = NULL,
+  tlim,
+  tstep = 0.01,
+  parameters = NULL,
+  system = "two.dim",
+  col = "black",
+  add = TRUE,
   state.names = if (system == "two.dim") c("x", "y") else "y",
-  method = "ode45", ...)
+  method = "ode45",
+  ...
+)
 }
 \arguments{
 \item{deriv}{A function computing the derivative at a point for the ODE

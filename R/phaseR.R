@@ -37,7 +37,8 @@
 #' systems. Links to these can be found in the package index.
 #'
 #' An accompanying vignette containing further information, examples, and
-#' exercises, can also be accessed with \code{vignette("phaseR")}.
+#' exercises, can also be accessed with
+#' \code{vignette("introduction", package = "phaseR")}.
 #'
 #' This package makes use of the \code{\link[deSolve]{ode}} function in the
 #' package \code{\link[deSolve]{deSolve}}.
@@ -47,7 +48,8 @@
 #' @docType package
 #' @author Michael J Grayling (michael.grayling@@ncl.ac.uk)
 #'
-#' Contributor(s): Gerhard Burger
+#' Contributors: Gerhard Burger, Tomas Capretto, Stepehn P Ellner, John M
+#' Guckenheimer
 #'
 #' @import graphics
 #' @importFrom stats setNames
@@ -58,8 +60,3 @@ NULL
 #' @param state.names The state names for \code{\link[deSolve]{ode}} functions
 #' that do not use positional states.
 .paramDummy <- function(state.names) {}
-
-
-
-
-
