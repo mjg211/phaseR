@@ -46,7 +46,9 @@ An introductory example of how to make use of the package’s core
 functionality can be found below. More detailed support is available in
 the package vignette, which can be accessed with
 `vignette("introduction", package = "phaseR")`. For further help, please
-contact Michael Grayling at <michael.grayling@newcastle.ac.uk>.
+contact [Michael
+Grayling](https://www.newcastle-biostatistics.com/people/michael_grayling/)
+at <michael.grayling@newcastle.ac.uk>.
 
 ## Example
 
@@ -95,6 +97,6 @@ example12_stability_2 <- stability(example12,
 
 ## References
 
-Grayling MJ (2014) [phaseR: An R Package for Phase Plane Analysis of
-Autonomous ODE Systems](https://doi.org/10.32614/RJ-2014-023). *The R
-Journal* 6(2):43-51. DOI: 10.32614/RJ-2014-023.
+Grayling MJ (2014) phaseR: An R package for phase plane analysis of
+autonomous ODE systems. *The R Journal* 6(2):43-51. DOI:
+[10.32614/RJ-2014-023](https://doi.org/10.32614/RJ-2014-023).

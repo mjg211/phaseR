@@ -31,7 +31,11 @@ suppressPackageStartupMessages(library(phaseR))
 
 ## Description
 
-__phaseR__ provides functions to perform a qualitative analysis of one- and two-dimensional autonomous ordinary differential equation (ODE) systems, using phase plane methods. Programs are available to identify and classify equilibrium points, plot the direction field, and plot trajectories for multiple initial conditions. In the one-dimensional case, a program is also available to plot the phase portrait. Whilst in the two-dimensional case, programs are additionally available to plot nullclines and stable/unstable manifolds of saddle points. Many example systems are provided for the user.
+__phaseR__ provides functions to perform a qualitative analysis of one- and two-dimensional autonomous ordinary differential equation (ODE) systems, using phase plane methods.
+Programs are available to identify and classify equilibrium points, plot the direction field, and plot trajectories for multiple initial conditions.
+In the one-dimensional case, a program is also available to plot the phase portrait.
+Whilst in the two-dimensional case, programs are additionally available to plot nullclines and stable/unstable manifolds of saddle points.
+Many example systems are provided for the user.
 
 ## Getting started
 
@@ -49,11 +53,14 @@ devtools::install_github("mjg211/phaseR")
 
 An introductory example of how to make use of the package's core functionality can be found below.
 More detailed support is available in the package vignette, which can be accessed with `vignette("introduction", package = "phaseR")`.
-For further help, please contact Michael Grayling at michael.grayling@newcastle.ac.uk.
+For further help, please contact [Michael Grayling](https://www.newcastle-biostatistics.com/people/michael_grayling/) at michael.grayling@newcastle.ac.uk.
 
 ## Example
 
-As a basic example, we consider analysing the non-linear two-dimensional system of ODEs provided in __phaseR__ via `example12()`. By hand, we typically first locate the nullclines and then identify the equilibrium points. Following this, we produce a plot from which trajectories can be sketched. This can all be seamlessly carried out in __phaseR__ with:
+As a basic example, we consider analysing the non-linear two-dimensional system of ODEs provided in __phaseR__ via `example12()`.
+By hand, we typically first locate the nullclines and then identify the equilibrium points.
+Following this, we produce a plot from which trajectories can be sketched.
+This can all be seamlessly carried out in __phaseR__ with:
 ```{r}
 example12_flowField   <- flowField(example12,
                                    xlim = c(-4, 4),
@@ -85,4 +92,4 @@ example12_stability_2 <- stability(example12,
 
 ## References
 
-Grayling MJ (2014) [phaseR: An R Package for Phase Plane Analysis of Autonomous ODE Systems](https://doi.org/10.32614/RJ-2014-023). *The R Journal* 6(2):43-51. DOI: 10.32614/RJ-2014-023.
+Grayling MJ (2014) phaseR: An R package for phase plane analysis of autonomous ODE systems. *The R Journal* 6(2):43-51. DOI: [10.32614/RJ-2014-023](https://doi.org/10.32614/RJ-2014-023).
