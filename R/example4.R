@@ -1,23 +1,23 @@
 #' Example ODE system 4
-#' 
+#'
 #' The derivative function of an example two-dimensional autonomous ODE system.
-#' 
+#'
 #' \code{example4} evaluates the derivatives of the following coupled ODE system
 #' at the point \ifelse{html}{\out{(<i>t</i>, <i>x</i>, <i>y</i>)}}{
 #' \eqn{(t, x, y)}}:
-#' 
-#' \ifelse{html}{\out{<center><i>dx</i>/<i>dt</i> = -<i>x</i>,
-#' <i>dy</i>/<i>dt</i> = 4<i>x</i>.</center>}}{\deqn{\frac{dx}{dt} = -x,
+#'
+#' \ifelse{html}{\out{<i>dx</i>/<i>dt</i> = -<i>x</i>,
+#' <i>dy</i>/<i>dt</i> = 4<i>x</i>.}}{\deqn{\frac{dx}{dt} = -x,
 #' \frac{dy}{dt} = 4x.}}
-#' 
+#'
 #' Its format is designed to be compatible with \code{\link[deSolve]{ode}} from
 #' the \code{\link[deSolve]{deSolve}} package.
-#' 
+#'
 #' @param t The value of \ifelse{html}{\out{<i>t</i>}}{\eqn{t}}, the independent
 #' variable, to evaluate the derivative at. Should be a
 #' \code{\link[base]{numeric}} \code{\link[base]{vector}} of
 #' \code{\link[base]{length}} one.
-#' @param y The values of \ifelse{html}{\out{<i>x</i>}}{\eqn{x}} and 
+#' @param y The values of \ifelse{html}{\out{<i>x</i>}}{\eqn{x}} and
 #' \ifelse{html}{\out{<i>y</i>}}{\eqn{y}}, the dependent variables, to evaluate
 #' the derivative at. Should be a \code{\link[base]{numeric}}
 #' \code{\link[base]{vector}} of \code{\link[base]{length}} two.

@@ -35,8 +35,8 @@ two-dimensional autonomous ODE system.
 \code{logistic} evaluates the derivative of the following ODE at the point
 \ifelse{html}{\out{(<i>t</i>, <i>y</i>)}}{\eqn{(t, y)}}:
 
-\ifelse{html}{\out{<center><i>dy</i>/<i>dt</i> = <i>&beta;y</i>(1 -
-<i>y</i>/<i>K</i>).</center>}}{\deqn{\frac{dy}{dt} = \beta y(1 - y/K).}}
+\ifelse{html}{\out{<i>dy</i>/<i>dt</i> = <i>&beta;y</i>(1 -
+<i>y</i>/<i>K</i>).}}{\deqn{\frac{dy}{dt} = \beta y(1 - y/K).}}
 
 Its format is designed to be compatible with \code{\link[deSolve]{ode}} from
 the \code{\link[deSolve]{deSolve}} package.

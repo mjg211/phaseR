@@ -1,16 +1,16 @@
 #' Example ODE system 2
-#' 
+#'
 #' The derivative function of an example one-dimensional autonomous ODE system.
-#' 
+#'
 #' \code{example2} evaluates the derivative of the following ODE at the point
 #' \ifelse{html}{\out{(<i>t</i>, <i>y</i>)}}{\eqn{(t, y)}}:
-#' 
-#' \ifelse{html}{\out{<center><i>dy</i>/<i>dt</i> = <i>y</i>(1 - <i>y</i>)(2 -
-#' <i>y</i>).</center>}}{\deqn{\frac{dy}{dt} = y(1 - y)(2 - y).}}
-#' 
+#'
+#' \ifelse{html}{\out{<i>dy</i>/<i>dt</i> = <i>y</i>(1 - <i>y</i>)(2 -
+#' <i>y</i>).}}{\deqn{\frac{dy}{dt} = y(1 - y)(2 - y).}}
+#'
 #' Its format is designed to be compatible with \code{\link[deSolve]{ode}} from
 #' the \code{\link[deSolve]{deSolve}} package.
-#' 
+#'
 #' @param t The value of \ifelse{html}{\out{<i>t</i>}}{\eqn{t}}, the independent
 #' variable, to evaluate the derivative at. Should be a
 #' \code{\link[base]{numeric}} \code{\link[base]{vector}} of

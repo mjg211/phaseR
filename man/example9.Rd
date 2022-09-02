@@ -32,8 +32,8 @@ The derivative function of an example two-dimensional autonomous ODE system.
 at the point \ifelse{html}{\out{(<i>t</i>, <i>x</i>, <i>y</i>)}}{
 \eqn{(t, x, y)}}:
 
-\ifelse{html}{\out{<center><i>dx</i>/<i>dt</i> = -2<i>x</i> + 3<i>y</i>,
-<i>dy</i>/<i>dt</i> = 7<i>x</i> + 6<i>y</i>.</center>}}{\deqn{\frac{dx}{dt} =
+\ifelse{html}{\out{<i>dx</i>/<i>dt</i> = -2<i>x</i> + 3<i>y</i>,
+<i>dy</i>/<i>dt</i> = 7<i>x</i> + 6<i>y</i>.}}{\deqn{\frac{dx}{dt} =
 -2x + 3y, \frac{dy}{dt} = 7x + 6y.}}
 
 Its format is designed to be compatible with \code{\link[deSolve]{ode}} from

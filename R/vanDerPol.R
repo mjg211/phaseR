@@ -6,10 +6,9 @@
 #' \code{vanDerPol} evaluates the derivative of the following ODE at the point
 #' \ifelse{html}{\out{(<i>t</i>, <i>x</i>, <i>y</i>)}}{\eqn{(t, x, y)}}:
 #'
-#' \ifelse{html}{\out{<center><i>dx</i>/<i>dt</i> = <i>y</i>,
+#' \ifelse{html}{\out{<i>dx</i>/<i>dt</i> = <i>y</i>,
 #' <i>dy</i>/<i>dt</i> = <i>&mu;</i>(1 - <i>x</i><sup>2</sup>)<i>y</i> -
-#' <i>x</i>.</center>}}{\deqn{\frac{dx}{dt} = y,
-#' \frac{dy}{dt}= \mu(1 - x^2)y - x.}}
+#' <i>x</i>.}}{\deqn{\frac{dx}{dt} = y, \frac{dy}{dt}= \mu(1 - x^2)y - x.}}
 #'
 #' Its format is designed to be compatible with \code{\link[deSolve]{ode}} from
 #' the \code{\link[deSolve]{deSolve}} package.

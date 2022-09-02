@@ -53,7 +53,7 @@ devtools::install_github("mjg211/phaseR")
 
 An introductory example of how to make use of the package's core functionality can be found below.
 More detailed support is available in the package vignette, which can be accessed with `vignette("introduction", package = "phaseR")`.
-For further help, please contact [Michael Grayling](https://www.newcastle-biostatistics.com/people/michael_grayling/) at michael.grayling@newcastle.ac.uk.
+For further help, please contact [Michael Grayling](https://www.newcastle-biostatistics.com/staff/michael_grayling/) at michael.grayling@newcastle.ac.uk.
 
 ## Example
 

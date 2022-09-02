@@ -12,7 +12,7 @@ variable, to evaluate the derivative at. Should be a
 \code{\link[base]{numeric}} \code{\link[base]{vector}} of
 \code{\link[base]{length}} one.}
 
-\item{y}{The values of \ifelse{html}{\out{<i>x</i>}}{\eqn{x}} and 
+\item{y}{The values of \ifelse{html}{\out{<i>x</i>}}{\eqn{x}} and
 \ifelse{html}{\out{<i>y</i>}}{\eqn{y}}, the dependent variables, to evaluate
 the derivative at. Should be a \code{\link[base]{numeric}}
 \code{\link[base]{vector}} of \code{\link[base]{length}} two.}
@@ -32,9 +32,9 @@ The derivative function of an example two-dimensional autonomous ODE system.
 at the point \ifelse{html}{\out{(<i>t</i>, <i>x</i>, <i>y</i>)}}{
 \eqn{(t, x, y)}}:
 
-\ifelse{html}{\out{<center><i>dx</i>/<i>dt</i> = <i>x</i> + 2<i>y</i>,
+\ifelse{html}{\out{<i>dx</i>/<i>dt</i> = <i>x</i> + 2<i>y</i>,
 <i>dy</i>/<i>dt</i> = -2<i>x</i> +
-<i>y</i>.</center>}}{\deqn{\frac{dx}{dt} = x + 2y, \frac{dy}{dt} = -2x + y.}}
+<i>y</i>.}}{\deqn{\frac{dx}{dt} = x + 2y, \frac{dy}{dt} = -2x + y.}}
 
 Its format is designed to be compatible with \code{\link[deSolve]{ode}} from
 the \code{\link[deSolve]{deSolve}} package.

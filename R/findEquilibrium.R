@@ -157,7 +157,7 @@ findEquilibrium <- function(deriv, y0 = NULL, parameters = NULL,
             classification   <- "Unstable node"
           }
         } else if (Delta < 0) {
-            classification   <- "Saddle"
+          classification   <- "Saddle"
         } else {
           if (discriminant > 0) {
             if (tr < 0) {
@@ -249,11 +249,11 @@ findEquilibrium <- function(deriv, y0 = NULL, parameters = NULL,
 }
 
 findEquilibrium2 <- function(deriv, y0 = NULL, parameters = NULL,
-                            system = "two.dim", tol = 1e-16,
-                            max.iter = 50, h = 1e-6, plot.it = FALSE,
-                            summary = TRUE,
-                            state.names =
-                              if (system == "two.dim") c("x", "y") else "y") {
+                             system = "two.dim", tol = 1e-16,
+                             max.iter = 50, h = 1e-6, plot.it = FALSE,
+                             summary = TRUE,
+                             state.names =
+                               if (system == "two.dim") c("x", "y") else "y") {
   if (is.null(y0)) {
     y0                       <- locator(n = 1)
     if (system == "one.dim") {

@@ -6,8 +6,8 @@
 #' \code{simplePendulum} evaluates the derivative of the following ODE at the
 #' point \ifelse{html}{\out{(<i>t</i>, <i>x</i>, <i>y</i>)}}{\eqn{(t, x, y)}}:
 #'
-#' \ifelse{html}{\out{<center><i>dx</i>/<i>dt</i> = <i>y</i>,
-#' <i>dy</i>/<i>dt</i> = -<i>g</i> sin(<i>x</i>)/<i>l</i>.</center>}}{
+#' \ifelse{html}{\out{<i>dx</i>/<i>dt</i> = <i>y</i>,
+#' <i>dy</i>/<i>dt</i> = -<i>g</i> sin(<i>x</i>)/<i>l</i>.}}{
 #' \deqn{\frac{dx}{dt} = y, \frac{dy}{dt} = \frac{-g\sin(x)}{l}.}}
 #'
 #' Its format is designed to be compatible with \code{\link[deSolve]{ode}} from

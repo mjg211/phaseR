@@ -33,7 +33,7 @@ dimensional autonomous ODE system.
 \code{exponential} evaluates the derivative of the following ODE at the point
 \ifelse{html}{\out{(<i>t</i>, <i>y</i>)}}{\eqn{(t, y)}}:
 
-\ifelse{html}{\out{<center><i>dy</i>/<i>dt</i> = <i>&beta;y</i>.</center>}}{
+\ifelse{html}{\out{<i>dy</i>/<i>dt</i> = <i>&beta;y</i>.}}{
 \deqn{\frac{dy}{dt} = \beta y.}}
 
 Its format is designed to be compatible with \code{\link[deSolve]{ode}} from

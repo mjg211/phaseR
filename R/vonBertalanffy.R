@@ -1,18 +1,18 @@
 #' The von Bertalanffy growth model
-#' 
+#'
 #' The derivative function of the von Bertalanffy growth model, an example of a
 #' one-dimensional autonomous ODE system.
-#' 
+#'
 #' \code{vonBertalanffy} evaluates the derivative of the following ODE at the
 #' point \ifelse{html}{\out{(<i>t</i>, <i>y</i>)}}{\eqn{(t, y)}}:
-#' 
-#' \ifelse{html}{\out{<center><i>dy</i>/<i>dt</i> =
+#'
+#' \ifelse{html}{\out{<i>dy</i>/<i>dt</i> =
 #' <i>&alpha;y</i><sup>2/3</sup> -
-#' <i>&beta;y</i>.</center>}}{\deqn{\frac{dy}{dt} = \alpha y^{2/3} - \beta y.}}
-#' 
+#' <i>&beta;y</i>.}}{\deqn{\frac{dy}{dt} = \alpha y^{2/3} - \beta y.}}
+#'
 #' Its format is designed to be compatible with \code{\link[deSolve]{ode}} from
 #' the \code{\link[deSolve]{deSolve}} package.
-#' 
+#'
 #' @param t The value of \ifelse{html}{\out{<i>t</i>}}{\eqn{t}}, the independent
 #' variable, to evaluate the derivative at. Should be a
 #' \code{\link[base]{numeric}} \code{\link[base]{vector}} of

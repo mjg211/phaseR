@@ -1,14 +1,36 @@
 ## Resubmission
 This is a resubmission. In this version I have:
 
+* Resolved "Found the following HTML validation problems" NOTEs, by removing
+  instances of <center> in Rd files
+
+## Test environments
+* macOS 10.13.6 High Sierra, R-release, CRAN's setup via rhub::check()
+* Windows via devtools::check_win_devel()
+
+## macOS 10.13.6 High Sierra, R-release, CRAN's setup via rhub::check(): R CMD
+## check results
+There were no ERRORs, WARNINGs, or NOTEs
+
+## Windows devtools::check_win_devel(): R CMD check results
+There were no ERRORs or WARNINGs
+
+There was 1 NOTE:
+- R Under development (unstable)
+
+################################################################################
+
+## Resubmission (12/10/19)
+This is a resubmission. In this version I have:
+
 * Used \donttest{} on a small number of examples that have longer execution time
 * Expanded the acronym in the description field of the DESCRIPTION file
 * Added an associated reference to the description field of the DESCRIPTION
-file, with its DOI
+  file, with its DOI
 * Added two code contributors to the authors field of the DESCRIPTION file
 * Removed the use of \dontrun{} throughout the package; code that can
-occassionally cause problems in certain environments has been removed to prevent
-the need for \dontrun{}
+  occassionally cause problems in certain environments has been removed to
+  prevent the need for \dontrun{}
 * Used on.exit() after all calls to par()
 
 ## Test environments
@@ -48,4 +70,4 @@ There were no ERRORs or WARNINGs
 There were 2 NOTEs:
 - One noting re-submission to fix archiving issues (apologies)
 - One on example run-time (which is not an issue locally); the examples should
-not in general take long to run
+  not in general take long to run

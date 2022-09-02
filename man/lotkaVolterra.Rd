@@ -12,7 +12,7 @@ variable, to evaluate the derivative at. Should be a
 \code{\link[base]{numeric}} \code{\link[base]{vector}} of
 \code{\link[base]{length}} one.}
 
-\item{y}{The values of \ifelse{html}{\out{<i>x</i>}}{\eqn{x}} and 
+\item{y}{The values of \ifelse{html}{\out{<i>x</i>}}{\eqn{x}} and
 \ifelse{html}{\out{<i>y</i>}}{\eqn{y}}, the dependent variables, to evaluate
 the derivative at. Should be a \code{\link[base]{numeric}}
 \code{\link[base]{vector}} of \code{\link[base]{length}} two.}
@@ -38,9 +38,9 @@ two-dimensional autonomous ODE system.
 \code{lotkaVolterra} evaluates the derivative of the following ODE at the
 point \ifelse{html}{\out{(<i>t</i>, <i>x</i>, <i>y</i>)}}{\eqn{(t, x, y)}}:
 
-\ifelse{html}{\out{<center><i>dx</i>/<i>dt</i> = <i>&lambda;x</i> -
+\ifelse{html}{\out{<i>dx</i>/<i>dt</i> = <i>&lambda;x</i> -
 <i>&epsilon;xy</i>, <i>dy</i>/<i>dt</i> = <i>&eta;xy</i> -
-<i>&delta;y</i>.</center>}}{\deqn{\frac{dx}{dt} = \lambda x - \epsilon xy,
+<i>&delta;y</i>.}}{\deqn{\frac{dx}{dt} = \lambda x - \epsilon xy,
 \frac{dy}{dt} = \eta xy - \delta y.}}
 
 Its format is designed to be compatible with \code{\link[deSolve]{ode}} from

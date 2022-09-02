@@ -35,8 +35,8 @@ one-dimensional autonomous ODE system.
 \code{monomolecular} evaluates the derivative of the following ODE at the
 point \ifelse{html}{\out{(<i>t</i>, <i>y</i>)}}{\eqn{(t, y)}}:
 
-\ifelse{html}{\out{<center><i>dy</i>/<i>dt</i> = <i>&beta;</i>(<i>K</i> -
-<i>y</i>).</center>}}{\deqn{\frac{dy}{dt} = \beta(K - y).}}
+\ifelse{html}{\out{<i>dy</i>/<i>dt</i> = <i>&beta;</i>(<i>K</i> -
+<i>y</i>).}}{\deqn{\frac{dy}{dt} = \beta(K - y).}}
 
 Its format is designed to be compatible with \code{\link[deSolve]{ode}} from
 the \code{\link[deSolve]{deSolve}} package.

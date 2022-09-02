@@ -32,9 +32,9 @@ The derivative function of an example two-dimensional autonomous ODE system.
 system at the point \ifelse{html}{\out{(<i>t</i>, <i>x</i>, <i>y</i>)}}{
 \eqn{(t, x, y)}}:
 
-\ifelse{html}{\out{<center><i>dx</i>/<i>dt</i> = <i>x</i> - <i>y</i>,
+\ifelse{html}{\out{<i>dx</i>/<i>dt</i> = <i>x</i> - <i>y</i>,
 <i>dy</i>/<i>dt</i> = <i>x</i><sup>2</sup> + <i>y</i><sup>2</sup> -
-2.</center>}}{\deqn{\frac{dx}{dt} = x - y, \frac{dy}{dt} = x^2 + y^2 - 2.}}
+2.}}{\deqn{\frac{dx}{dt} = x - y, \frac{dy}{dt} = x^2 + y^2 - 2.}}
 
 Its format is designed to be compatible with \code{\link[deSolve]{ode}} from
 the \code{\link[deSolve]{deSolve}} package.
